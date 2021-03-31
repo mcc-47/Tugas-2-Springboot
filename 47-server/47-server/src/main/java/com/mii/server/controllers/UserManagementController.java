@@ -6,10 +6,14 @@
 package com.mii.server.controllers;
 
 import com.mii.server.dtos.LoginDTO;
+import com.mii.server.entities.Role;
+import com.mii.server.entities.Users;
 import com.mii.server.services.MyUserDetailsServiceImpl;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -21,10 +25,13 @@ public class UserManagementController {
 
     @Autowired
     MyUserDetailsServiceImpl myUserDetailsServiceImpl;
+    
+    
 
     @GetMapping("/login")
     public LoginDTO loginDTO() {
-        return myUserDetailsServiceImpl.loginDTO("panji_2");
+//        return myUserDetailsServiceImpl.loadByUserName("ikhsan_1", "ikhsan123");
+        return myUserDetailsServiceImpl.loginDTO(myUserDetailsServiceImpl.loadByUserName("ikhsan_1", "ikhsan123"));
     }
 
 //    UserManagementService userManagementService;

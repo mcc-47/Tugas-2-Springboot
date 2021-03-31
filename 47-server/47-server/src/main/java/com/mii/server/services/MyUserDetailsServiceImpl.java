@@ -13,13 +13,8 @@ import com.mii.server.repositories.RoleRepository;
 import com.mii.server.repositories.UserRepository;
 import com.sun.istack.logging.Logger;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -33,9 +28,12 @@ public class MyUserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
     private RoleRepository roleRepository;
+
+    @Autowired
     private UserManagementService userManagementService;
-    private static final Logger logger = Logger.getLogger(MyUserDetailsServiceImpl.class);
 
     /**
      *
@@ -47,13 +45,12 @@ public class MyUserDetailsServiceImpl implements UserDetailsService {
 
         Users user = userRepository.findByUserName(userName);
         if (user == null) {
-            logger.info("----------------------------------------------user name is " + userName);
             throw new UsernameNotFoundException(userName + "Not Found");
         }
         return user;
     }
 
-    public Integer loadByUserName(String userName, String userPassword) {
+    public String loadByUserName(String userName, String userPassword) {
         Users userDB = userRepository.findByUserName(userName);
         Users user = new Users();
         if (userDB == null) {
@@ -61,15 +58,14 @@ public class MyUserDetailsServiceImpl implements UserDetailsService {
         } else {
             if (!userDB.getPassword().equals(userPassword)) {
             } else {
-                UsernamePasswordAuthenticationToken authToken
-                        = new UsernamePasswordAuthenticationToken(userDB.getUsername(),
-                                userDB.getPassword(), user.getAuthorities());
-                SecurityContextHolder.getContext().setAuthentication(authToken);
+//                UsernamePasswordAuthenticationToken authToken
+//                        = new UsernamePasswordAuthenticationToken(userDB.getUsername(),
+//                                userDB.getPassword(), user.getAuthorities());
+//                SecurityContextHolder.getContext().setAuthentication(authToken);
                 System.out.println("panji session");
             }
-            return userDB.getUserId();
-//            List<Users> temp = new ArrayList<>(userDB.getUserId());
-//            return temp;
+            return userDB.getUsername();
+//            return userDB.getUserId();
         }
     }
 
@@ -79,6 +75,7 @@ public class MyUserDetailsServiceImpl implements UserDetailsService {
         List<Role> roles = userRepository.findByUserName(userName).getRoleList();
         List<String> privilegeNames = new ArrayList<>();
         List<String> roleNames = new ArrayList<>();
+
         for (Role r : roles) {
             roleNames.add(r.getRoleName());
             List<Privileges> privileges = roleRepository.findByRoleName(r.getRoleName()).getPrivilegesList();
@@ -99,5 +96,4 @@ public class MyUserDetailsServiceImpl implements UserDetailsService {
 //        Collection<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(userRoles);
 //        return authorities;
 //    }
-
 }
