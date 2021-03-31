@@ -52,8 +52,11 @@ public class UserManagementController {
     }
     
     @PostMapping("/user-token")
-    public UsernamePasswordAuthenticationToken userNameLogin(@RequestBody UserLoginDto userLoginDto){
+    public UsernamePasswordAuthenticationToken userNameLogin(@RequestBody UserLoginDto userLoginDto)throws Exception{
         Users user = userService.loadUserByUsername(userLoginDto.getUserName());
+        if (!(user.getPassword().equals(userLoginDto.getUserPassword()))) {
+            throw new Exception("Wrong Password");
+        }
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                                                             userLoginDto.getUserName(), 
                                                             userLoginDto.getUserPassword(), 
