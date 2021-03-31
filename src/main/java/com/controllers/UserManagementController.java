@@ -14,6 +14,8 @@ import javax.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,12 +50,22 @@ public class UserManagementController {
         
         return new UserSessionDto(user.getUsername(), user.getRoleCollection());
     }
+    
+    @PostMapping("/user-token")
+    public UsernamePasswordAuthenticationToken userNameLogin(@RequestBody UserLoginDto userLoginDto){
+        Users user = userService.loadUserByUsername(userLoginDto.getUserName());
+        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                                                            userLoginDto.getUserName(), 
+                                                            userLoginDto.getUserPassword(), 
+                                                            user.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authToken);
+        return authToken;
+    }
+    
     @PostMapping("/user-login")
     public UserSessionDto userName(){
         Users user = userService.loadUserByUsername("ikhsan_1");
         
-        return new UserSessionDto(
-                user.getUsername(), 
-                user.getRoleCollection());
+        return new UserSessionDto(user.getUsername(), user.getRoleCollection());
     }
 }

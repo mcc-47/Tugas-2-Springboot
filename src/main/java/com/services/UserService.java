@@ -20,14 +20,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService implements UserDetailsService{
 
-    @Autowired
+    @Autowired 
     UserRepository userRepository;
     
     @Override
     public Users loadUserByUsername(String userName) throws UsernameNotFoundException {
         Users user = userRepository.findByUserName(userName);
         if (user==null) {
-            throw new UnsupportedOperationException("Not supported yet.");
+            throw new UnsupportedOperationException("Gaada cuy");
         }
         return user;
     }
