@@ -9,6 +9,7 @@ import com.mii.server.dto.UsernameAuthoritiesDto;
 import com.mii.server.dto.UsernamePasswordDto;
 import com.mii.server.services.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,14 +30,10 @@ public class UserManagementController {
     public void testLogin(){
         System.out.println("test");
     }
-//    @PostMapping("login")
-//    public UsernameAuthoritiesDto login(@RequestBody District district) {
-//        districtService.saveDistricts(district);
-//        return district;
-//    }
     
-//    @PostMapping("login")
-//    public ResponseEntity<UsernameAuthoritiesDto> login(@RequestBody UsernamePasswordDto){
-//        return new ResponseEntity<>(myUserDetailsService.loadUserByUsername(username));
-//    }
+    
+    @PostMapping("login")
+    public UsernameAuthoritiesDto login(@RequestBody UsernamePasswordDto upd){
+        return myUserDetailsService.login(upd);
+    }
 }

@@ -5,6 +5,9 @@
  */
 package com.mii.server.dto;
 
+import com.mii.server.entities.Privileges;
+import com.mii.server.entities.Roles;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -13,30 +16,35 @@ import java.util.List;
  */
 public class UsernameAuthoritiesDto {
     private String username;
-    private List<String> authorities;
+    private List<String> role;
+    private List<String> privilege;
 
     public UsernameAuthoritiesDto() {
     }
 
-    public UsernameAuthoritiesDto(String username, List<String> authorities) {
+    public UsernameAuthoritiesDto(String username, List<String> role) {
         this.username = username;
-        this.authorities = authorities;
+        this.role = role;
     }
+
+    public UsernameAuthoritiesDto(String username, List<String> role, List<String> privilege) {
+        this.username = username;
+        this.role = role;
+        this.privilege = privilege;
+    }
+
+
 
     public String getUsername() {
         return username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public List<String> getRole() {
+        return role;
     }
 
-    public List<String> getAuthorities() {
-        return authorities;
+    public List<String> getPrivilege() {
+        return privilege;
     }
 
-    public void setAuthorities(List<String> authorities) {
-        this.authorities = authorities;
-    }
-    
 }
