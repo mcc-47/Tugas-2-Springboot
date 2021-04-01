@@ -131,6 +131,10 @@ public class Users implements UserDetails {
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
         for (Role r : roles) {
             authorities.add(new SimpleGrantedAuthority(r.getRoleName()));
+            Collection<Privileges> privileges = r.getPrivilegesCollection();
+            for (Privileges p : privileges) {
+                authorities.add(new SimpleGrantedAuthority(p.getPrivilegeName()));
+            }
         }
         return authorities;
     }

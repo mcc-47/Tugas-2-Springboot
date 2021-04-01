@@ -10,11 +10,13 @@ import com.dto.UserSessionDto;
 import com.entities.Users;
 import com.services.NotificationService;
 import com.services.UserService;
+import java.util.Collection;
 import javax.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -47,12 +49,12 @@ public class UserManagementController {
     @PostMapping("/user")
     public UserSessionDto userName(@RequestBody UserLoginDto userLoginDto){
         Users user = userService.loadUserByUsername(userLoginDto.getUserName());
-        
-        return new UserSessionDto(user.getUsername(), user.getRoleCollection());
+        System.out.println("cociks username ada ngab");
+        return new UserSessionDto(user.getUsername(), (Collection<GrantedAuthority>) user.getAuthorities());
     }
     
     @PostMapping("/user-token")
-    public UsernamePasswordAuthenticationToken userNameLogin(@RequestBody UserLoginDto userLoginDto)throws Exception{
+    public UserSessionDto userNameLogin(@RequestBody UserLoginDto userLoginDto)throws Exception{
         Users user = userService.loadUserByUsername(userLoginDto.getUserName());
         if (!(user.getPassword().equals(userLoginDto.getUserPassword()))) {
             throw new Exception("Wrong Password");
@@ -62,13 +64,14 @@ public class UserManagementController {
                                                             userLoginDto.getUserPassword(), 
                                                             user.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authToken);
-        return authToken;
+        System.out.println("Success Vruh Huha Huba");
+        return new UserSessionDto(user.getUsername(), (Collection<GrantedAuthority>) user.getAuthorities());
     }
     
     @PostMapping("/user-login")
     public UserSessionDto userName(){
         Users user = userService.loadUserByUsername("ikhsan_1");
-        
-        return new UserSessionDto(user.getUsername(), user.getRoleCollection());
+        System.out.println("Oke user diambil ada");
+        return new UserSessionDto(user.getUsername(), (Collection<GrantedAuthority>) user.getAuthorities());
     }
 }
