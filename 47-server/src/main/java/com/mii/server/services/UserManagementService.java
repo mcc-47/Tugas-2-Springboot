@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package com.mii.server.services;
-
 import com.mii.server.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,5 +17,9 @@ public class UserManagementService extends MyUserDetailService {
     
     @Autowired
     private UserRepository userRepository;
-    private MyUserDetailService myUserDetailsService;
+    private MyUserDetailService myUserDetailService;
+    
+    
+    
+    
 }

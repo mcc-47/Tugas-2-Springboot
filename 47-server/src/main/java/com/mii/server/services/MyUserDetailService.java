@@ -30,9 +30,6 @@ public class MyUserDetailService implements UserDetailsService {
     private UserRepository userRepository;
     
     @Autowired
-    private MessageSource messages;
-    
-    @Autowired
     private RoleRepository roleRepository;
     
     @Autowired
