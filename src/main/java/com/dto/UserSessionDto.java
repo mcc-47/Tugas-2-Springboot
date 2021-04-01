@@ -7,6 +7,7 @@ package com.dto;
 
 import com.entities.Role;
 import java.util.Collection;
+import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 
 /**
@@ -16,7 +17,7 @@ import org.springframework.security.core.GrantedAuthority;
 public class UserSessionDto {
     
     private String userName;
-    private Collection<GrantedAuthority> grantedAuthoritys;
+    private List<String> grantedAuthoritys;
 
     public UserSessionDto() {
     }
@@ -25,7 +26,7 @@ public class UserSessionDto {
         this.userName = userName;
     }
 
-    public UserSessionDto(String userName, Collection<GrantedAuthority> grantedAuthoritys) {
+    public UserSessionDto(String userName, List<String> grantedAuthoritys) {
         this.userName = userName;
         this.grantedAuthoritys = grantedAuthoritys;
     }
@@ -38,13 +39,12 @@ public class UserSessionDto {
         this.userName = userName;
     }
 
-    public Collection<GrantedAuthority> getRoleCollection() {
+    public List<String> getGrantedAuthoritys() {
         return grantedAuthoritys;
     }
 
-    public void setRoleCollection(Collection<GrantedAuthority> roleCollection) {
+    public void setGrantedAuthoritys(List<String> grantedAuthoritys) {
         this.grantedAuthoritys = grantedAuthoritys;
     }
-    
-    
+
 }

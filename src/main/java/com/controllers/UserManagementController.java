@@ -10,13 +10,16 @@ import com.dto.UserSessionDto;
 import com.entities.Users;
 import com.services.NotificationService;
 import com.services.UserService;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import javax.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -50,7 +53,11 @@ public class UserManagementController {
     public UserSessionDto userName(@RequestBody UserLoginDto userLoginDto){
         Users user = userService.loadUserByUsername(userLoginDto.getUserName());
         System.out.println("cociks username ada ngab");
-        return new UserSessionDto(user.getUsername(), (Collection<GrantedAuthority>) user.getAuthorities());
+        List<String> grantedAuth = new ArrayList<>();
+        for (GrantedAuthority auth : user.getAuthorities()) {
+            grantedAuth.add(auth.getAuthority());
+        }
+        return new UserSessionDto(user.getUsername(), grantedAuth);
     }
     
     @PostMapping("/user-token")
@@ -65,13 +72,21 @@ public class UserManagementController {
                                                             user.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authToken);
         System.out.println("Success Vruh Huha Huba");
-        return new UserSessionDto(user.getUsername(), (Collection<GrantedAuthority>) user.getAuthorities());
+        List<String> grantedAuth = new ArrayList<>();
+        for (GrantedAuthority auth : user.getAuthorities()) {
+            grantedAuth.add(auth.getAuthority());
+        }
+        return new UserSessionDto(user.getUsername(), grantedAuth);
     }
     
     @PostMapping("/user-login")
     public UserSessionDto userName(){
         Users user = userService.loadUserByUsername("ikhsan_1");
         System.out.println("Oke user diambil ada");
-        return new UserSessionDto(user.getUsername(), (Collection<GrantedAuthority>) user.getAuthorities());
+        List<String> grantedAuth = new ArrayList<>();
+        for (GrantedAuthority auth : user.getAuthorities()) {
+            grantedAuth.add(auth.getAuthority());
+        }
+        return new UserSessionDto(user.getUsername(), grantedAuth);
     }
 }
