@@ -8,17 +8,16 @@ package configuration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
-/**
- *
- * @author ASUS
- */
+
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
@@ -29,16 +28,14 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        //http.authorizeRequests().and().logout().disable().formLogin().disable().httpBasic();
-        // dicoba menggunakan postman
         http.csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/login/**", "/user").permitAll() // siapapun boleh lewat
+            .authorizeRequests()
+                .antMatchers("/security", "/login").permitAll() // siapapun boleh lewat
                 .antMatchers("/**", "/logout").authenticated() // harus terautentikasi terlebih dahulu dan prosesnya di login
                 .and()
-                .logout().disable()
-                .formLogin().disable()
-                .httpBasic();
+            .logout().disable()
+            .formLogin().disable()
+            .httpBasic();
     }
 }
 
