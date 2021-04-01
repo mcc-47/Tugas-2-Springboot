@@ -15,11 +15,13 @@ import com.mii.server.entities.University;
 import com.mii.server.entities.Village;
 import com.mii.server.repositories.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author acer
  */
+@Service
 public class RegistService {
 
     EmployeeRepository employeeRepository;

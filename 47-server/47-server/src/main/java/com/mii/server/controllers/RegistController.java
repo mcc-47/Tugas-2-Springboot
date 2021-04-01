@@ -22,13 +22,13 @@ import org.springframework.web.bind.annotation.RestController;
  * @author acer
  */
 @RestController
-@RequestMapping(path = "/registration")
+
 public class RegistController {
 
     @Autowired
     private RegistService registService;
 
-    @PostMapping("")
+    @PostMapping("/registration")
     public ResponseEntity<Employee> saveUser(@RequestBody RegistDTO registDTO) {
         return new ResponseEntity<>(registService.insertData(registDTO), HttpStatus.OK);
     }

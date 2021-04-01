@@ -11,11 +11,13 @@ import com.mii.server.repositories.VillageRepository;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author acer
  */
+@Service
 public class VillageService {
     @Autowired
     private VillageRepository villageRepository;

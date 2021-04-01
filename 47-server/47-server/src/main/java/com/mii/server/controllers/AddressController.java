@@ -20,13 +20,13 @@ import org.springframework.web.bind.annotation.RestController;
  * @author acer
  */
 @RestController
-@RequestMapping(path = "/provinces/districts/subdistricts/villages")
+
 public class AddressController {
 
     @Autowired
     private AddressService addressService;
 
-    @GetMapping(path = "/addresses")
+    @GetMapping("/addresses")
     public ResponseEntity<List<ProvinceToAddressDTO>> retrieveAllProvinceToAddress() {
         return new ResponseEntity<>(addressService.getProvinceToAddress(),HttpStatus.OK);
     }

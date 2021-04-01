@@ -7,11 +7,13 @@ package com.mii.server.repositories;
 
 import com.mii.server.entities.Address;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author acer
  */
+@Repository
 public interface AddressRepository extends JpaRepository<Address, Integer>{
     
 }

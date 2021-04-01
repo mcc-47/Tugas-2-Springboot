@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author acer
  */
 @RestController
-@RequestMapping(path = "/provinces")
+
 public class ProvinceController {
 
     @Autowired

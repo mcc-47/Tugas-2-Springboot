@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author acer
  */
 @RestController
-@RequestMapping(path = "/provinces/districts/subdistricts/villages/addresses")
+
 public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
