@@ -131,7 +131,9 @@ public class Users implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Users user = new Users();
+        Privileges priv  = new Privileges();
         String[] userRoles = user.getRoleList().stream().map((role) -> role.getRoleName()).toArray(String[]::new);
+        String[] userPrivileges = priv.getRoleList().stream().map((role) -> priv.getPrivilegeName()).toArray(String[]::new);
         Collection<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(userRoles);
         return authorities;
     }

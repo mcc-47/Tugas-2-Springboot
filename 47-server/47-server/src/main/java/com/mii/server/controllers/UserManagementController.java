@@ -5,6 +5,7 @@
  */
 package com.mii.server.controllers;
 
+import com.mii.server.dtos.DataLoginDTO;
 import com.mii.server.dtos.LoginDTO;
 import com.mii.server.entities.Role;
 import com.mii.server.entities.Users;
@@ -25,13 +26,12 @@ public class UserManagementController {
 
     @Autowired
     MyUserDetailsServiceImpl myUserDetailsServiceImpl;
-    
-    
 
-    @GetMapping("/login")
-    public LoginDTO loginDTO() {
+    @PostMapping("/login")
+    public LoginDTO loginController(@RequestBody DataLoginDTO dataLoginDTO) {
 //        return myUserDetailsServiceImpl.loadByUserName("ikhsan_1", "ikhsan123");
-        return myUserDetailsServiceImpl.loginDTO(myUserDetailsServiceImpl.loadByUserName("ikhsan_1", "ikhsan123"));
+        return myUserDetailsServiceImpl.loginDTO(myUserDetailsServiceImpl.loadByUserName(dataLoginDTO.getUserName(),
+                dataLoginDTO.getUserPassword()));
     }
 
 //    UserManagementService userManagementService;

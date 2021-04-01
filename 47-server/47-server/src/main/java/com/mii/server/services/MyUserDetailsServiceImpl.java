@@ -13,8 +13,12 @@ import com.mii.server.repositories.RoleRepository;
 import com.mii.server.repositories.UserRepository;
 import com.sun.istack.logging.Logger;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -29,6 +33,11 @@ public class MyUserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
+//    @Autowired
+//    private IUserService service;
+    @Autowired
+    private MessageSource messages;
+
     @Autowired
     private RoleRepository roleRepository;
 
@@ -40,15 +49,43 @@ public class MyUserDetailsServiceImpl implements UserDetailsService {
      * @param userName
      * @return
      */
+    
     @Override
-    public Users loadUserByUsername(String userName) {
+    public Users loadUserByUsername(String userName) throws UsernameNotFoundException {
 
         Users user = userRepository.findByUserName(userName);
-        if (user == null) {
-            throw new UsernameNotFoundException(userName + "Not Found");
-        }
+//        if (user == null) {
+//            return new org.springframework.security.core.userdetails.User(
+//                    " ", " ", true, true, true, true,
+//                    getAuthorities(Arrays.asList(
+//                            roleRepository.findByRoleName("admin"))));
+//        }
+
+//        if (user == null) {
+//            throw new UsernameNotFoundException(userName + "Not Found");
+//        }
         return user;
     }
+
+    /*
+    private Collection<? extends GrantedAuthority> getAuthorities(
+            Collection<Role> roles) {
+        return getGrantedAuthorities(getPrivileges(roles));
+    }
+
+    private List<String> getPrivileges(Collection<Role> roles) {
+
+        List<String> privileges = new ArrayList<>();
+        List<Privilege> collection = new ArrayList<>();
+        for (Role role : roles) {
+            collection.addAll(role.getPrivileges());
+        }
+        for (Privilege item : collection) {
+            privileges.add(item.getName());
+        }
+        return privileges;
+    }
+    */
 
     public String loadByUserName(String userName, String userPassword) {
         Users userDB = userRepository.findByUserName(userName);
@@ -62,13 +99,31 @@ public class MyUserDetailsServiceImpl implements UserDetailsService {
 //                        = new UsernamePasswordAuthenticationToken(userDB.getUsername(),
 //                                userDB.getPassword(), user.getAuthorities());
 //                SecurityContextHolder.getContext().setAuthentication(authToken);
-                System.out.println("panji session");
+//                System.out.println("panji session");
             }
             return userDB.getUsername();
 //            return userDB.getUserId();
         }
     }
 
+//    public String loadByUserName(String userName, String userPassword) {
+//        Users userDB = userRepository.findByUserName(userName);
+//        Users user = new Users();
+//        if (userDB == null) {
+//            throw new UsernameNotFoundException("username not found");
+//        } else {
+//            if (!userDB.getPassword().equals(userPassword)) {
+//            } else {
+////                UsernamePasswordAuthenticationToken authToken
+////                        = new UsernamePasswordAuthenticationToken(userDB.getUsername(),
+////                                userDB.getPassword(), user.getAuthorities());
+////                SecurityContextHolder.getContext().setAuthentication(authToken);
+////                System.out.println("panji session");
+//            }
+//            return userDB.getUsername();
+////            return userDB.getUserId();
+//        }
+//    }
     public LoginDTO loginDTO(String userName) {
         Users user = new Users();
         Integer userId = userRepository.findByUserName(userName).getUserId();
