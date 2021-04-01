@@ -4,11 +4,13 @@
  * and open the template in the editor.
  */
 package com.mii.server.controllers;
+import com.mii.server.dto.DataLoginDTO;
 import com.mii.server.dto.LoginDTO;
 import com.mii.server.services.MyUserDetailService;
 import com.mii.server.services.UserManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -25,8 +27,8 @@ public class UserManagementController {
     MyUserDetailService myUserDetailService;
     
     @GetMapping("/login")
-    public String loginDTO() {
-        return myUserDetailService.loadByUserName("ikhsan_1", "ikhsan123");
+    public String loginDTO(@RequestBody DataLoginDTO dataLoginDTO) {
+        return myUserDetailService.loginDTO(myUserDetailService.loadByUserName(dataLoginDTO.getUserName(), dataLoginDTO.getUserPassword()));
     }
     
 }
