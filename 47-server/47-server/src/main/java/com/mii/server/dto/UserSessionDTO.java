@@ -16,6 +16,9 @@ public class UserSessionDTO {
     private List<String> roles;
     private List<String> privileges;
 
+    public UserSessionDTO() {
+    }
+
     public UserSessionDTO(String userName, List<String> roles, List<String> privileges) {
         this.userName = userName;
         this.roles = roles;

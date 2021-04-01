@@ -7,6 +7,7 @@ package com.mii.server.configurations;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -29,8 +30,8 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
 //        http.authorizeRequests().and().logout().disable().formLogin().disable().httpBasic();
-        http.authorizeRequests()
-                .antMatchers("/login","/get-user", "/user").permitAll()
+        http.csrf().disable().authorizeRequests()
+                .antMatchers("/login", "/get-user").permitAll()
                 .antMatchers("/**","/logout").authenticated()
                 .and()
                 .logout().disable()

@@ -33,12 +33,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserManagement {
     @Autowired
     RegisterService registerService;   
+    
     @Autowired
     NotificationService notificationService;
+    
     @Autowired
     UserService userService;
     
-    @GetMapping("/user")
+    @GetMapping("login")
     public UserSessionDTO testLogin() {
 //        System.out.println("test permit all");
 //        userService.loginUser("ikhsan_1", "ikhsan12");
@@ -46,6 +48,11 @@ public class UserManagement {
         return userService.loginUser(req);
 //        return "berhasil";
 //        return userService.loginUser(req);
+    }
+    
+    @PostMapping("login")
+    public UserSessionDTO testLogin(@RequestBody LoginDTO req) {
+        return userService.loginUser(req);
     }
     
     @GetMapping("get-user")
