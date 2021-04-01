@@ -5,6 +5,7 @@
  */
 package com.mii.server.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -35,9 +36,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Employees.findAll", query = "SELECT e FROM Employees e")})
 public class Employees implements Serializable {
-
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "employees", fetch = FetchType.LAZY)
-    private Users users;
 
     private static final long serialVersionUID = 1L;
     @Basic(optional = false)
@@ -80,7 +78,9 @@ public class Employees implements Serializable {
     private Addresses addressId;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "employees")
     private Addresses addresses;
-    
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "employees")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private Users users;
     
     public Employees() {
     }
@@ -94,7 +94,7 @@ public class Employees implements Serializable {
     
    
     public Employees(String prefix, Integer employeeId, String employeeName, Date birthDate, String gender, String email, 
-            Educations educations, Contacts contacts, Addresses addresses) {
+            Educations educations, Contacts contacts, Addresses addresses, Users users) {
         this.prefix = prefix;
         this.employeeId = employeeId;
         this.employeeName = employeeName;
@@ -104,8 +104,15 @@ public class Employees implements Serializable {
         this.educations = educations;
         this.contacts = contacts;
         this.addresses = addresses;
+        this.users = users;
     }
 
+    public Employees(String prefix, Integer employeeId, String employeeName, Date birthDate, String gender, 
+            String email, Educations educations, Contacts contacts, Addresses addresses) {
+        
+    }
+    
+    
     public String getPrefix() {
         return prefix;
     }
@@ -137,8 +144,6 @@ public class Employees implements Serializable {
     public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
     }
-
-   
 
     public String getGender() {
         return gender;

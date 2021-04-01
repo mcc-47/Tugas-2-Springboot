@@ -43,10 +43,10 @@ public class NotificationService {
         helper.setTo(employee.getEmail());
         helper.setSubject("SENDING EMAIL SPRINGBOT");
 
-//        message.setText(
-//                String.format("ID : %d, Name : %s, Province : %s", employee.getEmployeeId(),
-//                        employee.getEmployeeName(), province), "UTF-8", "html");
-//
-//        javaMailSender.send(message);
+        message.setText(
+                String.format("ID : %d, Name : %s, Province : %s", employee.getEmployeeId(),
+                        employee.getEmployeeName(), province), "UTF-8", "html");
+
+        javaMailSender.send(message);
     }
 }

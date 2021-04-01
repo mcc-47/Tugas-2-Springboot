@@ -7,11 +7,15 @@ package com.mii.server.repositories;
 
 import com.mii.server.entities.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author ASUS
  */
+@Repository
+//integer adalah primarykey dari users
 public interface UserRepository extends JpaRepository <Users, Integer> {
     Users findByUserName(String userName);
+    //menampung findByUserName(String userName) pada enities users
 }

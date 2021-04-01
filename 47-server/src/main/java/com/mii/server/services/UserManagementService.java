@@ -5,7 +5,7 @@
  */
 package com.mii.server.services;
 
-import com.mii.server.dto.EmpAdsDTO;
+
 import com.mii.server.dto.UserManagementDTO;
 import com.mii.server.entities.Addresses;
 import com.mii.server.entities.Contacts;
@@ -15,7 +15,7 @@ import com.mii.server.entities.Majors;
 import com.mii.server.entities.Universitys;
 import com.mii.server.entities.Villages;
 import com.mii.server.repositories.EmpAdsRepository;
-import com.mii.server.repositories.UserRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,16 +25,10 @@ import org.springframework.web.bind.annotation.RequestBody;
  * @author ASUS
  */
 @Service
-public class UserManagementService extends ApplicationSecurityService {
+public class UserManagementService {
     
     @Autowired
     EmpAdsRepository empAdsRepository;
-    
-    @Autowired 
-    private UserRepository userRepository;
-    
-    @Autowired
-    private ApplicationSecurityService applicationSecurityService;
     
     public String saveEmployee (@RequestBody UserManagementDTO umDTO) {
         Employees emp = new Employees (

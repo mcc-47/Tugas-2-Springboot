@@ -1,10 +1,6 @@
 
 package com.mii.server.dto;
 
-/**
- *
- * @author ASUS
- */
 public class DataLoginDTO {
     private String userName;
     private String userPassword;

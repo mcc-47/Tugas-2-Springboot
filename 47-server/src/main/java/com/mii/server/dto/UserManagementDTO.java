@@ -25,15 +25,15 @@ public class UserManagementDTO {
     private Integer universityId;
     private String phone;
     private String linkedin;
+    private String userName;
+    private String userPassword;
 
     public UserManagementDTO() {
     }
 
-    
-
-    public UserManagementDTO(String prefix, Integer employeeId, String employeeName, Date birthDate, 
-            String gender, String email, Integer villageId, String degree, Integer majorId, Integer universityId, 
-            String phone, String linkedin) {
+    public UserManagementDTO(String prefix, Integer employeeId, String employeeName, Date birthDate, String gender, 
+            String email, Integer villageId, String degree, Integer majorId, Integer universityId, String phone, 
+            String linkedin, String userName, String userPassword) {
         this.prefix = prefix;
         this.employeeId = employeeId;
         this.employeeName = employeeName;
@@ -46,8 +46,11 @@ public class UserManagementDTO {
         this.universityId = universityId;
         this.phone = phone;
         this.linkedin = linkedin;
+        this.userName = userName;
+        this.userPassword = userPassword;
     }
 
+    
     public String getPrefix() {
         return prefix;
     }
@@ -143,5 +146,23 @@ public class UserManagementDTO {
     public void setLinkedin(String linkedin) {
         this.linkedin = linkedin;
     }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getUserPassword() {
+        return userPassword;
+    }
+
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
+    }
+    
+    
     
 }

@@ -1,24 +1,24 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package configuration;
 
+import com.mii.server.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    UserService userService;
 
     @Bean
     @Override
@@ -26,34 +26,26 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+    
+    @Autowired
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
+    }
+
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-            .authorizeRequests()
-                .antMatchers("/security", "/login").permitAll() // siapapun boleh lewat
-                .antMatchers("/**", "/logout").authenticated() // harus terautentikasi terlebih dahulu dan prosesnya di login
+        http.csrf().disable().authorizeRequests()
+                .antMatchers("/login/**", "/api/management/user")
+                .permitAll()
+                .antMatchers("/", "/logout")
+                .authenticated()
                 .and()
-            .logout().disable()
-            .formLogin().disable()
-            .httpBasic();
+                .logout().disable()
+                .formLogin().disable()
+                .httpBasic();
     }
 }
-
-//    @Override
-//    public void configure(HttpSecurity http) throws Exception {
-//        //http.authorizeRequests().and().logout().disable().formLogin().disable().httpBasic();
-//        http.authorizeRequests()
-//            .antMatchers("/**", "/admin").hasAnyAuthority("CREATE", "READ", "UPDATE", "DELETE")
-//            .antMatchers("/**", "/trainer").hasAuthority("READ")
-//            .anyRequest().authenticated()
-//            .and()
-//            .formLogin()
-//                .usernameParameter("email")
-//                .defaultSuccessUrl("/users")
-//                .permitAll()
-//            .and()
-//            .logout()
-//                .logoutSuccessUrl("/").
-//                permitAll();
-//    }
-
