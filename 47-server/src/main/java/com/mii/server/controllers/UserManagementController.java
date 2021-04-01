@@ -10,6 +10,7 @@ import com.mii.server.services.MyUserDetailService;
 import com.mii.server.services.UserManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,8 +27,8 @@ public class UserManagementController {
     @Autowired
     MyUserDetailService myUserDetailService;
     
-    @GetMapping("/login")
-    public String loginDTO(@RequestBody DataLoginDTO dataLoginDTO) {
+    @PostMapping("/login")
+    public LoginDTO loginDTO(@RequestBody DataLoginDTO dataLoginDTO) {
         return myUserDetailService.loginDTO(myUserDetailService.loadByUserName(dataLoginDTO.getUserName(), dataLoginDTO.getUserPassword()));
     }
     

@@ -138,12 +138,12 @@ public class Users implements UserDetails {
 
     @Override
     public String getPassword() {
-        return userPassword;
+        return this.userPassword;
     }
 
     @Override
     public String getUsername() {
-        return userName;
+        return this.userName;
     }
 
     @Override
