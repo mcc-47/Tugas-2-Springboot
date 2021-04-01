@@ -5,8 +5,10 @@
  */
 package com.mii.server.controllers;
 
+import com.mii.server.dtos.DataLoginDTO;
 import com.mii.server.dtos.LoginDTO;
 import com.mii.server.dtos.UserManagementDTO;
+import com.mii.server.dtos.UserSessionDTO;
 import com.mii.server.entities.Employees;
 import com.mii.server.entities.Users;
 import com.mii.server.services.UserDetailService;
@@ -41,18 +43,16 @@ public class UserManagementController {
         return "Data Inserted";
     }
     
-//    @GetMapping("/login")
-//    public String test() {
-//        return "Halo";
-//    }
-    
     @GetMapping("/user")
     public String username() {
         return userDetailService.loadByUserName("ikhsan_1", "ikhsan123");
     }
     
-    @GetMapping("/login")
-    public LoginDTO loginDTO() {
-        return userDetailService.loginDTO(userDetailService.loadByUserName("ikhsan_1", "ikhsan123"));
+    @PostMapping("/login")
+    public LoginDTO loginDTO(@RequestBody DataLoginDTO dataLoginDTO) {
+        return userDetailService.loginDTO(userDetailService.loadByUserName(dataLoginDTO.getUserName(), dataLoginDTO.getUserPassword()));
     }
+    
+    
+    
 }

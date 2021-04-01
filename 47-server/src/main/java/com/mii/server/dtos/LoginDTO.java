@@ -15,7 +15,6 @@ public class LoginDTO {
     private String userName;
     private List<String> roleName;
     private List<String> privilegeName;
-    private List<String> authority;
 
 
     public LoginDTO() {
@@ -49,13 +48,5 @@ public class LoginDTO {
 
     public void setPrivilegeName(List<String> privilegeName) {
         this.privilegeName = privilegeName;
-    }
-    
-    public List<String> getAuthority() {
-        return authority;
-    }
-
-    public void setAuthority(List<String> authority) {
-        this.authority = authority;
     }
 }

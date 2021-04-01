@@ -14,7 +14,6 @@ import com.mii.server.repositories.UserRepository;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -49,10 +48,6 @@ public class UserDetailService implements UserDetailsService{
         } else {
             if (!userDB.getPassword().equals(userPassword)) {
             } else {
-//                UsernamePasswordAuthenticationToken authToken
-//                        = new UsernamePasswordAuthenticationToken(userDB.getUsername(),
-//                                userDB.getPassword(), user.getAuthorities());
-//                SecurityContextHolder.getContext().setAuthentication(authToken);
                 System.out.println("Session Sukses");
             }
             return userDB.getUsername();
