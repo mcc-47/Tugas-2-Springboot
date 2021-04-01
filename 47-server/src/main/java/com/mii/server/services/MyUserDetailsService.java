@@ -37,7 +37,7 @@ public class MyUserDetailsService implements UserDetailsService{
     RoleRepository roleRepository;
     
 //    @Override
-    public Integer loadUserByUsername(String username, String userPassword){
+    public String loadUserByUsername(String username, String userPassword){
         Users users = userRepository.findByUsername(username);
         if (users == null) {
             throw new UsernameNotFoundException(username + "Not Found");
@@ -48,7 +48,7 @@ public class MyUserDetailsService implements UserDetailsService{
                         System.out.println("OKE");
                         }
             }
-            return users.getUserId();
+            return users.getUsername();
         }
 
     @Override

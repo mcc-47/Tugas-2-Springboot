@@ -32,7 +32,7 @@ public class UserManagementController {
     }
     
     
-    @PostMapping("login")
+    @PostMapping("/login")
     public UsernameAuthoritiesDto login(@RequestBody UsernamePasswordDto upd){
         return myUserDetailsService.login(upd);
     }
