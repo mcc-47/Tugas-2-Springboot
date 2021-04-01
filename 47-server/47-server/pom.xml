@@ -11,7 +11,7 @@
     <groupId>com.mii</groupId>
     <artifactId>47-server</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>47-server</name>
+    <name>47-server-w</name>
     <description>Demo project for Spring Boot API Development</description>
     <properties>
         <java.version>1.8</java.version>
