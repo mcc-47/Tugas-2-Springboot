@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author William Yangjaya
+ * @author acer
  */
 @Entity
 @Table(name = "major")

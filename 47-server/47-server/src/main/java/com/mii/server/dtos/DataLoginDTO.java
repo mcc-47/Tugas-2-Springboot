@@ -7,7 +7,7 @@ package com.mii.server.dtos;
 
 /**
  *
- * @author William Yangjaya
+ * @author acer
  */
 public class DataLoginDTO {
 

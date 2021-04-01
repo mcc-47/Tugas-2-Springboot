@@ -29,7 +29,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  *
- * @author William Yangjaya
+ * @author acer
  */
 @Entity
 @Table(name = "users")

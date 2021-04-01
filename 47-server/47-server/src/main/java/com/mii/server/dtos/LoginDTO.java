@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  *
- * @author William Yangjaya
+ * @author acer
  */
 public class LoginDTO {
 

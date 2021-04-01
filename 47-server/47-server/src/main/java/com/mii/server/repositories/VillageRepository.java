@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  *
- * @author William Yangjaya
+ * @author acer
  */
 public interface VillageRepository extends JpaRepository<Village, Integer>{
     

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 
 /**
  *
- * @author William Yangjaya
+ * @author acer
  */
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Integer>{

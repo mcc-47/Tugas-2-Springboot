@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 
 /**
  *
- * @author William Yangjaya
+ * @author acer
  */
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Integer>{
