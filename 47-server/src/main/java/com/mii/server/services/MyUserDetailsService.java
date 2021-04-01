@@ -5,8 +5,8 @@
  */
 package com.mii.server.services;
 
-import com.mii.server.dto.UsernameAuthoritiesDto;
-import com.mii.server.dto.UsernamePasswordDto;
+import com.mii.server.dto.AuthenticationResponse;
+import com.mii.server.dto.LoginDto;
 import com.mii.server.entities.Privileges;
 import com.mii.server.entities.Roles;
 import com.mii.server.entities.Users;
@@ -17,6 +17,7 @@ import java.util.Collection;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -37,43 +38,47 @@ public class MyUserDetailsService implements UserDetailsService{
     RoleRepository roleRepository;
     
 //    @Override
-    public String loadUserByUsername(String username, String userPassword){
+    public Users loadUserByUsername(String username, String userPassword){
         Users users = userRepository.findByUsername(username);
         if (users == null) {
             throw new UsernameNotFoundException(username + "Not Found");
-        }else{
-            if(users.getPassword().equals(userPassword)){
-                }
-                else{
-                        System.out.println("OKE");
-                        }
-            }
-            return users.getUsername();
         }
+        return users;
+    }
 
     @Override
-    public UserDetails loadUserByUsername(String string) throws UsernameNotFoundException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-    public UsernameAuthoritiesDto login(UsernamePasswordDto upd){
-        Collection<Roles> roles = userRepository.findByUsername(upd.getUsername()).getRolesCollection();
-        List<String> privilegeName = new ArrayList<>();
-        List<String> roleName = new ArrayList<>();
-        
-        for(Roles r : roles){
-            roleName.add(r.getRoleName());
-            Collection<Privileges> privileges = roleRepository.findByRoleName(r.getRoleName()).getPrivilegesCollection();
-            for (Privileges p : privileges){
-                privilegeName.add(p.getPrivilege());
-            }
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Users users = userRepository.findByUsername(username);
+        if (users == null) {
+            throw new UsernameNotFoundException(username + "Not Found");
         }
-        
-        UsernameAuthoritiesDto usernameAuthoritiesDto = new UsernameAuthoritiesDto(
-                upd.getUsername(), roleName, privilegeName);
-        
-        return usernameAuthoritiesDto;
+        return users;
     }
-
     
+    public AuthenticationResponse login(LoginDto upd)throws Exception{
+        Users users = userRepository.findByUsername(upd.getUsername());
+        if (users == null || !(upd.getPassword().equals(users.getPassword()))){
+            throw new Exception("Wrong Username or Password.");
+        }
+
+        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                upd.getUsername(), 
+                upd.getPassword(), 
+                users.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authToken);
+        
+        List<String> grantedAuth = new ArrayList<>();
+        for (GrantedAuthority auth : users.getAuthorities()) {
+            grantedAuth.add(auth.getAuthority());
+        }
+        return new AuthenticationResponse(users.getUsername(), grantedAuth);
+        
+//        for(Roles r : roles){
+//            roleName.add(r.getRoleName());
+//            Collection<Privileges> privileges = roleRepository.findByRoleName(r.getRoleName()).getPrivilegesCollection();
+//            for (Privileges p : privileges){
+//                privilegeName.add(p.getPrivilege());
+//            }
+//        }
+    }
 }

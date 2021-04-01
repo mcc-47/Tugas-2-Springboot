@@ -9,7 +9,7 @@ package com.mii.server.dto;
  *
  * @author ASUS
  */
-public class UsernamePasswordDto {
+public class LoginDto {
     private String username;
     private String password;
 
@@ -21,10 +21,10 @@ public class UsernamePasswordDto {
         this.username = username;
     }
 
-    public UsernamePasswordDto() {
+    public LoginDto() {
     }
 
-    public UsernamePasswordDto(String username, String password) {
+    public LoginDto(String username, String password) {
         this.username = username;
         this.password = password;
     }

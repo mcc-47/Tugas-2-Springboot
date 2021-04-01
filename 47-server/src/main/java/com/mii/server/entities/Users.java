@@ -6,7 +6,9 @@
 package com.mii.server.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,6 +23,7 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 /**
@@ -145,7 +148,16 @@ public class Users implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Collection<Roles> roles = getRolesCollection();
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        for (Roles r : roles) {
+            authorities.add(new SimpleGrantedAuthority(r.getRoleName()));
+            Collection<Privileges> privileges = r.getPrivilegesCollection();
+            for (Privileges p : privileges) {
+                authorities.add(new SimpleGrantedAuthority(p.getPrivilege()));
+            }
+        }
+        return authorities;
     }
 
     @Override

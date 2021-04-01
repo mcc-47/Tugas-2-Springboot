@@ -5,8 +5,8 @@
  */
 package com.mii.server.controllers;
 
-import com.mii.server.dto.UsernameAuthoritiesDto;
-import com.mii.server.dto.UsernamePasswordDto;
+import com.mii.server.dto.AuthenticationResponse;
+import com.mii.server.dto.LoginDto;
 import com.mii.server.services.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,7 +33,7 @@ public class UserManagementController {
     
     
     @PostMapping("/login")
-    public UsernameAuthoritiesDto login(@RequestBody UsernamePasswordDto upd){
+    public AuthenticationResponse login(@RequestBody LoginDto upd) throws Exception{
         return myUserDetailsService.login(upd);
     }
 }
