@@ -6,13 +6,30 @@
 package com.mii.server.services;
 
 import com.mii.server.dtos.ProvinceToSubdistrictDTO;
+import com.mii.server.entities.Subdistrict;
+import com.mii.server.repositories.SubdistrictRepository;
+import java.util.ArrayList;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
- * @author William Yangjaya
+ * @author acer
  */
-public interface SubdistrictService {
+public class SubdistrictService {
 
-    public List<ProvinceToSubdistrictDTO> getProvinceToSubdistrict();
+    @Autowired
+    private SubdistrictRepository subdistrictRepository;
+
+    public List<ProvinceToSubdistrictDTO> getProvinceToSubdistrict() {
+        List<ProvinceToSubdistrictDTO> pdss = new ArrayList<>();
+        for(Subdistrict s : subdistrictRepository.findAll()){
+            ProvinceToSubdistrictDTO pds = new ProvinceToSubdistrictDTO(
+                    s.getSubdistrictName(), s.getDistrictId().getKotakab(), s.getDistrictId().getDistrictName(),
+                    s.getDistrictId().getProvinceId().getProvinceName()
+            );
+            pdss.add(pds);
+        }
+        return pdss;
+    }
 }

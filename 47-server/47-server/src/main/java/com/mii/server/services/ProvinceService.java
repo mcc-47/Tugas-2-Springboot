@@ -6,22 +6,53 @@
 package com.mii.server.services;
 
 import com.mii.server.entities.Province;
+import com.mii.server.repositories.ProvinceRepository;
 import java.util.List;
+import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
- * @author William Yangjaya
+ * @author acer
  */
-public interface ProvinceService {
+public class ProvinceService {
 
-    List<Province> getAllProvinces();
+    @Autowired
+    private ProvinceRepository provinceRepository;
 
-    Province getProvinceById(Integer id);
+    
+    public List<Province> getAllProvinces() {
+        return provinceRepository.findAll();
+    }
 
-    Province createProvince(Province province);
+    
+    public Province getProvinceById(Integer id) {
+        Optional<Province> optional = provinceRepository.findById(id);
+        Province province = null;
+        if (optional.isPresent()) {
+            province = optional.get();
+        } else {
+            throw new RuntimeException(" Province not found for id :: " + id);
+        }
+        return province;
+    }
 
-    Province updateProvinceById(Province province, Integer id);
+    
+    public Province createProvince(Province province) {
+        return provinceRepository.save(province);
+    }
 
-    void deleteProvinceById(Integer id);
+    
+    public Province updateProvinceById(Province provinceDetails, Integer id) {
+        Province province = this.getProvinceById(id);
+        province.setProvinceId(province.getProvinceId());
+        province.setProvinceName(provinceDetails.getProvinceName());
+        return provinceRepository.save(province);
+    }
+
+    
+    public void deleteProvinceById(Integer id) {
+        this.provinceRepository.deleteById(id);
+    }
 
 }

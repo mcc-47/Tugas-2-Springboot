@@ -11,21 +11,20 @@ import com.mii.server.entities.Role;
 import com.mii.server.entities.Users;
 import com.mii.server.repositories.RoleRepository;
 import com.mii.server.repositories.UserRepository;
-import com.sun.istack.logging.Logger;
+
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
+
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.security.core.GrantedAuthority;
+
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 /**
  *
- * @author William Yangjaya
+ * @author acer
  */
 @Service
 public class MyUserDetailsServiceImpl implements UserDetailsService {
@@ -33,8 +32,7 @@ public class MyUserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
-//    @Autowired
-//    private IUserService service;
+
     @Autowired
     private MessageSource messages;
 

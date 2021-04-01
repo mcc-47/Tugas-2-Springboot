@@ -12,7 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  *
- * @author William Yangjaya
+ * @author acer
  */
 @Configuration
 public class PasswordConfig {

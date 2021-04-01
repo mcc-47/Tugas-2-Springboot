@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 /**
  *
- * @author William Yangjaya
+ * @author acer
  */
 @Service
 public class UserManagementService extends MyUserDetailsServiceImpl {

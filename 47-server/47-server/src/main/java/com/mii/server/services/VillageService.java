@@ -6,12 +6,31 @@
 package com.mii.server.services;
 
 import com.mii.server.dtos.ProvinceToVillageDTO;
+import com.mii.server.entities.Village;
+import com.mii.server.repositories.VillageRepository;
+import java.util.ArrayList;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
- * @author William Yangjaya
+ * @author acer
  */
-public interface VillageService {
-    public List<ProvinceToVillageDTO> getProvinceToVillage();
+public class VillageService {
+    @Autowired
+    private VillageRepository villageRepository;
+
+    public List<ProvinceToVillageDTO> getProvinceToVillage() {
+        List<ProvinceToVillageDTO> pdsvs = new ArrayList<>();
+        for (Village v : villageRepository.findAll()) {
+            ProvinceToVillageDTO pdsv = new ProvinceToVillageDTO(
+                    v.getVillageName(), v.getZipCode(),
+                    v.getSubdistrictId().getSubdistrictName(),
+                    v.getSubdistrictId().getDistrictId().getKotakab(), v.getSubdistrictId().getDistrictId().getDistrictName(),
+                    v.getSubdistrictId().getDistrictId().getProvinceId().getProvinceName()
+            );
+            pdsvs.add(pdsv);
+        }
+        return pdsvs;
+    }
 }

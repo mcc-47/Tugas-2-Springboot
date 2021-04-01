@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  *
- * @author William Yangjaya
+ * @author acer
  */
 @RestController
 @RequestMapping(path = "/provinces")
