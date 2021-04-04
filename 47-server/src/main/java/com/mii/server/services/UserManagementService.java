@@ -142,6 +142,8 @@ public class UserManagementService {
     }
 
     public Employees saveEmployee(UserManagementDTO userManagementDTO){
+        List<Role> role = new ArrayList<>();
+        role.add(new Role(2,"trainer"));
         Employees employee = new Employees( 
                 userManagementDTO.getPrefix(),
                 userManagementDTO.getEmployeeId(),
@@ -156,7 +158,7 @@ public class UserManagementService {
                 new Contacts(userManagementDTO.getEmployeeId(),userManagementDTO.getPrefix(), userManagementDTO.getPhone(),
                         userManagementDTO.getLinkedin()),
                 new Users(userManagementDTO.getEmployeeId(), userManagementDTO.getUserName(),
-                        passwordEncoder.encode(userManagementDTO.getUserPassword())));
+                        userManagementDTO.getUserPassword(),role));
         employeeService.saveEmploy(employee);
         return employee;
     }

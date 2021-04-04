@@ -15,6 +15,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -49,7 +50,10 @@ public class Users implements UserDetails {
     @Basic(optional = false)
     @Column(name = "user_password")
     private String userPassword;
-    @ManyToMany(mappedBy = "usersList", fetch = FetchType.LAZY)
+    @JoinTable(name = "user_role", joinColumns = {
+        @JoinColumn(name = "user_id", referencedColumnName = "user_id")}, inverseJoinColumns = {
+        @JoinColumn(name = "role_id", referencedColumnName = "role_id")})
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<Role> rolesList;
     @JoinColumn(name = "user_id", referencedColumnName = "employee_id", insertable = false, updatable = false)
     @OneToOne(optional = true, fetch = FetchType.LAZY)
@@ -67,6 +71,14 @@ public class Users implements UserDetails {
         this.userName = userName;
         this.userPassword = userPassword;
     }
+
+    public Users(Integer userId, String userName, String userPassword, List<Role> rolesList) {
+        this.userId = userId;
+        this.userName = userName;
+        this.userPassword = userPassword;
+        this.rolesList = rolesList;
+    }
+    
 
     public Integer getUserId() {
         return userId;
