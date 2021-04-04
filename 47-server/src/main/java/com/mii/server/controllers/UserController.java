@@ -41,14 +41,14 @@ public class UserController {
 //        return myUserDetailsService.loadByUserName("ikhsan_1");
 //
 //    }
- @GetMapping("/login-data")
+ @GetMapping("/login-web")
     public LoginDTO loginDTO() {
 //        return myUserDetailsServiceImpl.loadByUserName("ikhsan_1", "ikhsan123");
-        return myUserDetailsService.loginDTO(myUserDetailsService.loadByUserName("ikhsan_1", "ikhsan123"));
+        return myUserDetailsService.loginDTO(myUserDetailsService.login("ikhsan_1", "ikhsan123"));
     }
 @PostMapping("/login")
     public LoginDTO loginControl(@RequestBody DataLogDTO dataLogDTO) {
-        return myUserDetailsService.loginDTO(myUserDetailsService.loadByUserName(dataLogDTO.getUserName(),
+        return myUserDetailsService.loginDTO(myUserDetailsService.login(dataLogDTO.getUserName(),
                 dataLogDTO.getUserPassword()));
     }
 }

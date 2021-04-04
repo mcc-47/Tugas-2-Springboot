@@ -50,7 +50,11 @@ public class UserManagementDTO {
    private String majorName;
    private Integer universityId;
    private String universityName;
-
+   private Integer userId;
+   private String userName;
+   private String userPassword;
+   private Integer roleId;
+   private String roleName;
     public UserManagementDTO(Integer villageId) {
         this.villageId = villageId;
     }
@@ -72,6 +76,43 @@ public class UserManagementDTO {
         this.majorId = majorId;
         this.universityId = universityId;
     }
+    
+    //buat-regis-sama-login
+    public UserManagementDTO(String Prefix, Integer employeeId, String employeeName, Date birthDate, String gender, String email, Integer villageId, String phone, String linkedin, Integer majorId, Integer userId, String userName, String userPassword) {
+        this.Prefix = Prefix;
+        this.employeeId = employeeId;
+        this.employeeName = employeeName;
+        this.birthDate = birthDate;
+        this.gender = gender;
+        this.email = email;
+        this.villageId = villageId;
+        this.phone = phone;
+        this.linkedin = linkedin;
+        this.majorId = majorId;
+        this.userId = userId;
+        this.userName = userName;
+        this.userPassword = userPassword;
+        
+    }
+
+    public UserManagementDTO(String Prefix, Integer employeeId, String employeeName, Date birthDate, String gender, String email, Integer villageId, String phone, String linkedin, Integer majorId, Integer universityId, String userName, String userPassword, String roleName) {
+        this.Prefix = Prefix;
+        this.employeeId = employeeId;
+        this.employeeName = employeeName;
+        this.birthDate = birthDate;
+        this.gender = gender;
+        this.email = email;
+        this.villageId = villageId;
+        this.phone = phone;
+        this.linkedin = linkedin;
+        this.majorId = majorId;
+        this.universityId = universityId;
+        this.userName = userName;
+        this.userPassword = userPassword;
+        this.roleName = roleName;
+    }
+    
+
 
     
   //buat nampilin
@@ -95,10 +136,54 @@ public class UserManagementDTO {
         this.districtName = districtName;
         this.provinceName = provinceName;
     }
+    
+    
+    
     public UserManagementDTO(){
         
     }
 
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public Integer getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
+    
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getUserPassword() {
+        return userPassword;
+    }
+
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
+    }
+  
     public String getPrefix() {
         return Prefix;
     }

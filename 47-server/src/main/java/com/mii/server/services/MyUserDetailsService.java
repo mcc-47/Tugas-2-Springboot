@@ -13,9 +13,12 @@ import com.mii.server.entities.Users;
 import com.mii.server.repositories.RoleRepository;
 import com.mii.server.repositories.UserRepository;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -36,6 +39,14 @@ public class MyUserDetailsService implements UserDetailsService {
     @Autowired
     private UserManagementService userManagementService;
     
+    @Autowired
+    private AuthenticationManager  authenticationManager;
+    
+    
+    
+//    @Autowired
+//    AuthenticationManager authManager;
+    
     /**
      *
      * @param userName
@@ -50,25 +61,27 @@ public class MyUserDetailsService implements UserDetailsService {
         }
         return users;
     }
+    
 
-    public String loadByUserName(String userName, String userPassword) {
-        Users userdb = userRepository.findByUserName(userName);
-        Users user = new Users();
-        if (userdb == null) {
-            throw new UsernameNotFoundException("username not found");
-        } else {
-            if (!userdb.getPassword().equals(userPassword)) {
-            } else {
-//                UsernamePasswordAuthenticationToken authToken
-//                        = new UsernamePasswordAuthenticationToken(userdb.getUsername(),
-//                                userdb.getPassword(), user.getAuthorities());
-//                SecurityContextHolder.getContext().setAuthentication(authToken);
-                System.out.println("session");
+    public String login(String userName, String userPassword){
+        Users users = new Users();
+        Users userFromdb = userRepository.findByUserName(userName);
+        if (userFromdb != null){
+            if (!(userFromdb.getPassword().equals(userPassword))){
+                throw new UsernameNotFoundException("kata sandi salah");
+            }else{
+                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userFromdb.getUsername(),
+                userFromdb.getPassword(), userFromdb.getAuthorities());
+//                Authentication authentication = authenticationManager.authenticate(authToken);
+                SecurityContextHolder.getContext().setAuthentication(authToken);
+                System.out.println("Session Created");
             }
-            return userdb.getUsername();
+            return userFromdb.getUsername();
+        }else{
+            throw new UsernameNotFoundException("username tidak ditemukan");
         }
     }
-
+    
     public LoginDTO loginDTO(String userName) {
         Users user = new Users();
         Integer userId = userRepository.findByUserName(userName).getUserId();
@@ -84,9 +97,9 @@ public class MyUserDetailsService implements UserDetailsService {
             }
         }
         
-        LoginDTO nreg = new LoginDTO(userName,
+        LoginDTO regis = new LoginDTO(userName,
                 roleNames,
                 privilegeNames);
-        return nreg;
+        return regis;
     }
 }

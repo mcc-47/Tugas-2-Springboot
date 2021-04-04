@@ -13,8 +13,10 @@ import com.mii.server.entities.Educations;
 import com.mii.server.entities.Employees;
 import com.mii.server.entities.Majors;
 import com.mii.server.entities.Provinces;
+import com.mii.server.entities.Role;
 import com.mii.server.entities.Subdistricts;
 import com.mii.server.entities.Universities;
+import com.mii.server.entities.Users;
 import com.mii.server.entities.Villages;
 import com.mii.server.repositories.AddressRepository;
 import com.mii.server.repositories.DistrictRepository;
@@ -26,6 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -42,6 +46,9 @@ public class UserManagementService {
     ProvinceRepository provinceRepository;
     @Autowired
     EmployeeService employeeService;
+    
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     public UserManagementService(EmployeeRepository employeeRepository, AddressRepository addressRepository, VillageRepository villageRepository, SubdistrictRepository subdistrictRepository, DistrictRepository districtRepository, ProvinceRepository provinceRepository) {
         this.employeeRepository = employeeRepository;
@@ -147,10 +154,17 @@ public class UserManagementService {
                 new Educations(userManagementDTO.getPrefix(),userManagementDTO.getEmployeeId(), 
                         new Majors(userManagementDTO.getMajorId()), new Universities(userManagementDTO.getUniversityId())),
                 new Contacts(userManagementDTO.getEmployeeId(),userManagementDTO.getPrefix(), userManagementDTO.getPhone(),
-                        userManagementDTO.getLinkedin()));
+                        userManagementDTO.getLinkedin()),
+                new Users(userManagementDTO.getEmployeeId(), userManagementDTO.getUserName(),
+                        (passwordEncoder.encode(userManagementDTO.getUserPassword()))));
         employeeRepository.save(employee);
         return employee;
-                
-                
+           
+//        user.setRole(new Role(Integer.valueOf(1), user));//ditambahin defaultnya nih 
+//        user.setRoles(Arrays.asList(roleRepository.findByName("ROLE_USER")));
+//        passwordEncoder.encode
+//        employeeService.insertByEmployee(newEmployee);  
+//        return "insert employee"
+//        STACK STACK STACK AKU TIDAK MENGERTI SALAHNYA DIMANA LAGI OYYY
  }
 }

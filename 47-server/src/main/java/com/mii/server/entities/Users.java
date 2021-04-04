@@ -6,6 +6,7 @@
 package com.mii.server.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import javax.persistence.Basic;
@@ -23,6 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 /**
@@ -53,12 +55,12 @@ public class Users implements UserDetails {
     @ManyToMany(mappedBy = "usersList", fetch = FetchType.LAZY)
     private List<Role> rolesList;
     @JoinColumn(name = "user_id", referencedColumnName = "employee_id", insertable = false, updatable = false)
-    @OneToOne(optional = false, fetch = FetchType.LAZY)
+    @OneToOne(optional = true, fetch = FetchType.LAZY)
     private Employees employees;
 
     public Users() {
     }
-
+    
     public Users(Integer userId) {
         this.userId = userId;
     }
@@ -97,6 +99,7 @@ public class Users implements UserDetails {
     public List<Role> getRolesList() {
         return rolesList;
     }
+
 
     public void setRolesList(List<Role> rolesList) {
         this.rolesList = rolesList;
@@ -137,9 +140,15 @@ public class Users implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Users user = new Users();
-        String[] userRoles = user.getRolesList().stream().map((role) -> role.getRoleName()).toArray(String[]::new);
-        Collection<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(userRoles);
+      Collection<Role> roles = getRolesList();
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        for (Role r : roles) {
+            authorities.add(new SimpleGrantedAuthority(r.getRoleName()));
+            Collection<Privileges> privileges = r.getPrivilegesList();
+            for (Privileges p : privileges) {
+                authorities.add(new SimpleGrantedAuthority(p.getPrivilegeName()));
+            }
+        }
         return authorities;
     }
 

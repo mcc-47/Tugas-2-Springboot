@@ -120,5 +120,9 @@ public class Role implements Serializable {
     public String toString() {
         return "com.mii.server.entities.Roles[ roleId=" + roleId + " ]";
     }
+
+    public void setRoleName(Users users) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }
