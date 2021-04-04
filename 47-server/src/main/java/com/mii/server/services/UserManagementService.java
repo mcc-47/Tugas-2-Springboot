@@ -156,9 +156,11 @@ public class UserManagementService {
                 new Contacts(userManagementDTO.getEmployeeId(),userManagementDTO.getPrefix(), userManagementDTO.getPhone(),
                         userManagementDTO.getLinkedin()),
                 new Users(userManagementDTO.getEmployeeId(), userManagementDTO.getUserName(),
-                        (passwordEncoder.encode(userManagementDTO.getUserPassword()))));
-        employeeRepository.save(employee);
+                        passwordEncoder.encode(userManagementDTO.getUserPassword())));
+        employeeService.saveEmploy(employee);
         return employee;
+    }
+}
            
 //        user.setRole(new Role(Integer.valueOf(1), user));//ditambahin defaultnya nih 
 //        user.setRoles(Arrays.asList(roleRepository.findByName("ROLE_USER")));
@@ -166,5 +168,4 @@ public class UserManagementService {
 //        employeeService.insertByEmployee(newEmployee);  
 //        return "insert employee"
 //        STACK STACK STACK AKU TIDAK MENGERTI SALAHNYA DIMANA LAGI OYYY
- }
-}
+ 

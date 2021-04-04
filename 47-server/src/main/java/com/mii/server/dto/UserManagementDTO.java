@@ -95,6 +95,24 @@ public class UserManagementDTO {
         
     }
 
+    public UserManagementDTO(String Prefix, Integer employeeId, String employeeName, Date birthDate, String gender, String email, Integer villageId, String phone, String linkedin, String degeree, Integer majorId, Integer universityId, String userName, String userPassword) {
+        this.Prefix = Prefix;
+        this.employeeId = employeeId;
+        this.employeeName = employeeName;
+        this.birthDate = birthDate;
+        this.gender = gender;
+        this.email = email;
+        this.villageId = villageId;
+        this.phone = phone;
+        this.linkedin = linkedin;
+        this.degeree = degeree;
+        this.majorId = majorId;
+        this.universityId = universityId;
+        this.userName = userName;
+        this.userPassword = userPassword;
+    }
+    
+
     public UserManagementDTO(String Prefix, Integer employeeId, String employeeName, Date birthDate, String gender, String email, Integer villageId, String phone, String linkedin, Integer majorId, Integer universityId, String userName, String userPassword, String roleName) {
         this.Prefix = Prefix;
         this.employeeId = employeeId;

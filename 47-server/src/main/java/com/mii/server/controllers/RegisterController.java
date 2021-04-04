@@ -19,6 +19,8 @@ import com.mii.server.services.NotificationService;
 import com.mii.server.services.UserManagementService;
 import javax.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -48,15 +50,14 @@ public class RegisterController {
     @Autowired
     NotificationService notificationService;
     
-    @Autowired 
 
     public RegisterController(UserManagementService userManagementService, EmployeeService employeeService) {
         this.userManagementService = userManagementService;
         this.employeeService = employeeService;
     }
     @PostMapping("/registrasi")
-    public Employees saveEmp(@RequestBody UserManagementDTO userManagementDTO) throws MessagingException{
-           Employees empl = userManagementService.saveEmployee(userManagementDTO);
+    public String saveEmp(@RequestBody UserManagementDTO userManagementDTO) throws MessagingException{
+           userManagementService.saveEmployee(userManagementDTO);
            
 //           Users users = new Users();
 //           users.setRolesList(Arrays.asList(roleRepository.findByRoleName("admin")));
@@ -64,7 +65,7 @@ public class RegisterController {
 //           Users users = new Users();
 //           users.setRolesList((List<Role>) role);
            
-           notificationService.sendEmail(userManagementDTO.getEmployeeId());
-           return empl;
+//           notificationService.sendEmail(userManagementDTO.getEmployeeId());
+           return "bisa nih";
     } 
 }

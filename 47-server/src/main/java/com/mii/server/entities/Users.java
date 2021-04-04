@@ -35,10 +35,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Table(name = "users")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Users.findAll", query = "SELECT u FROM Users u")
-    , @NamedQuery(name = "Users.findByUserId", query = "SELECT u FROM Users u WHERE u.userId = :userId")
-    , @NamedQuery(name = "Users.findByUserName", query = "SELECT u FROM Users u WHERE u.userName = :userName")
-    , @NamedQuery(name = "Users.findByUserPassword", query = "SELECT u FROM Users u WHERE u.userPassword = :userPassword")})
+    @NamedQuery(name = "Users.findAll", query = "SELECT u FROM Users u")})
 public class Users implements UserDetails {
 
     private static final long serialVersionUID = 1L;
