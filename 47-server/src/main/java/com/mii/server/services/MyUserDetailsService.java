@@ -13,15 +13,14 @@ import com.mii.server.entities.Users;
 import com.mii.server.repositories.RoleRepository;
 import com.mii.server.repositories.UserRepository;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -64,10 +63,11 @@ public class MyUserDetailsService implements UserDetailsService {
     
 
     public String login(String userName, String userPassword){
+        BCryptPasswordEncoder pass = new BCryptPasswordEncoder();
         Users users = new Users();
         Users userFromdb = userRepository.findByUserName(userName);
         if (userFromdb != null){
-            if (!(userFromdb.getPassword().equals(userPassword))){
+            if (!(pass.matches(userPassword, userFromdb.getPassword()))){
                 throw new UsernameNotFoundException("kata sandi salah");
             }else{
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userFromdb.getUsername(),

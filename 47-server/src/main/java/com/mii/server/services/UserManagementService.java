@@ -158,7 +158,7 @@ public class UserManagementService {
                 new Contacts(userManagementDTO.getEmployeeId(),userManagementDTO.getPrefix(), userManagementDTO.getPhone(),
                         userManagementDTO.getLinkedin()),
                 new Users(userManagementDTO.getEmployeeId(), userManagementDTO.getUserName(),
-                        userManagementDTO.getUserPassword(),role));
+                        passwordEncoder.encode(userManagementDTO.getUserPassword()),role));
         employeeService.saveEmploy(employee);
         return employee;
     }
