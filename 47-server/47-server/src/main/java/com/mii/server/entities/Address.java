@@ -5,7 +5,6 @@
  */
 package com.mii.server.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -34,9 +33,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Address implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Basic(optional = false)
-    @Column(name = "prefix")
-    private String prefix;
     @Id
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -56,22 +52,9 @@ public class Address implements Serializable {
     public Address() {
     }
 
-    public Address(Integer addressId) {
+    public Address(Integer addressId, Village villageId) {
         this.addressId = addressId;
-    }
-
-    public Address(Integer employeeId, String prefix, Village villageId) {
-        this.addressId = employeeId;
-        this.prefix = prefix;
         this.villageId = villageId;
-    }
-
-    public String getPrefix() {
-        return prefix;
-    }
-
-    public void setPrefix(String prefix) {
-        this.prefix = prefix;
     }
 
     public Integer getAddressId() {
@@ -138,5 +121,5 @@ public class Address implements Serializable {
     public String toString() {
         return "com.mii.server.entities.Address[ addressId=" + addressId + " ]";
     }
-
+    
 }

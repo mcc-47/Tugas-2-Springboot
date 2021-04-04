@@ -33,9 +33,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Education implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Basic(optional = false)
-    @Column(name = "prefix")
-    private String prefix;
     @Id
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -56,23 +53,10 @@ public class Education implements Serializable {
     public Education() {
     }
 
-    public Education(Integer educationId) {
+    public Education(Integer educationId, Major majorId, University universityId) {
         this.educationId = educationId;
-    }
-
-    public Education(Integer employeeId, Major majorId, University universityId, String prefix) {
-        this.educationId = employeeId;
         this.majorId = majorId;
         this.universityId = universityId;
-        this.prefix = prefix;
-    }
-
-    public String getPrefix() {
-        return prefix;
-    }
-
-    public void setPrefix(String prefix) {
-        this.prefix = prefix;
     }
 
     public Integer getEducationId() {
@@ -139,5 +123,5 @@ public class Education implements Serializable {
     public String toString() {
         return "com.mii.server.entities.Education[ educationId=" + educationId + " ]";
     }
-
+    
 }

@@ -32,9 +32,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Contact implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Basic(optional = false)
-    @Column(name = "prefix")
-    private String prefix;
     @Id
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -57,19 +54,10 @@ public class Contact implements Serializable {
         this.contactId = contactId;
     }
 
-    public Contact(Integer contactId, String phone, String linkedin, String prefix) {
+    public Contact(Integer contactId, String phone, String linkedin) {
         this.contactId = contactId;
         this.phone = phone;
         this.linkedin = linkedin;
-        this.prefix = prefix;
-    }
-
-    public String getPrefix() {
-        return prefix;
-    }
-
-    public void setPrefix(String prefix) {
-        this.prefix = prefix;
     }
 
     public Integer getContactId() {
@@ -128,5 +116,5 @@ public class Contact implements Serializable {
     public String toString() {
         return "com.mii.server.entities.Contact[ contactId=" + contactId + " ]";
     }
-
+    
 }

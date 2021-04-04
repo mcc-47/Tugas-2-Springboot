@@ -5,7 +5,6 @@
  */
 package com.mii.server.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.util.Date;
@@ -36,12 +35,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Employee.findAll", query = "SELECT e FROM Employee e")})
 public class Employee implements Serializable {
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "employee", fetch = FetchType.LAZY)
-    private Users users;
     private static final long serialVersionUID = 1L;
-    @Basic(optional = false)
-    @Column(name = "prefix")
-    private String prefix;
     @Id
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -69,17 +63,21 @@ public class Employee implements Serializable {
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "employee", fetch = FetchType.LAZY)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Contact contact;
-    
-    public Employee() { 
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "employee", fetch = FetchType.LAZY)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private User user;
+
+    public Employee() {
     }
 
-    public Employee(Integer employeeId) {
-        this.employeeId = employeeId;
-    }
-
-    public Employee(String prefix, Integer employeeId, String employeeName, Date birthDate, String gender,
-            String email, Address address, Education education, Contact contact) {
-        this.prefix = prefix;
+//    public Employee(Integer employeeId, String employeeName, Date birthDate, String gender, String email) {
+//        this.employeeId = employeeId;
+//        this.employeeName = employeeName;
+//        this.birthDate = birthDate;
+//        this.gender = gender;
+//        this.email = email;
+//    }
+    public Employee(Integer employeeId, String employeeName, Date birthDate, String gender, String email, Address address, Education education, Contact contact, User user) {
         this.employeeId = employeeId;
         this.employeeName = employeeName;
         this.birthDate = birthDate;
@@ -88,18 +86,19 @@ public class Employee implements Serializable {
         this.address = address;
         this.education = education;
         this.contact = contact;
-    }
-
-    public String getPrefix() {
-        return prefix;
-    }
-
-    public void setPrefix(String prefix) {
-        this.prefix = prefix;
+        this.user = user;
     }
 
     public Integer getEmployeeId() {
         return employeeId;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public void setEmployeeId(Integer employeeId) {
@@ -186,13 +185,5 @@ public class Employee implements Serializable {
     public String toString() {
         return "com.mii.server.entities.Employee[ employeeId=" + employeeId + " ]";
     }
-
-    public Users getUsers() {
-        return users;
-    }
-
-    public void setUsers(Users users) {
-        this.users = users;
-    }
-
+    
 }

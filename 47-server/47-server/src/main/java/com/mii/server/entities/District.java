@@ -5,9 +5,6 @@
  */
 package com.mii.server.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -45,8 +42,8 @@ public class District implements Serializable {
     @Column(name = "district_id")
     private Integer districtId;
     @Basic(optional = false)
-    @Column(name = "kotakab")
-    private String kotakab;
+    @Column(name = "kota_kab")
+    private String kotaKab;
     @Basic(optional = false)
     @Column(name = "district_name")
     private String districtName;
@@ -55,6 +52,7 @@ public class District implements Serializable {
     @JoinColumn(name = "province_id", referencedColumnName = "province_id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Province provinceId;
+
     public District() {
     }
 
@@ -62,9 +60,9 @@ public class District implements Serializable {
         this.districtId = districtId;
     }
 
-    public District(Integer districtId, String kotakab, String districtName) {
+    public District(Integer districtId, String kotaKab, String districtName) {
         this.districtId = districtId;
-        this.kotakab = kotakab;
+        this.kotaKab = kotaKab;
         this.districtName = districtName;
     }
 
@@ -76,12 +74,12 @@ public class District implements Serializable {
         this.districtId = districtId;
     }
 
-    public String getKotakab() {
-        return kotakab;
+    public String getKotaKab() {
+        return kotaKab;
     }
 
-    public void setKotakab(String kotakab) {
-        this.kotakab = kotakab;
+    public void setKotaKab(String kotaKab) {
+        this.kotaKab = kotaKab;
     }
 
     public String getDistrictName() {

@@ -5,8 +5,6 @@
  */
 package com.mii.server.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -45,7 +43,6 @@ public class Province implements Serializable {
     @Column(name = "province_name")
     private String provinceName;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "provinceId", fetch = FetchType.LAZY)
-    @JsonBackReference
     private List<District> districtList;
 
     public Province() {
@@ -58,12 +55,6 @@ public class Province implements Serializable {
     public Province(Integer provinceId, String provinceName) {
         this.provinceId = provinceId;
         this.provinceName = provinceName;
-    }
-
-    public Province(Integer provinceId, String provinceName, List<District> districtList) {
-        this.provinceId = provinceId;
-        this.provinceName = provinceName;
-        this.districtList = districtList;
     }
 
     public Integer getProvinceId() {
@@ -115,5 +106,5 @@ public class Province implements Serializable {
     public String toString() {
         return "com.mii.server.entities.Province[ provinceId=" + provinceId + " ]";
     }
-
+    
 }

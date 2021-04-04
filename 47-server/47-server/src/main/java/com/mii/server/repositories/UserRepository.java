@@ -5,7 +5,8 @@
  */
 package com.mii.server.repositories;
 
-import com.mii.server.entities.Users;
+import com.mii.server.entities.User;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Repository;
  * @author William Yangjaya
  */
 @Repository
-public interface UserRepository extends JpaRepository<Users, Integer> {
-    Users findByUserName(String userName);
+public interface UserRepository extends JpaRepository<User, Integer>{
+    List<User> findByUsername(String username);
+//    User findByUsernameOfTheUser(String username);
 }
