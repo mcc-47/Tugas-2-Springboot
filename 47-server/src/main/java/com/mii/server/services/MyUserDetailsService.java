@@ -86,20 +86,21 @@ public class MyUserDetailsService implements UserDetailsService {
         Users user = new Users();
         Integer userId = userRepository.findByUserName(userName).getUserId();
         List<Role> roles = userRepository.findByUserName(userName).getRolesList();
-        List<String> privilegeNames = new ArrayList<>();
+        List<String> privilegeNames = new ArrayList<>(); //List<String>authorities = new ArrayList<>();
         List<String> roleNames = new ArrayList<>();
 
         for (Role r : roles) {
-            roleNames.add(r.getRoleName());
+            roleNames.add(r.getRoleName());//authorities.add(r.getRoleName());
             List<Privileges> privileges = roleRepository.findByRoleName(r.getRoleName()).getPrivilegesList();
             for (Privileges p : privileges) {
-                privilegeNames.add(p.getPrivilegeName());
+                privilegeNames.add(p.getPrivilegeName());//authorities.add(p.getPrivilegeName());
             }
         }
         
         LoginDTO regis = new LoginDTO(userName,
                 roleNames,
                 privilegeNames);
+        //LoginDTO regis = new LoginDTO(userName,authorities);
         return regis;
     }
 }
