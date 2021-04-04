@@ -42,7 +42,7 @@ public class DistrictController {
     
     @GetMapping("")
     public List<ProvinceDistrictDto> read() {
-        return districtService.getAllDistricts();
+        return districtService.getAll();
     }
 
 //    @GetMapping("{id}")

@@ -38,8 +38,7 @@ public class ProvinceController {
 
     @GetMapping("")
     public List<Province> read() {
-        System.out.println(provinceService.getAllProvinces());
-        return provinceService.getAllProvinces();
+        return provinceService.getAll();
     }
 
 //    @GetMapping("{id}")

@@ -23,30 +23,38 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author ASUS
  */
-@RequestMapping("")
+@RequestMapping("/employee")
 @RestController
 public class EmployeeControler {
     
     @Autowired
     EmployeeService employeeService;
     
-    @GetMapping("/EmployeeProvince")
+    @GetMapping("/employee-province")
     public List<EmployeeProvinceDto> read(){
         return employeeService.getAll();
     }
     
     
-    @PostMapping("")
+    @PostMapping("/registration")
     public String creat(@RequestBody RegistrationDto registrationDto) {
         employeeService.saveRegistration(registrationDto);
-        return "Berhasil";
+        return "Data successfully inserted";
     }
     
-//    @PostMapping("")
-//    public String creat(@RequestBody Employee employee) {
-//        employeeService.saveRegistration(employee);
-//        return "Berhasil";
-//    }
-    
-    
+//    {
+//    "prefix" : "MCC",
+//    "employeeId": 16,
+//    "employeeName": "Bambang",
+//    "birthDate": "2000-02-02",
+//    "gender": "Laki-laki",
+//    "email": "bambang@gmail.com",
+//    "phone": "089756432132",
+//    "linkedin": "linkedin.com/in/bamb",
+//    "villageId": 1,
+//    "majorId": 14,
+//    "universityId": 2,
+//    "username": "bambang",
+//    "password": "bambang123"
+//}
 }

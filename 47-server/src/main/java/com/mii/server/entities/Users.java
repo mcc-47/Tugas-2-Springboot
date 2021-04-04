@@ -51,7 +51,7 @@ public class Users implements UserDetails {
     @ManyToMany(mappedBy = "usersCollection", fetch = FetchType.LAZY)
     private Collection<Roles> rolesCollection;
     @JoinColumn(name = "user_id", referencedColumnName = "employee_id", insertable = false, updatable = false)
-    @OneToOne(optional = false, fetch = FetchType.LAZY)
+    @OneToOne(optional = true, fetch = FetchType.LAZY)
     private Employee employee;
     
     @Basic(optional = false)

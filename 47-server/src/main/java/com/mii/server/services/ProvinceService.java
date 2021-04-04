@@ -21,7 +21,7 @@ public class ProvinceService{
     @Autowired
     private ProvinceRepository provinceRepository;
     
-    public List<Province> getAllProvinces() {
+    public List<Province> getAll() {
         return provinceRepository.findAll();
     }
 

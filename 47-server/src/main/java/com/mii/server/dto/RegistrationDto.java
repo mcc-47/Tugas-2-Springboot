@@ -26,11 +26,27 @@ public class RegistrationDto {
     private int villageId;
     private int majorId;
     private int universityId;
+    private String username;
+    private String password;
 
     public RegistrationDto() {
     }
 
-    public RegistrationDto(int employeeId, String employeeName, Date birthDate, String gender, String email, String phone, String linkedin, int villageId, int majorId, int universityId) {
+    public RegistrationDto(
+            String prefix,
+            int employeeId, 
+            String employeeName, 
+            Date birthDate, 
+            String gender, 
+            String email, 
+            String phone, 
+            String linkedin, 
+            int villageId, 
+            int majorId, 
+            int universityId, 
+            String username, 
+            String password) {
+        this.prefix = prefix;
         this.employeeId = employeeId;
         this.employeeName = employeeName;
         this.birthDate = birthDate;
@@ -41,6 +57,16 @@ public class RegistrationDto {
         this.villageId = villageId;
         this.majorId = majorId;
         this.universityId = universityId;
+        this.username = username;
+        this.password = password;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public String getPrefix() {

@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author ASUS
  */
 @RestController
-@RequestMapping("Notification")
+@RequestMapping("email-sender")
 public class NotificationController {
     
     @Autowired

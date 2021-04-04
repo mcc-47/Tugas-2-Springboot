@@ -26,14 +26,19 @@ public class UserManagementController {
     @Autowired
     MyUserDetailsService myUserDetailsService;
     
-    @GetMapping("/login")
-    public void testLogin(){
-        System.out.println("test");
-    }
-    
-    
     @PostMapping("/login")
-    public AuthenticationResponse login(@RequestBody LoginDto upd) throws Exception{
-        return myUserDetailsService.login(upd);
+    public AuthenticationResponse login(@RequestBody LoginDto loginDto) throws Exception{
+        return myUserDetailsService.login(loginDto);
     }
+    
+    @GetMapping("/trainer")
+    public String trainer(){
+        return "Welcome Trainer";
+    }
+    
+    @GetMapping("/trainee")
+    public String trainee(){
+        return "Welcome to the Trainee page";
+    }
+    
 }

@@ -34,8 +34,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Employee.findAll", query = "SELECT e FROM Employee e")})
 public class Employee implements Serializable {
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "employee", fetch = FetchType.LAZY)
-    private Users users;
 
     private static final long serialVersionUID = 1L;
     @Basic(optional = false)
@@ -65,6 +63,8 @@ public class Employee implements Serializable {
     private Education education;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "employee", fetch = FetchType.LAZY)
     private Contact contact;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "employee", fetch = FetchType.LAZY)
+    private Users users;
 
     public Employee() {
     }
@@ -80,7 +80,8 @@ public class Employee implements Serializable {
         this.email = email;
     }
 
-    public Employee(String prefix, Integer employeeId, String employeeName, Date birthDate, String gender, String email, Address address, Education education, Contact contact) {
+    public Employee(String prefix, Integer employeeId, String employeeName, Date birthDate, String gender, 
+            String email, Address address, Education education, Contact contact, Users users) {
         this.prefix = prefix;
         this.employeeId = employeeId;
         this.employeeName = employeeName;
@@ -90,6 +91,7 @@ public class Employee implements Serializable {
         this.address = address;
         this.education = education;
         this.contact = contact;
+        this.users = users;
     }
     
     

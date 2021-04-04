@@ -5,6 +5,7 @@
  */
 package com.mii.server.services;
 
+import com.mii.server.configuration.PasswordConfig;
 import com.mii.server.dto.EmployeeProvinceDto;
 import com.mii.server.dto.RegistrationDto;
 import com.mii.server.entities.Address;
@@ -16,6 +17,7 @@ import com.mii.server.entities.Major;
 import com.mii.server.entities.Province;
 import com.mii.server.entities.Subdistrict;
 import com.mii.server.entities.University;
+import com.mii.server.entities.Users;
 import com.mii.server.entities.Village;
 import com.mii.server.repositories.AddressRepository;
 import com.mii.server.repositories.DistrictRepository;
@@ -39,17 +41,27 @@ public class EmployeeService{
     
     @Autowired
     private EmployeeRepository employeeRepository;
+    
+    @Autowired
+    private PasswordConfig passwordConfig;
 
     /**
      * menyimpan data yang diregistrasi
      */
     public void saveRegistration(RegistrationDto rdto) {
+        String encodedPassword = passwordConfig.passwordEncoder().encode(rdto.getPassword());
         
         Employee employee = new Employee(
-                rdto.getPrefix(), rdto.getEmployeeId(), rdto.getEmployeeName(),rdto.getBirthDate(), rdto.getGender(), rdto.getEmail(), 
+                rdto.getPrefix(), 
+                rdto.getEmployeeId(), 
+                rdto.getEmployeeName(),
+                rdto.getBirthDate(), 
+                rdto.getGender(), 
+                rdto.getEmail(), 
                 new Address(rdto.getPrefix(), rdto.getEmployeeId(), new Village(rdto.getVillageId())),
                 new Education(rdto.getPrefix(), rdto.getEmployeeId(), new Major(rdto.getMajorId()), new University(rdto.getUniversityId())),
-                new Contact(rdto.getPrefix(), rdto.getEmployeeId(),rdto.getPhone(), rdto.getLinkedin()));
+                new Contact(rdto.getPrefix(), rdto.getEmployeeId(),rdto.getPhone(), rdto.getLinkedin()),
+                new Users(rdto.getEmployeeId(), rdto.getUsername(), encodedPassword));
         employeeRepository.save(employee);
     }
     

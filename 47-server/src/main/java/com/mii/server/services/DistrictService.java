@@ -27,7 +27,7 @@ public class DistrictService{
 //        return districtRepository.findAll();
 //    }
     
-    public List<ProvinceDistrictDto> getAllDistricts(){
+    public List<ProvinceDistrictDto> getAll(){
         districtRepository.findAll();
         List<ProvinceDistrictDto> dts = new ArrayList<>();
         for (District d : districtRepository.findAll()) {
