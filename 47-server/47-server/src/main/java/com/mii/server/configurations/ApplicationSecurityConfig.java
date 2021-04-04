@@ -31,7 +31,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
 //        http.authorizeRequests().and().logout().disable().formLogin().disable().httpBasic();
         http.csrf().disable().authorizeRequests()
-                .antMatchers("/login", "/get-user").permitAll()
+                .antMatchers("/login", "/get-user", "/register").permitAll()
                 .antMatchers("/**","/logout").authenticated()
                 .and()
                 .logout().disable()

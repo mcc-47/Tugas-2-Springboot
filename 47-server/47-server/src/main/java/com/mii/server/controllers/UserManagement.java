@@ -80,7 +80,7 @@ public class UserManagement {
     @PostMapping("register")
     public ResponseEntity<String> insertOne(@RequestBody RegisterDTO registerDTO) throws MessagingException {
         Employees newEmployee = registerService.insertOne(registerDTO);
-        notificationService.sendEmail(newEmployee.getEmployeeId());
+//        notificationService.sendEmail(newEmployee.getEmployeeId());
         return new ResponseEntity<>(String.format("Selamat Anda berhasil registrasi dengan ID %d.\nMohon cek email Anda!", newEmployee.getEmployeeId()), HttpStatus.OK);
     }
     

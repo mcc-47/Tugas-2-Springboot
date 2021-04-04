@@ -12,12 +12,14 @@ import com.mii.server.entities.Educations;
 import com.mii.server.entities.Employees;
 import com.mii.server.entities.Majors;
 import com.mii.server.entities.Universities;
+import com.mii.server.entities.Users;
 import com.mii.server.entities.Villages;
 import com.mii.server.repositories.AddressRepository;
 import com.mii.server.repositories.ContactRepository;
 import com.mii.server.repositories.EducationRepository;
 import com.mii.server.repositories.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -38,6 +40,9 @@ public class RegisterService {
     @Autowired
     ContactRepository contactRepository;
     
+    @Autowired
+    PasswordEncoder passwordEncoder;
+    
     //read
     public RegisterDTO getOne(Integer id) {
         Employees e = employeeRepository.findById(id).get();
@@ -52,7 +57,9 @@ public class RegisterService {
                 e.getContacts().getPhone(), 
                 e.getContacts().getLinkedin(), 
                 e.getEducations().getMajorId().getMajorId(), 
-                e.getEducations().getUniversityId().getUniversityId()
+                e.getEducations().getUniversityId().getUniversityId(),
+                e.getUsers().getUsername(),
+                e.getUsers().getPassword()
         );
         return user;
     }
@@ -82,7 +89,11 @@ public class RegisterService {
                         newEmployeeId,
                         newEmployeePrefix,
                         registerDTO.getPhone(), 
-                        registerDTO.getLinkedin())
+                        registerDTO.getLinkedin()),
+                new Users(
+                        newEmployeeId, 
+                        registerDTO.getUserName(), 
+                        passwordEncoder.encode(registerDTO.getPassword()))
         );
         return employeeRepository.save(newEmployee);
     }

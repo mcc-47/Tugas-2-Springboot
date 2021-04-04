@@ -5,7 +5,9 @@
  */
 package com.mii.server.dto;
 
+import java.util.Collection;
 import java.util.List;
+import org.springframework.security.core.GrantedAuthority;
 
 /**
  *
@@ -13,16 +15,14 @@ import java.util.List;
  */
 public class UserSessionDTO {
     private String userName;
-    private List<String> roles;
-    private List<String> privileges;
+    private Collection<? extends GrantedAuthority> authorities;
 
     public UserSessionDTO() {
     }
 
-    public UserSessionDTO(String userName, List<String> roles, List<String> privileges) {
+    public UserSessionDTO(String userName, Collection<? extends GrantedAuthority> authorities) {
         this.userName = userName;
-        this.roles = roles;
-        this.privileges = privileges;
+        this.authorities = authorities;
     }
 
     public String getUserName() {
@@ -33,24 +33,12 @@ public class UserSessionDTO {
         this.userName = userName;
     }
 
-    public List<String> getRoles() {
-        return roles;
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return authorities;
     }
 
-    public void setRoles(List<String> roles) {
-        this.roles = roles;
+    public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
+        this.authorities = authorities;
     }
 
-    public List<String> getPrivileges() {
-        return privileges;
-    }
-
-    public void setPrivileges(List<String> privileges) {
-        this.privileges = privileges;
-    }
-    
-    
-    
-    
-    
 }

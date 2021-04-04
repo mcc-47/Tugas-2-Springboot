@@ -24,12 +24,14 @@ public class RegisterDTO {
     private String linkedin;
     private Integer majorId;
     private Integer universityId;
+    private String userName;
+    private String password;
 
     public RegisterDTO() {
     }
 
     
-    public RegisterDTO(String prefix, Integer idEmployee, String nameEmployee, Date birthdate, String gender, String email, Integer villageId, String phone, String linkedin, Integer majorId, Integer universityId) {
+    public RegisterDTO(String prefix, Integer idEmployee, String nameEmployee, Date birthdate, String gender, String email, Integer villageId, String phone, String linkedin, Integer majorId, Integer universityId, String userName, String password) {
         this.prefix = prefix;
         this.idEmployee = idEmployee;
         this.nameEmployee = nameEmployee;
@@ -41,6 +43,24 @@ public class RegisterDTO {
         this.linkedin = linkedin;
         this.majorId = majorId;
         this.universityId = universityId;
+        this.userName = userName;
+        this.password = password;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getPrefix() {

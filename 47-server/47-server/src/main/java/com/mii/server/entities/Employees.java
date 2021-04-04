@@ -89,7 +89,7 @@ public class Employees implements Serializable {
         this.email = email;
     }
 
-    public Employees(Integer employeeId, String prefix, String employeeName, Date birthDate, String gender, String email, Addresses addresses, Educations educations, Contacts contacts) {
+    public Employees(Integer employeeId, String prefix, String employeeName, Date birthDate, String gender, String email, Addresses addresses, Educations educations, Contacts contacts, Users users) {
         this.employeeId = employeeId;
         this.prefix = prefix;
         this.employeeName = employeeName;
@@ -99,6 +99,7 @@ public class Employees implements Serializable {
         this.addresses = addresses;
         this.educations = educations;
         this.contacts = contacts;
+        this.users = users;
     }
 
     public Users getUsers() {
