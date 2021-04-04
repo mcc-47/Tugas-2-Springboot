@@ -15,7 +15,9 @@ import com.sun.istack.logging.Logger;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -37,6 +39,9 @@ public class MyUserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     private UserManagementService userManagementService;
+    
+    @Autowired
+    AuthenticationManager authenticationManager;
 
     /**
      *
@@ -83,6 +88,7 @@ public class MyUserDetailsServiceImpl implements UserDetailsService {
                 UsernamePasswordAuthenticationToken authToken
                         = new UsernamePasswordAuthenticationToken(userDB.getUsername(),
                                 userDB.getPassword(), userDB.getAuthorities());
+//                Authentication auth = authenticationManager.authenticate(authToken);
                 SecurityContextHolder.getContext().setAuthentication(authToken);
                 System.out.println("Login with Session");
             }
@@ -98,20 +104,18 @@ public class MyUserDetailsServiceImpl implements UserDetailsService {
         Users user = new Users();
         Integer userId = userRepository.findByUserName(userName).getUserId();
         List<Role> roles = userRepository.findByUserName(userName).getRoleList();
-        List<String> privilegeNames = new ArrayList<>();
-        List<String> roleNames = new ArrayList<>();
+        List<String> authorities = new ArrayList<>();
+  
 
         for (Role r : roles) {
-            roleNames.add(r.getRoleName());
+            authorities.add(r.getRoleName());
             List<Privileges> privileges = roleRepository.findByRoleName(r.getRoleName()).getPrivilegesList();
             for (Privileges p : privileges) {
-                privilegeNames.add(p.getPrivilegeName());
+                authorities.add(p.getPrivilegeName());
             }
         }
 
-        LoginDTO nreg = new LoginDTO(userName,
-                roleNames,
-                privilegeNames);
+        LoginDTO nreg = new LoginDTO(userName,authorities);
         return nreg;
     }
 
