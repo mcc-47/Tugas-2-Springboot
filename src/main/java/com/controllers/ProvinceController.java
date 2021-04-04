@@ -37,22 +37,10 @@ public class ProvinceController {
         this.provinceService = provinceService;
     }
     
-    //MENU
-//    @GetMapping("/")
-//    public String homePage(){
-//        System.out.println("Hello World");  //console
-//        return "Hello World";               //browser
-//    }
-    
     //READ
     //postman -> localhost:8082/provinces/list-all
     @GetMapping("/list-all")
     public List<Provinces> listProvince(){
-        for (Provinces province : provinceService.listAll()) {
-            System.out.printf("\nID      : %d",province.getProvinceId());
-            System.out.printf("\nName    : %s",province.getProvinceName());
-            System.out.println("");
-        }
         return provinceService.listAll();
     }
     
@@ -63,12 +51,8 @@ public class ProvinceController {
 //        "provinceName": "Bali"
 //    }
     @PostMapping("/insert")
-    public String saveProvince(@RequestBody Provinces province){
-        Provinces newProvince = provinceService.insert(province);
-        System.out.printf("\nID      : %d",newProvince.getProvinceId());
-        System.out.printf("\nName    : %s",newProvince.getProvinceName());
-        System.out.println("");
-        return "insert province";
+    public Provinces saveProvince(@RequestBody Provinces province){
+        return provinceService.insert(province);
     }
     
     //UPDATE
@@ -78,31 +62,16 @@ public class ProvinceController {
 //        "provinceName": "Aceh"
 //    }
     @PutMapping("/update/{id}") //PUT/PATCH
-    public String updateProvince(@PathVariable Integer id,
+    public Provinces updateProvince(@PathVariable Integer id,
             @RequestBody Provinces province){
-        Provinces oldProvince = provinceService.getById(id);
-        System.out.println("\nFrom this");
-        System.out.printf("ID      : %d",oldProvince.getProvinceId());
-        System.out.printf("\nName  : %s",oldProvince.getProvinceName());
-        System.out.println("");
         provinceService.update(id,province);
-        province = provinceService.getById(id);
-        System.out.println("\nTo this");
-        System.out.printf("ID      : %d",province.getProvinceId());
-        System.out.printf("\nName  : %s",province.getProvinceName());
-        System.out.println("");
-        return "update province";
+        return provinceService.getById(id);
     }
     
     //DELETE
     //postman -> localhost:8082/provinces/delete/12
     @DeleteMapping("/delete/{id}")
     public String deleteProvince(@PathVariable Integer id){
-        Provinces province = provinceService.getById(id);
-        System.out.println("Delete this");
-        System.out.printf("\nID      : %d",province.getProvinceId());
-        System.out.printf("\nName    : %s",province.getProvinceName());
-        System.out.println("");
         provinceService.delete(id);
         return "delete province";
     }

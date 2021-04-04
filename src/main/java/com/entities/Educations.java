@@ -60,10 +60,9 @@ public class Educations implements Serializable {
         this.educationId = educationId;
     }
 
-    public Educations(Integer educationId, String prefix,
-            String degree, Majors majorId, Universities universityId) {
-        this.educationId = educationId;
+    public Educations(String prefix, Integer educationId, String degree, Majors majorId, Universities universityId) {
         this.prefix = prefix;
+        this.educationId = educationId;
         this.degree = degree;
         this.majorId = majorId;
         this.universityId = universityId;

@@ -57,9 +57,9 @@ public class Contacts implements Serializable {
         this.contactId = contactId;
     }
 
-    public Contacts(Integer contactId, String prefix, String phone, String linkedin) {
-        this.contactId = contactId;
+    public Contacts(String prefix, Integer contactId, String phone, String linkedin) {
         this.prefix = prefix;
+        this.contactId = contactId;
         this.phone = phone;
         this.linkedin = linkedin;
     }

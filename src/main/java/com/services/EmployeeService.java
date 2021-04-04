@@ -8,11 +8,20 @@ package com.services;
 import com.dto.Employee2ContactDto;
 import com.dto.Employee2EducationDto;
 import com.dto.Employee2ProvinceDto;
+import com.dto.EmployeeRegistDto;
 import com.entities.Addresses;
+import com.entities.Contacts;
+import com.entities.Educations;
 import com.entities.Employees;
+import com.entities.Majors;
+import com.entities.Universities;
+import com.entities.Users;
+import com.entities.Villages;
 import com.repositories.AddressRepository;
 import com.repositories.EmployeeRepository;
+import com.repositories.RoleRepository;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,9 +36,9 @@ public class EmployeeService {
     @Autowired
     EmployeeRepository employeerepository;
     
-//    @Autowired
-//    AddressRepository addressRepository;
-
+    @Autowired
+    RoleRepository roleRepository;
+    
     public EmployeeService() {
     }
 
@@ -98,12 +107,35 @@ public class EmployeeService {
     }
     
     //by employee
-    public Employees insertByEmployee (Employees employee){
-        return employeerepository.save(employee);
+    public Employees insertByEmployee (EmployeeRegistDto employeeReg){
+        Employees newEmployee = new Employees(
+                employeeReg.getPrefix(), 
+                employeeReg.getEmployeeId(), 
+                employeeReg.getEmployeeName(), 
+                employeeReg.getBirthDate(), 
+                employeeReg.getGender(), 
+                employeeReg.getEmail());
+        newEmployee.setAddresses(new Addresses(
+                newEmployee.getPrefix(), 
+                newEmployee.getEmployeeId(), 
+                new Villages(employeeReg.getVillageId())));
+        newEmployee.setContacts(new Contacts(
+                newEmployee.getPrefix(), 
+                newEmployee.getEmployeeId(), 
+                employeeReg.getPhone(), 
+                employeeReg.getLinkedin()));
+        newEmployee.setEducations(new Educations(
+                newEmployee.getPrefix(), 
+                newEmployee.getEmployeeId(), 
+                employeeReg.getDegree(), 
+                new Majors(employeeReg.getMajorId()), 
+                new Universities(employeeReg.getUniversityId())));
+        newEmployee.setUsers(new Users(
+                newEmployee.getEmployeeId(),
+                employeeReg.getUserName(), 
+                employeeReg.getUserPassword()));
+//        newEmployee.getUsers().setRoleCollection(Arrays.asList(roleRepository.findByRoleName("guest")));
+        return employeerepository.save(newEmployee);
     }
     
-    //by address
-//    public Addresses insertByAddress(Addresses address){
-//        return addressRepository.save(address);
-//    }
 }

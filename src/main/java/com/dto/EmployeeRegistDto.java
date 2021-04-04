@@ -13,7 +13,7 @@ import java.util.Date;
  */
 public class EmployeeRegistDto {
     
-    private String prefix;
+    private String prefix = "MCC";
     private Integer employeeId;
     private String employeeName;
     private Date birthDate;
@@ -25,12 +25,13 @@ public class EmployeeRegistDto {
     private Integer universityId;
     private String phone;
     private String linkedin;
+    private String userName;
+    private String userPassword;
 
     public EmployeeRegistDto() {
     }
 
-    public EmployeeRegistDto(String prefix, Integer employeeId, String employeeName, Date birthDate, String gender, String email, Integer villageId, String degree, Integer majorId, Integer universityId, String phone, String linkedin) {
-        this.prefix = prefix;
+    public EmployeeRegistDto(Integer employeeId, String employeeName, Date birthDate, String gender, String email, Integer villageId, String degree, Integer majorId, Integer universityId, String phone, String linkedin, String userName, String userPassword) {
         this.employeeId = employeeId;
         this.employeeName = employeeName;
         this.birthDate = birthDate;
@@ -42,6 +43,8 @@ public class EmployeeRegistDto {
         this.universityId = universityId;
         this.phone = phone;
         this.linkedin = linkedin;
+        this.userName = userName;
+        this.userPassword = userPassword;
     }
 
     public String getPrefix() {
@@ -138,6 +141,22 @@ public class EmployeeRegistDto {
 
     public void setLinkedin(String linkedin) {
         this.linkedin = linkedin;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getUserPassword() {
+        return userPassword;
+    }
+
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
     }
     
 }

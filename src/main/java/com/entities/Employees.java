@@ -72,17 +72,6 @@ public class Employees implements Serializable {
     public Employees() {
     }
 
-    public Employees(Integer employeeId) {
-        this.employeeId = employeeId;
-    }
-
-    public Employees(Integer employeeId, String prefix, String employeeName, String email) {
-        this.employeeId = employeeId;
-        this.prefix = prefix;
-        this.employeeName = employeeName;
-        this.email = email;
-    }
-
     public Employees(String prefix, Integer employeeId, String employeeName, Date birthDate, String gender, String email) {
         this.prefix = prefix;
         this.employeeId = employeeId;
@@ -92,18 +81,15 @@ public class Employees implements Serializable {
         this.email = email;
     }
 
-    public Employees(String prefix, Integer employeeId, String employeeName,
-            Date birthDate, String gender, String email, Addresses addresses,
-            Educations educations, Contacts contacts) {
+    public Employees(String prefix, Date birthDate, String gender, String email, Addresses addresses, Educations educations, Contacts contacts, Users users) {
         this.prefix = prefix;
-        this.employeeId = employeeId;
-        this.employeeName = employeeName;
         this.birthDate = birthDate;
         this.gender = gender;
         this.email = email;
         this.addresses = addresses;
         this.educations = educations;
         this.contacts = contacts;
+        this.users = users;
     }
 
     public String getPrefix() {
@@ -176,6 +162,14 @@ public class Employees implements Serializable {
 
     public void setContacts(Contacts contacts) {
         this.contacts = contacts;
+    }
+
+    public Users getUsers() {
+        return users;
+    }
+
+    public void setUsers(Users users) {
+        this.users = users;
     }
 
     @Override

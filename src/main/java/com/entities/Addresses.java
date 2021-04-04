@@ -53,15 +53,12 @@ public class Addresses implements Serializable {
     private Villages villageId;
 
     public Addresses() {
+        
     }
 
-    public Addresses(Integer addressId) {
-        this.addressId = addressId;
-    }
-
-    public Addresses(Integer addressId, String prefix, Villages villageId) {
-        this.addressId = addressId;
+    public Addresses(String prefix, Integer addressId, Villages villageId) {
         this.prefix = prefix;
+        this.addressId = addressId;
         this.villageId = villageId;
     }
 
