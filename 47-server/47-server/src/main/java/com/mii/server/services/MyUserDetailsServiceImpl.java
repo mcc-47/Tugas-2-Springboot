@@ -15,8 +15,11 @@ import com.sun.istack.logging.Logger;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -50,22 +53,44 @@ public class MyUserDetailsServiceImpl implements UserDetailsService {
         return user;
     }
 
-    public String loadByUserName(String userName, String userPassword) {
-        Users userDB = userRepository.findByUserName(userName);
-        Users user = new Users();
-        if (userDB == null) {
-            throw new UsernameNotFoundException("username not found");
-        } else {
-            if (!userDB.getPassword().equals(userPassword)) {
-            } else {
+//    public String loadByUserName(String userName, String userPassword) {
+//        Users userDB = userRepository.findByUserName(userName);
+//        Users user = new Users();
+//        if (userDB == null) {
+//            throw new UsernameNotFoundException("username not found");
+//        } else {
+//            if (!userDB.getPassword().equals(userPassword)) {
+//            } else {
 //                UsernamePasswordAuthenticationToken authToken
 //                        = new UsernamePasswordAuthenticationToken(userDB.getUsername(),
-//                                userDB.getPassword(), user.getAuthorities());
+//                                userDB.getPassword(), userDB.getAuthorities());
 //                SecurityContextHolder.getContext().setAuthentication(authToken);
-                System.out.println("panji session");
+//                System.out.println("Login with Session");
+//            }
+//            return userDB.getUsername();
+////            return userDB.getUserId();
+//        }
+//    }
+    
+    public String loadByUserName(String userName, String userPassword) {
+        BCryptPasswordEncoder b = new BCryptPasswordEncoder();
+        Users userDB = userRepository.findByUserName(userName);
+//        Users user = new Users();
+        if (userDB != null) {//jika username ada
+            if (!(b.matches(userPassword,userDB.getPassword()))) {//valueinput=dbencryp
+                throw new UsernameNotFoundException("password wrong");
+            } else {
+                UsernamePasswordAuthenticationToken authToken
+                        = new UsernamePasswordAuthenticationToken(userDB.getUsername(),
+                                userDB.getPassword(), userDB.getAuthorities());
+                SecurityContextHolder.getContext().setAuthentication(authToken);
+                System.out.println("Login with Session");
             }
             return userDB.getUsername();
 //            return userDB.getUserId();
+
+        } else {
+            throw new UsernameNotFoundException("username not found");
         }
     }
 
@@ -88,5 +113,9 @@ public class MyUserDetailsServiceImpl implements UserDetailsService {
                 roleNames,
                 privilegeNames);
         return nreg;
+    }
+
+    private Object hashCode(String password) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

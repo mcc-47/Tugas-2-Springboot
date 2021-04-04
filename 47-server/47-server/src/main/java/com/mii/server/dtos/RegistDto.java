@@ -27,9 +27,14 @@ public class RegistDto {
     private Integer villageId;
     private Integer majorId;
     private Integer universityId;
+    private String userName;
+    private String userPassword;
+    
+    
+    
 
     public RegistDto(String prefix,Integer employeeId,String employeeName, Date birthDate,
-            String gender, String email, String phone, String linkedin, Integer villageId, Integer majorId, Integer universityId) {
+            String gender, String email, String phone, String linkedin, Integer villageId, Integer majorId, Integer universityId, String userName, String userPassword) {
         this.prefix = prefix;
         this.employeeId = employeeId;
         this.employeeName = employeeName;
@@ -41,8 +46,35 @@ public class RegistDto {
         this.villageId = villageId;
         this.majorId = majorId;
         this.universityId = universityId;
+        this.userName = userName;
+        this.userPassword = userPassword;
+ 
     }
 
+    public RegistDto() {
+    }
+
+  
+
+    
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getUserPassword() {
+        return userPassword;
+    }
+
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
+    }
+
+    
+    
     public Integer getEmployeeId() {
         return employeeId;
     }
@@ -132,7 +164,8 @@ public class RegistDto {
     public void setUniversityId(Integer universityId) {
         this.universityId = universityId;
     }
-    
+
+  
     
 
     

@@ -16,6 +16,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
  *
  * @author User
  */
+
 @Configuration
 @EnableWebSecurity
 public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -25,6 +26,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManager() throws Exception {
         return super.authenticationManagerBean();
     }
+    
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
@@ -32,7 +34,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
         http
             .csrf().disable()
             .authorizeRequests()
-                    .antMatchers("/login/**", "/user").permitAll() 
+                    .antMatchers("/login/**", "/user","/regist/insert").permitAll() 
                 .antMatchers("/**", "/logout").authenticated() 
                 .and()
             .logout().disable()
