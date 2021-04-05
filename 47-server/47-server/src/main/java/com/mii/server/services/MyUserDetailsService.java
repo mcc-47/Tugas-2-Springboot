@@ -47,6 +47,7 @@ public class MyUserDetailsService implements UserDetailsService {
 //    }
 //    @Override
     public List<UserDTO> loadUserDetailsByUsername(String username) throws UsernameNotFoundException {
+        System.out.println("loadUserDetailsByUsername");
         List<User> user = userRepository.findByUsername(username);
         if (user.isEmpty()) {
             throw new UsernameNotFoundException("User '" + username + "' not found");
@@ -59,6 +60,7 @@ public class MyUserDetailsService implements UserDetailsService {
             return dto;
         }
     }
+    
     /*
         Optional<User> user = userRepository.findByUsername(username);
 
@@ -71,15 +73,17 @@ public class MyUserDetailsService implements UserDetailsService {
      */
 
     public User loadUsername(String username) throws UsernameNotFoundException {
+        System.out.println("ini loadUsername 1");
         User user = userRepositoryHelper.findByUsername(username);
          if (user ==null) {
-            throw new UnsupportedOperationException("Gaada username-nya cuy");
+            throw new UnsupportedOperationException("Username tidak ditemukan");
         }
         return user;
     }
     
     @Override
     public UserDetails loadUserByUsername(String string) throws UsernameNotFoundException {
+        System.out.println("ini loadUserByUsername");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
