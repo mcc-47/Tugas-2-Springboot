@@ -10,7 +10,6 @@ package com.mii.server.dtos;
  * @author MyLaptop
  */
 public class DataLogDTO {
-
     private String UserName;
     private String UserPassword;
 
@@ -37,5 +36,7 @@ public class DataLogDTO {
     public void setUserPassword(String UserPassword) {
         this.UserPassword = UserPassword;
     }
-
+    
+    
+    
 }

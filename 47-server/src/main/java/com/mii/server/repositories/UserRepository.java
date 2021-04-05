@@ -5,8 +5,7 @@
  */
 package com.mii.server.repositories;
 
-import com.mii.server.entity.Users;
-import org.springframework.context.annotation.Role;
+import com.mii.server.entities.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -16,5 +15,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface UserRepository extends JpaRepository<Users, Integer>{
-    Role findByRoleName(String roleName);   
+    Users findByUserName (String userName);
+    
 }

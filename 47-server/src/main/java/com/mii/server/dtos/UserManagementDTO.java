@@ -6,10 +6,10 @@
 package com.mii.server.dtos;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.mii.server.entity.Addresses;
-import com.mii.server.entity.Districts;
-import com.mii.server.entity.Subdistricts;
-import com.mii.server.entity.Villages;
+import com.mii.server.entities.Addresses;
+import com.mii.server.entities.Districts;
+import com.mii.server.entities.Subdistricts;
+import com.mii.server.entities.Villages;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -17,7 +17,7 @@ import javax.persistence.JoinColumn;
 
 /**
  *
- * @author LENOVO-KL
+ * @author MyLaptop
  */
 
 public class UserManagementDTO {

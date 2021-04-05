@@ -12,7 +12,6 @@ import java.util.List;
  * @author MyLaptop
  */
 public class LoginDTO {
-
     private String userName;
     private List<String> roleName;
     private List<String> privilegeName;
@@ -49,7 +48,8 @@ public class LoginDTO {
     public void setPrivilegeName(List<String> privilegeName) {
         this.privilegeName = privilegeName;
     }
+    
+    
 
-  
-
+    
 }

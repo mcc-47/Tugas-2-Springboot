@@ -10,14 +10,13 @@ package com.mii.server.dtos;
  * @author MyLaptop
  */
 public class ProvinceDistrictDTO {
-
     private Integer districtId;
     private String districtName;
     private String provinceName;
 
-    public ProvinceDistrictDTO() {
-
-    }
+public ProvinceDistrictDTO(){
+    
+}
 
     public ProvinceDistrictDTO(Integer districtId, String districtName, String provinceName) {
         this.districtId = districtId;
@@ -25,4 +24,31 @@ public class ProvinceDistrictDTO {
         this.provinceName = provinceName;
     }
 
+    public Integer getDistrictId() {
+        return districtId;
+    }
+
+    public void setDistrictId(Integer districtId) {
+        this.districtId = districtId;
+    }
+
+    public String getDistrictName() {
+        return districtName;
+    }
+
+    public void setDistrictName(String districtName) {
+        this.districtName = districtName;
+    }
+
+    public String getProvinceName() {
+        return provinceName;
+    }
+
+    public void setProvinceName(String provinceName) {
+        this.provinceName = provinceName;
+    }
+
+
+
+    
 }

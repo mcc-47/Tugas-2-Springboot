@@ -4,13 +4,16 @@
  * and open the template in the editor.
  */
 package com.mii.server.repositories;
-import com.mii.server.entity.Employees;
+
+import com.mii.server.entities.Employees;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author MyLaptop
  */
+@Repository
 public interface EmployeeRepository extends JpaRepository<Employees, Integer>{
     
 }

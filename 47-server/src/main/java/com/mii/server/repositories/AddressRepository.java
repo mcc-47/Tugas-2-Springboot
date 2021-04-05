@@ -5,7 +5,7 @@
  */
 package com.mii.server.repositories;
 
-import com.mii.server.entities.Districts;
+import com.mii.server.entities.Addresses;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
  * @author MyLaptop
  */
 @Repository
-public interface DistrictRepository extends JpaRepository<Districts, Integer>{
+public interface AddressRepository extends JpaRepository<Addresses, Integer>{
     
     
 }
