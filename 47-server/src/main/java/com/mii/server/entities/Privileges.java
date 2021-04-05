@@ -16,10 +16,7 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-/**
- *
- * @author LENOVO-KL
- */
+
 @Entity
 @Table(name = "privileges")
 @XmlRootElement
@@ -76,7 +73,7 @@ public class Privileges implements Serializable {
         return roleList;
     }
 
-    public void setRolesList(List<Role> roleList) {
+    public void setRoleList(List<Role> roleList) {
         this.roleList = roleList;
     }
 

@@ -30,7 +30,7 @@ public class UserManagementController {
     @Autowired
     UserDetailService userDetailService;
     
-    @PostMapping("/insert")
+    @PostMapping("/registrasi")
     public String insert(@RequestBody UserManagementDTO userManagementDTO){
         userManagementService.insertData(userManagementDTO);
         return "Data berhasil ditambahkan";

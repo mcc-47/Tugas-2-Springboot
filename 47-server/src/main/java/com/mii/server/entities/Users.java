@@ -54,7 +54,7 @@ public class Users implements UserDetails {
         @JoinColumn(name = "user_id", referencedColumnName = "user_id")}, inverseJoinColumns = {
         @JoinColumn(name = "role_id", referencedColumnName = "role_id")})
     @ManyToMany(fetch = FetchType.LAZY)
-    private List<Role> rolesList;
+    private List<Role> roleList;
     @JoinColumn(name = "user_id", referencedColumnName = "employee_id", insertable = false, updatable = false)
     @OneToOne(optional = true, fetch = FetchType.LAZY)
     private Employees employees;
@@ -72,11 +72,11 @@ public class Users implements UserDetails {
         this.userPassword = userPassword;
     }
 
-    public Users(Integer userId, String userName, String userPassword, List<Role> rolesList) {
+    public Users(Integer userId, String userName, String userPassword, List<Role> roleList) {
         this.userId = userId;
         this.userName = userName;
         this.userPassword = userPassword;
-        this.rolesList = rolesList;
+        this.roleList = roleList;
     }
     
 
@@ -97,13 +97,13 @@ public class Users implements UserDetails {
     }
 
     @XmlTransient
-    public List<Role> getRolesList() {
-        return rolesList;
+    public List<Role> getRoleList() {
+        return roleList;
     }
 
 
-    public void setRolesList(List<Role> rolesList) {
-        this.rolesList = rolesList;
+    public void setRoleList(List<Role> roleList) {
+        this.roleList = roleList;
     }
 
     public Employees getEmployees() {
@@ -141,7 +141,7 @@ public class Users implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-      Collection<Role> roles = getRolesList();
+      Collection<Role> roles = getRoleList();
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
         for (Role r : roles) {
             authorities.add(new SimpleGrantedAuthority(r.getRoleName()));
@@ -178,10 +178,6 @@ public class Users implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public List<Role> getRoleList() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

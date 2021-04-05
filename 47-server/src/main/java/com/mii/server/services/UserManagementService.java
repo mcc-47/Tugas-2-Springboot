@@ -65,3 +65,22 @@ public class UserManagementService {
         return userManagementRepository.save(reg);
     }
 }
+
+/**
+{
+    "prefix" : "MCC",
+    "employeeId" : 19,
+    "employeeName" : "Bismillah berkah",
+    "birthDate" : "1990-09-02",
+    "gender" : "gatau",
+    "email" : "ahaha@gmail.com",
+    "villageId" : 9,
+    "majorId" : 9,
+    "universityId" : 4,
+    "phone" : "09080877"
+    "linkedin" : "linkedin_hhaaa",
+    "userName" : "Bismillah",
+    "userPassword" : "admin"
+}
+* 
+* */

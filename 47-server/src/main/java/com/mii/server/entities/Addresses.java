@@ -38,7 +38,7 @@ public class Addresses implements Serializable {
     @Column(name = "prefix")
     private String prefix;
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "address_id")
     private Integer addressId;
@@ -46,7 +46,6 @@ public class Addresses implements Serializable {
     private String street1;
     @JoinColumn(name = "address_id", referencedColumnName = "employee_id", insertable = false, updatable = false)
     @OneToOne(optional = true, fetch = FetchType.LAZY)
-    @JsonBackReference
     private Employees employees;
     @JoinColumn(name = "village_id", referencedColumnName = "village_id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
