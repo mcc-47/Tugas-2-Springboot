@@ -5,6 +5,7 @@
  */
 package com.mii.server.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -23,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author ASUS
+ * @author ROG
  */
 @Entity
 @Table(name = "address")
@@ -36,21 +37,20 @@ public class Addresses implements Serializable {
     @Basic(optional = false)
     @Column(name = "prefix")
     private String prefix;
-    
     @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "address_id")
     private Integer addressId;
     @Column(name = "street1")
     private String street1;
-    @Column(name = "street2")
-    private String street2;
     @JoinColumn(name = "address_id", referencedColumnName = "employee_id", insertable = false, updatable = false)
     @OneToOne(optional = true, fetch = FetchType.LAZY)
+    @JsonBackReference
     private Employees employees;
     @JoinColumn(name = "village_id", referencedColumnName = "village_id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JsonBackReference
     private Villages villageId;
 
     public Addresses() {
@@ -59,14 +59,21 @@ public class Addresses implements Serializable {
     public Addresses(Integer addressId) {
         this.addressId = addressId;
     }
-
-    public Addresses(Integer addressId, String prefix, Villages villageId) {
-        this.addressId = addressId;
+    
+    public Addresses(Villages villageId) {
+        this.villageId = villageId;
+    }
+    
+    public Addresses(String prefix, Integer addressId, Villages villageId) {
         this.prefix = prefix;
+        this.addressId = addressId;
         this.villageId = villageId;
     }
 
-    
+    public Addresses(Integer addressId, String prefix) {
+        this.addressId = addressId;
+        this.prefix = prefix;
+    }
 
     public String getPrefix() {
         return prefix;
@@ -92,14 +99,6 @@ public class Addresses implements Serializable {
         this.street1 = street1;
     }
 
-    public String getStreet2() {
-        return street2;
-    }
-
-    public void setStreet2(String street2) {
-        this.street2 = street2;
-    }
-
     public Employees getEmployees() {
         return employees;
     }
@@ -115,8 +114,7 @@ public class Addresses implements Serializable {
     public void setVillageId(Villages villageId) {
         this.villageId = villageId;
     }
-    
-    
+
     @Override
     public int hashCode() {
         int hash = 0;

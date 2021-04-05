@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author ASUS
+ * @author ROG
  */
 @Entity
 @Table(name = "contact")
@@ -36,7 +36,7 @@ public class Contacts implements Serializable {
     @Column(name = "prefix")
     private String prefix;
     @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "contact_id")
     private Integer contactId;
@@ -47,7 +47,7 @@ public class Contacts implements Serializable {
     @Column(name = "linkedin")
     private String linkedin;
     @JoinColumn(name = "contact_id", referencedColumnName = "employee_id", insertable = false, updatable = false)
-    @OneToOne(optional = true, fetch = FetchType.LAZY)
+    @OneToOne(optional = true)
     private Employees employees;
 
     public Contacts() {
@@ -55,14 +55,29 @@ public class Contacts implements Serializable {
 
     public Contacts(Integer contactId) {
         this.contactId = contactId;
-    }
+    } 
 
-    public Contacts(Integer contactId, String prefix, String phone, String linkedin) {
+    public Contacts(Integer contactId, String phone, String linkedin, String prefix) {
         this.contactId = contactId;
-        this.prefix = prefix;
         this.phone = phone;
         this.linkedin = linkedin;
+        this.prefix = prefix;
     }
+
+    public Contacts(Employees employees, String phone, String linkedin, String prefix) {
+        this.employees = employees;
+        this.phone = phone;
+        this.linkedin = linkedin;
+        this.prefix = prefix;
+    }
+
+        
+
+    public Contacts(String phone) {
+        this.phone = phone;
+    }
+
+    
 
     public String getPrefix() {
         return prefix;
@@ -126,7 +141,7 @@ public class Contacts implements Serializable {
 
     @Override
     public String toString() {
-        return "com.mii.server.entities.Contacts[ contactId=" + contactId + " ]";
+        return "entities.Contacts[ contactId=" + contactId + " ]";
     }
     
 }

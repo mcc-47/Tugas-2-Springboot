@@ -5,7 +5,7 @@
  */
 package com.mii.server.entities;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -13,11 +13,9 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
@@ -28,7 +26,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author ASUS
+ * @author ROG
  */
 @Entity
 @Table(name = "employee")
@@ -37,12 +35,15 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Employees.findAll", query = "SELECT e FROM Employees e")})
 public class Employees implements Serializable {
 
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "employees", fetch = FetchType.LAZY)
+    private Users users;
+
     private static final long serialVersionUID = 1L;
     @Basic(optional = false)
     @Column(name = "prefix")
     private String prefix;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "employee_id")
     private Integer employeeId;
@@ -59,60 +60,45 @@ public class Employees implements Serializable {
     @Basic(optional = false)
     @Column(name = "email")
     private String email;
-    
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "employees")
-    private Addresses villageId;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "employees")
-    private Contacts phone;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "employees")
-    private Contacts linkedin;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "employees")
-    private Educations major;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "employees")
-    private Educations university;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "employees")
-    private Educations educations;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "employees")
-    private Contacts contacts;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "employees")
-    private Addresses addressId;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "employees")
+    @JsonBackReference
     private Addresses addresses;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "employees")
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private Users users;
-    
+    @JsonBackReference
+    private Educations educations;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "employees")
+    @JsonBackReference
+    private Contacts contacts;
+
     public Employees() {
     }
 
-    public Employees(String prefix, Integer employeeId, String employeeName, String email) {
-        this.prefix = prefix;
+    public Employees(Integer employeeId) {
         this.employeeId = employeeId;
-        this.employeeName = employeeName;
-        this.email = email;
     }
-    
-   
-    public Employees(String prefix, Integer employeeId, String employeeName, Date birthDate, String gender, String email, 
-            Educations educations, Contacts contacts, Addresses addresses, Users users) {
+
+    public Employees(String prefix, Integer employeeId, String employeeName, Date birthDate, String gender, String email, Addresses addresses, Educations educations, Contacts contacts) {
         this.prefix = prefix;
         this.employeeId = employeeId;
         this.employeeName = employeeName;
         this.birthDate = birthDate;
         this.gender = gender;
         this.email = email;
+        this.addresses = addresses;
         this.educations = educations;
         this.contacts = contacts;
-        this.addresses = addresses;
-        this.users = users;
     }
 
-    public Employees(String prefix, Integer employeeId, String employeeName, Date birthDate, String gender, 
-            String email, Educations educations, Contacts contacts, Addresses addresses) {
-        
-    }
     
     
+//    public Employees(String employeeName, Addresses street, Villages villageName,  Villages zipCode, Subdistricts subDistrictName, Districts kab, Districts districtName, Provinces provinceName){
+//        this.employeeName = employeeName;
+//        this.addresses = street;
+//        this.
+//    }
+
+    
+
     public String getPrefix() {
         return prefix;
     }
@@ -161,44 +147,12 @@ public class Employees implements Serializable {
         this.email = email;
     }
 
-    public Addresses getVillageId() {
-        return villageId;
+    public Addresses getAddresses() {
+        return addresses;
     }
 
-    public void setVillageId(Addresses villageId) {
-        this.villageId = villageId;
-    }
-
-    public Contacts getPhone() {
-        return phone;
-    }
-
-    public void setPhone(Contacts phone) {
-        this.phone = phone;
-    }
-
-    public Contacts getLinkedin() {
-        return linkedin;
-    }
-
-    public void setLinkedin(Contacts linkedin) {
-        this.linkedin = linkedin;
-    }
-
-    public Educations getMajor() {
-        return major;
-    }
-
-    public void setMajor(Educations major) {
-        this.major = major;
-    }
-
-    public Educations getUniversity() {
-        return university;
-    }
-
-    public void setUniversity(Educations university) {
-        this.university = university;
+    public void setAddresses(Addresses addresses) {
+        this.addresses = addresses;
     }
 
     public Educations getEducations() {
@@ -217,24 +171,6 @@ public class Employees implements Serializable {
         this.contacts = contacts;
     }
 
-    public Addresses getAddressId() {
-        return addressId;
-    }
-
-    public void setAddressId(Addresses addressId) {
-        this.addressId = addressId;
-    }
-
-    public Addresses getAddresses() {
-        return addresses;
-    }
-
-    public void setAddresses(Addresses addresses) {
-        this.addresses = addresses;
-    }
-            
-   
-    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -257,7 +193,7 @@ public class Employees implements Serializable {
 
     @Override
     public String toString() {
-        return "com.mii.server.entities.Employees[ employeeId=" + employeeId + " ]";
+        return "entities.Employees[ employeeId=" + employeeId + " ]";
     }
 
     public Users getUsers() {
@@ -267,6 +203,5 @@ public class Employees implements Serializable {
     public void setUsers(Users users) {
         this.users = users;
     }
-    
     
 }

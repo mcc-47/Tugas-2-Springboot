@@ -11,11 +11,9 @@ import org.springframework.stereotype.Repository;
 
 /**
  *
- * @author ASUS
+ * @author ROG
  */
 @Repository
-//integer adalah primarykey dari users
-public interface UserRepository extends JpaRepository <Users, Integer> {
+public interface UserRepository extends JpaRepository<Users, Integer>{
     Users findByUserName(String userName);
-    //menampung findByUserName(String userName) pada enities users
 }

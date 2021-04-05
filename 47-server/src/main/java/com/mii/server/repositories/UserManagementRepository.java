@@ -7,14 +7,11 @@ package com.mii.server.repositories;
 
 import com.mii.server.entities.Employees;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 /**
  *
- * @author ASUS
+ * @author ROG
  */
-
-@Repository
-public interface EmpAdsRepository extends JpaRepository<Employees, Integer>{
+public interface UserManagementRepository extends JpaRepository<Employees, Integer>{
     
 }

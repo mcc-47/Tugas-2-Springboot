@@ -11,6 +11,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author ASUS
+ * @author ROG
  */
 @Entity
 @Table(name = "major")
@@ -44,7 +45,7 @@ public class Majors implements Serializable {
     @Basic(optional = false)
     @Column(name = "count")
     private int count;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "majorId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "majorId", fetch = FetchType.LAZY)
     private List<Educations> educationsList;
 
     public Majors() {

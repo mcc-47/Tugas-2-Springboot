@@ -5,7 +5,9 @@
  */
 package com.mii.server.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -23,7 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author ASUS
+ * @author ROG
  */
 @Entity
 @Table(name = "role")
@@ -47,6 +49,10 @@ public class Role implements Serializable {
     private List<Users> usersList;
     @ManyToMany(mappedBy = "roleList", fetch = FetchType.LAZY)
     private List<Privileges> privilegesList;
+    @ManyToMany(mappedBy = "roleCollection", fetch = FetchType.LAZY)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private Collection<Privileges> privilegesCollection;
+
 
     public Role() {
     }
@@ -95,7 +101,7 @@ public class Role implements Serializable {
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode() { 
         int hash = 0;
         hash += (roleId != null ? roleId.hashCode() : 0);
         return hash;
@@ -117,6 +123,14 @@ public class Role implements Serializable {
     @Override
     public String toString() {
         return "com.mii.server.entities.Role[ roleId=" + roleId + " ]";
+    }
+    
+    public Collection<Privileges> getPrivilegesCollection() {
+        return privilegesCollection;
+    }
+
+    public void setPrivilegesCollection(Collection<Privileges> privilegeCollection) {
+        this.privilegesCollection = privilegesCollection;
     }
     
 }

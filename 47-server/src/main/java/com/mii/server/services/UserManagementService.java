@@ -5,47 +5,64 @@
  */
 package com.mii.server.services;
 
-
-import com.mii.server.dto.UserManagementDTO;
+import com.mii.server.dtos.UserManagementDTO;
 import com.mii.server.entities.Addresses;
 import com.mii.server.entities.Contacts;
 import com.mii.server.entities.Educations;
 import com.mii.server.entities.Employees;
 import com.mii.server.entities.Majors;
-import com.mii.server.entities.Universitys;
+import com.mii.server.entities.Universities;
 import com.mii.server.entities.Villages;
-import com.mii.server.repositories.EmpAdsRepository;
-
+import com.mii.server.repositories.UserManagementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 /**
  *
- * @author ASUS
+ * @author ROG
  */
 @Service
 public class UserManagementService {
     
     @Autowired
-    EmpAdsRepository empAdsRepository;
+    UserManagementRepository userManagementRepository;
     
-    public String saveEmployee (@RequestBody UserManagementDTO umDTO) {
-        Employees emp = new Employees (
-                umDTO.getPrefix(),
-                umDTO.getEmployeeId(),
-                umDTO.getEmployeeName(),
-                umDTO.getBirthDate(),
-                umDTO.getGender(),
-                umDTO.getEmail(),
-                
-                new Educations(umDTO.getEmployeeId(), umDTO.getPrefix(), umDTO.getDegree(), new Majors(umDTO.getMajorId()), new Universitys(umDTO.getUniversityId())),
-                new Contacts(umDTO.getEmployeeId(), umDTO.getPrefix(), umDTO.getPhone(), umDTO.getLinkedin()),
-                new Addresses(umDTO.getEmployeeId(), umDTO.getPrefix(), new Villages(umDTO.getVillageId())));
-
-                
-               empAdsRepository.save(emp);
-               return "data berhasil disimpan";
+    
+    //Create data for Multiple Table
+    public Employees insertData(UserManagementDTO userManagementDTO) {
+        Employees reg = new Employees(
+                userManagementDTO.getPrefix(), 
+                userManagementDTO.getEmployeeId(), 
+                userManagementDTO.getEmployeeName(), 
+                userManagementDTO.getBirthDate(), 
+                userManagementDTO.getGender(), 
+                userManagementDTO.getEmail(),
+                new Addresses(
+                        userManagementDTO.getPrefix(), 
+                        userManagementDTO.getEmployeeId(), 
+                        new Villages(
+                                userManagementDTO.getVillageId()
+                        )
+                ), 
+                new Educations(
+                        userManagementDTO.getEmployeeId(), 
+                        new Majors(
+                                userManagementDTO.getMajorId()
+                        ), 
+                        new Universities(
+                                userManagementDTO.getUniversityId()
+                        ),
+                        userManagementDTO.getPrefix()
+                ), 
+                new Contacts(
+                        userManagementDTO.getEmployeeId(), 
+                        userManagementDTO.getPhone(), 
+                        userManagementDTO.getLinkedin(), 
+                        userManagementDTO.getPrefix()
+                )
+        );
+        return userManagementRepository.save(reg);
     }
-   
+    
+    
 }

@@ -5,7 +5,10 @@
  */
 package com.mii.server.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import javax.persistence.Basic;
@@ -22,21 +25,19 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  *
- * @author ASUS
+ * @author ROG
  */
 @Entity
 @Table(name = "users")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Users.findAll", query = "SELECT u FROM Users u")
-    , @NamedQuery(name = "Users.findByUserId", query = "SELECT u FROM Users u WHERE u.userId = :userId")
-    , @NamedQuery(name = "Users.findByUserName", query = "SELECT u FROM Users u WHERE u.userName = :userName")
-    , @NamedQuery(name = "Users.findByUserPassword", query = "SELECT u FROM Users u WHERE u.userPassword = :userPassword")})
-public class Users implements UserDetails  {
+    @NamedQuery(name = "Users.findAll", query = "SELECT u FROM Users u")})
+public class Users implements UserDetails {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -50,10 +51,15 @@ public class Users implements UserDetails  {
     @Column(name = "user_password")
     private String userPassword;
     @ManyToMany(mappedBy = "usersList", fetch = FetchType.LAZY)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Role> roleList;
     @JoinColumn(name = "user_id", referencedColumnName = "employee_id", insertable = false, updatable = false)
     @OneToOne(optional = false, fetch = FetchType.LAZY)
+//    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Employees employees;
+    @ManyToMany(mappedBy = "usersCollection", fetch = FetchType.LAZY)
+    private Collection<Role> roleCollection;
+
 
     public Users() {
     }
@@ -65,7 +71,7 @@ public class Users implements UserDetails  {
     public Users(Integer userId, String userName, String userPassword) {
         this.userId = userId;
         this.userName = userName;
-        this.userPassword = userPassword;
+        this.userPassword = userPassword; 
     }
 
     public Integer getUserId() {
@@ -75,7 +81,6 @@ public class Users implements UserDetails  {
     public void setUserId(Integer userId) {
         this.userId = userId;
     }
-
 
     public void setUserName(String userName) {
         this.userName = userName;
@@ -127,14 +132,23 @@ public class Users implements UserDetails  {
         return "com.mii.server.entities.Users[ userId=" + userId + " ]";
     }
 
-    @Override
+    @Override 
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Collection<Role> roles = getRoleCollection();
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        for (Role r : roles) {
+            authorities.add(new SimpleGrantedAuthority(r.getRoleName()));
+            Collection<Privileges> privileges = r.getPrivilegesCollection();
+            for (Privileges p : privileges) {
+                authorities.add(new SimpleGrantedAuthority(p.getPrivilegeName()));
+            }
+        }
+        return authorities;
     }
 
     @Override
     public String getPassword() {
-        return userPassword;
+       return userPassword;
     }
 
     @Override
@@ -158,8 +172,17 @@ public class Users implements UserDetails  {
     }
 
     @Override
-    public boolean isEnabled() {
+    public boolean isEnabled() { 
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    @XmlTransient
+    public Collection<Role> getRoleCollection() {
+        return roleCollection;
+    }
+
+    public void setRoleCollection(Collection<Role> roleCollection) {
+        this.roleCollection = roleCollection;
     }
     
 }

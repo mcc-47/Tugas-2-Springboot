@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author ASUS
+ * @author ROG
  */
 @Entity
 @Table(name = "village")
@@ -34,9 +34,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Villages.findAll", query = "SELECT v FROM Villages v")})
 public class Villages implements Serializable {
-
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "villages", fetch = FetchType.LAZY)
-//    private List<Addresses> addressList;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -50,10 +47,10 @@ public class Villages implements Serializable {
     @Basic(optional = false)
     @Column(name = "zip_code")
     private String zipCode;
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "villageId")
-//    private List<Addresses> addressesList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "villageId", fetch = FetchType.LAZY)
+    private List<Addresses> addressesList;
     @JoinColumn(name = "subdistrict_id", referencedColumnName = "subdistrict_id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Subdistricts subdistrictId;
 
     public Villages() {
@@ -63,11 +60,10 @@ public class Villages implements Serializable {
         this.villageId = villageId;
     }
 
-    public Villages(Integer villageId, String villageName, String zipCode, Subdistricts subdistictId) {
+    public Villages(Integer villageId, String villageName, String zipCode) {
         this.villageId = villageId;
         this.villageName = villageName;
         this.zipCode = zipCode;
-        this.subdistrictId = subdistictId;
     }
 
     public Integer getVillageId() {
@@ -94,14 +90,14 @@ public class Villages implements Serializable {
         this.zipCode = zipCode;
     }
 
-//    @XmlTransient
-//    public List<Addresses> getAddressesList() {
-//        return addressesList;
-//    }
-//
-//    public void setAddressesList(List<Addresses> addressesList) {
-//        this.addressesList = addressesList;
-//    }
+    @XmlTransient
+    public List<Addresses> getAddressesList() {
+        return addressesList;
+    }
+
+    public void setAddressesList(List<Addresses> addressesList) {
+        this.addressesList = addressesList;
+    }
 
     public Subdistricts getSubdistrictId() {
         return subdistrictId;
@@ -135,14 +131,5 @@ public class Villages implements Serializable {
     public String toString() {
         return "com.mii.server.entities.Villages[ villageId=" + villageId + " ]";
     }
-
-//    @XmlTransient
-//    public List<Addresses> getAddressList() {
-//        return addressList;
-//    }
-//
-//    public void setAddressList(List<Addresses> addressList) {
-//        this.addressList = addressList;
-//    }
     
 }

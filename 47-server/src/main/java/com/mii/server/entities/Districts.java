@@ -1,12 +1,20 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.mii.server.entities;
 
-import com.mii.server.dto.ProvinceDistrictDTO;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,14 +23,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author ASUS
+ * @author ROG
  */
 @Entity
 @Table(name = "district")
@@ -38,18 +45,19 @@ public class Districts implements Serializable {
     @Column(name = "district_id")
     private Integer districtId;
     @Basic(optional = false)
-    @Column(name = "kab")
-    private String kab;
+    @Column(name = "kotakab")
+    private String kotakab;
     @Basic(optional = false)
     @Column(name = "district_name")
     private String districtName;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "districtId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "districtId", fetch = FetchType.LAZY)
+    @JsonBackReference
     private List<Subdistricts> subdistrictsList;
     @JoinColumn(name = "province_id", referencedColumnName = "province_id")
-    @ManyToOne(optional = false)
-    private Provinces provinceId;
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Provinces provinceId;   
 
-    
     public Districts() {
     }
 
@@ -57,15 +65,10 @@ public class Districts implements Serializable {
         this.districtId = districtId;
     }
 
-    public Districts(Integer districtId, String kab, String districtName, Provinces provinceId) {
+    public Districts(Integer districtId, String kotakab, String districtName) {
         this.districtId = districtId;
-        this.kab = kab;
+        this.kotakab = kotakab;
         this.districtName = districtName;
-        this.provinceId = provinceId;
-    }
-
-    public Districts(int i, String kota, String jakarta_Pusat, int i0) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public Integer getDistrictId() {
@@ -76,12 +79,12 @@ public class Districts implements Serializable {
         this.districtId = districtId;
     }
 
-    public String getKab() {
-        return kab;
+    public String getKotakab() {
+        return kotakab;
     }
 
-    public void setKab(String kab) {
-        this.kab = kab;
+    public void setKotakab(String kotakab) {
+        this.kotakab = kotakab;
     }
 
     public String getDistrictName() {
@@ -93,13 +96,13 @@ public class Districts implements Serializable {
     }
 
     @XmlTransient
-//    public List<Subdistricts> getSubdistrictsList() {
-//        return subdistrictsList;
-//    }
-//
-//    public void setSubdistrictsList(List<Subdistricts> subdistrictsList) {
-//        this.subdistrictsList = subdistrictsList;
-//    }
+    public List<Subdistricts> getSubdistrictsList() {
+        return subdistrictsList;
+    }
+
+    public void setSubdistrictsList(List<Subdistricts> subdistrictsList) {
+        this.subdistrictsList = subdistrictsList;
+    }
 
     public Provinces getProvinceId() {
         return provinceId;
@@ -133,9 +136,5 @@ public class Districts implements Serializable {
     public String toString() {
         return "com.mii.server.entities.Districts[ districtId=" + districtId + " ]";
     }
-
-    public void setProvinceId(Integer provinceId) {
-
-    }
-
+    
 }

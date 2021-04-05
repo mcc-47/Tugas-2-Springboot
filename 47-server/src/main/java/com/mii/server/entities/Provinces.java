@@ -5,12 +5,14 @@
  */
 package com.mii.server.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,25 +25,29 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author ASUS
+ * @author Rafi
  */
 @Entity
 @Table(name = "province")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Provinces.findAll", query = "SELECT p FROM Provinces p")})
+@NamedQuery(name = "Provinces.findAll", query = "SELECT p FROM Provinces p")})
 public class Provinces implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "province_id")
     private Integer provinceId;
+
     @Basic(optional = false)
     @Column(name = "province_name")
     private String provinceName;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "provinceId")
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "provinceId", fetch = FetchType.LAZY)
+    @JsonBackReference
     private List<Districts> districtsList;
 
     public Provinces() {
@@ -54,10 +60,6 @@ public class Provinces implements Serializable {
     public Provinces(Integer provinceId, String provinceName) {
         this.provinceId = provinceId;
         this.provinceName = provinceName;
-    }
-
-    public Provinces(String provinceId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public Integer getProvinceId() {
@@ -77,13 +79,13 @@ public class Provinces implements Serializable {
     }
 
     @XmlTransient
-//    public List<Districts> getDistrictsList() {
-//        return districtsList;
-//    }
-//
-//    public void setDistrictsList(List<Districts> districtsList) {
-//        this.districtsList = districtsList;
-//    }
+    public List<Districts> getDistrictsList() {
+        return districtsList;
+    }
+
+    public void setDistrictsList(List<Districts> districtsList) {
+        this.districtsList = districtsList;
+    }
 
     @Override
     public int hashCode() {
@@ -109,5 +111,5 @@ public class Provinces implements Serializable {
     public String toString() {
         return "com.mii.server.entities.Provinces[ provinceId=" + provinceId + " ]";
     }
-    
+
 }

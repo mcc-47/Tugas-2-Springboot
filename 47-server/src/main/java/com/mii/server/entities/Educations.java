@@ -5,6 +5,7 @@
  */
 package com.mii.server.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -23,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author ASUS
+ * @author ROG
  */
 @Entity
 @Table(name = "education")
@@ -36,23 +37,25 @@ public class Educations implements Serializable {
     @Basic(optional = false)
     @Column(name = "prefix")
     private String prefix;
-    
     @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "education_id")
     private Integer educationId;
     @Column(name = "degree")
     private String degree;
     @JoinColumn(name = "education_id", referencedColumnName = "employee_id", insertable = false, updatable = false)
-    @OneToOne(optional = true, fetch = FetchType.LAZY)
+    @OneToOne(optional = true)
+    @JsonBackReference
     private Employees employees;
     @JoinColumn(name = "major_id", referencedColumnName = "major_id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
+    @JsonBackReference
     private Majors majorId;
     @JoinColumn(name = "university_id", referencedColumnName = "university_id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private Universitys universityId;
+    @ManyToOne(optional = false)
+    @JsonBackReference
+    private Universities universityId;
 
     public Educations() {
     }
@@ -61,12 +64,16 @@ public class Educations implements Serializable {
         this.educationId = educationId;
     }
 
-    public Educations(Integer educationId, String prefix, String degree, Majors majorId, Universitys universityId) {
+    public Educations(Integer educationId, String prefix) {
         this.educationId = educationId;
         this.prefix = prefix;
-        this.degree = degree;
+    }
+    
+    public Educations(Integer educationId, Majors majorId, Universities universityId, String prefix) {
+        this.educationId = educationId;
         this.majorId = majorId;
         this.universityId = universityId;
+        this.prefix = prefix;
     }
 
     public String getPrefix() {
@@ -85,6 +92,14 @@ public class Educations implements Serializable {
         this.educationId = educationId;
     }
 
+    public String getDegree() {
+        return degree;
+    }
+
+    public void setDegree(String degree) {
+        this.degree = degree;
+    }
+
     public Employees getEmployees() {
         return employees;
     }
@@ -101,14 +116,13 @@ public class Educations implements Serializable {
         this.majorId = majorId;
     }
 
-    public Universitys getUniversityId() {
+    public Universities getUniversityId() {
         return universityId;
     }
 
-    public void setUniversityId(Universitys universityId) {
+    public void setUniversityId(Universities universityId) {
         this.universityId = universityId;
     }
-
 
     @Override
     public int hashCode() {

@@ -11,6 +11,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,14 +24,14 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author ASUS
+ * @author ROG
  */
 @Entity
 @Table(name = "university")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Universitys.findAll", query = "SELECT u FROM Universitys u")})
-public class Universitys implements Serializable {
+    @NamedQuery(name = "Universities.findAll", query = "SELECT u FROM Universities u")})
+public class Universities implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -44,21 +45,22 @@ public class Universitys implements Serializable {
     @Basic(optional = false)
     @Column(name = "counts")
     private int counts;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "universityId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "universityId", fetch = FetchType.LAZY)
     private List<Educations> educationsList;
 
-    public Universitys() {
+    public Universities() {
     }
 
-    public Universitys(Integer universityId) {
+    public Universities(Integer universityId) {
         this.universityId = universityId;
     }
 
-    public Universitys(Integer universityId, String universityName, int counts) {
+    public Universities(Integer universityId, String universityName, int counts) {
         this.universityId = universityId;
         this.universityName = universityName;
         this.counts = counts;
     }
+    
 
     public Integer getUniversityId() {
         return universityId;
@@ -103,10 +105,10 @@ public class Universitys implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Universitys)) {
+        if (!(object instanceof Universities)) {
             return false;
         }
-        Universitys other = (Universitys) object;
+        Universities other = (Universities) object;
         if ((this.universityId == null && other.universityId != null) || (this.universityId != null && !this.universityId.equals(other.universityId))) {
             return false;
         }
@@ -115,7 +117,7 @@ public class Universitys implements Serializable {
 
     @Override
     public String toString() {
-        return "com.mii.server.entities.Universitys[ universityId=" + universityId + " ]";
+        return "com.mii.server.entities.Universities[ universityId=" + universityId + " ]";
     }
     
 }

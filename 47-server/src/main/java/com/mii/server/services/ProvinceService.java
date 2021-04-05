@@ -1,55 +1,57 @@
-
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.mii.server.services;
 
 import com.mii.server.entities.Provinces;
 import com.mii.server.repositories.ProvinceRepository;
-import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 import org.springframework.stereotype.Service;
 
+/**
+ *
+ * @author Rafi
+ */
 @Service
 public class ProvinceService {
-
+    
     ProvinceRepository provinceRepository;
-
+    
     @Autowired
     public ProvinceService(ProvinceRepository provinceRepository) {
         this.provinceRepository = provinceRepository;
     }
     
-    //create
-    public Provinces insert(Provinces province) {
-        return provinceRepository.save(province);
+    //Create
+    public boolean save(Provinces province) {
+        Provinces saveProvince = provinceRepository.save(province);
+        return provinceRepository.existsById(saveProvince.getProvinceId());
     }
-
+    
     //Read
     public List<Provinces> getAll() {
-        List<Provinces> pro = new ArrayList<>();
-        for (Provinces province : provinceRepository.findAll()) {
-            pro.add(new Provinces(province.getProvinceId(), province.getProvinceName()));
-        }
-        return pro;
+        return provinceRepository.findAll();
     }
     
-    //read by id 
-    public Provinces getById(Integer provinceId) {
-        Provinces pro = provinceRepository.findById(provinceId).get();
-        return pro;
+    //Read Single Data
+    public Provinces getByid(Integer id) {
+        return provinceRepository.getOne(id);
     }
-    
     
     //Update
-    public void update(Integer provinceId, String provinceName) {
-        Provinces province = provinceRepository.getOne(provinceId);
-        province.setProvinceId(provinceId);
-        province.setProvinceName(provinceName);
-        provinceRepository.save(province);
+    public void updateProvinceName(Integer id, Provinces province) {
+        Provinces prov  = provinceRepository.getOne(id);
+        prov.setProvinceName(province.getProvinceName());
+        provinceRepository.save(prov);
     }
     
-    //delete
-    public void delete(Integer provinceId) {
-        provinceRepository.deleteById(provinceId);
+    //Delete
+    public boolean deleteProvinceById(Integer id) {
+        provinceRepository.deleteById(id);
+        return provinceRepository.existsById(id);
     }
-   
 }

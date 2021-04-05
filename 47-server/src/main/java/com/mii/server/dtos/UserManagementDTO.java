@@ -3,54 +3,44 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mii.server.dto;
+package com.mii.server.dtos;
 
 import java.util.Date;
 
 /**
  *
- * @author jakab
+ * @author ROG
  */
 public class UserManagementDTO {
-    
-    private String prefix;
+     private String prefix;
     private Integer employeeId;
     private String employeeName;
     private Date birthDate;
     private String gender;
     private String email;
-    private Integer villageId;
-    private String degree;
-    private Integer majorId;
-    private Integer universityId;
     private String phone;
     private String linkedin;
-    private String userName;
-    private String userPassword;
+    private Integer villageId;
+    private Integer majorId;
+    private Integer universityId;
 
-    public UserManagementDTO() {
-    }
-
-    public UserManagementDTO(String prefix, Integer employeeId, String employeeName, Date birthDate, String gender, 
-            String email, Integer villageId, String degree, Integer majorId, Integer universityId, String phone, 
-            String linkedin, String userName, String userPassword) {
+    public UserManagementDTO(String prefix, Integer employeeId, String employeeName, Date birthDate, String gender, String email, String phone, String linkedin, Integer villageId, Integer majorId, Integer universityId) {
         this.prefix = prefix;
         this.employeeId = employeeId;
         this.employeeName = employeeName;
         this.birthDate = birthDate;
         this.gender = gender;
         this.email = email;
-        this.villageId = villageId;
-        this.degree = degree;
-        this.majorId = majorId;
-        this.universityId = universityId;
         this.phone = phone;
         this.linkedin = linkedin;
-        this.userName = userName;
-        this.userPassword = userPassword;
+        this.villageId = villageId;
+        this.majorId = majorId;
+        this.universityId = universityId;
     }
 
-    
+    public UserManagementDTO() {
+    }
+
     public String getPrefix() {
         return prefix;
     }
@@ -99,20 +89,28 @@ public class UserManagementDTO {
         this.email = email;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getLinkedin() {
+        return linkedin;
+    }
+
+    public void setLinkedin(String linkedin) {
+        this.linkedin = linkedin;
+    }
+
     public Integer getVillageId() {
         return villageId;
     }
 
     public void setVillageId(Integer villageId) {
         this.villageId = villageId;
-    }
-
-    public String getDegree() {
-        return degree;
-    }
-
-    public void setDegree(String degree) {
-        this.degree = degree;
     }
 
     public Integer getMajorId() {
@@ -130,39 +128,9 @@ public class UserManagementDTO {
     public void setUniversityId(Integer universityId) {
         this.universityId = universityId;
     }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getLinkedin() {
-        return linkedin;
-    }
-
-    public void setLinkedin(String linkedin) {
-        this.linkedin = linkedin;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getUserPassword() {
-        return userPassword;
-    }
-
-    public void setUserPassword(String userPassword) {
-        this.userPassword = userPassword;
-    }
     
+   
+   
     
     
 }
