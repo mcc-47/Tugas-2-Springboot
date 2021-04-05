@@ -5,6 +5,7 @@
     <class>com.mii.server.entity.Roles</class>
     <class>com.mii.server.entity.Privileges</class>
     <class>com.mii.server.entity.Users</class>
+    <class>com.mii.server.entity.Role</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/test_management?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.user" value="root"/>

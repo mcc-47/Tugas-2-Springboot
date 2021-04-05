@@ -6,20 +6,14 @@
 package com.mii.server.entity;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -29,9 +23,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "role")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Role.findAll", query = "SELECT r FROM Role r")
-    , @NamedQuery(name = "Role.findByRoleId", query = "SELECT r FROM Role r WHERE r.roleId = :roleId")
-    , @NamedQuery(name = "Role.findByRoleName", query = "SELECT r FROM Role r WHERE r.roleName = :roleName")})
+    @NamedQuery(name = "Role.findAll", query = "SELECT r FROM Role r")})
 public class Role implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -42,13 +34,6 @@ public class Role implements Serializable {
     @Basic(optional = false)
     @Column(name = "role_name")
     private String roleName;
-    @JoinTable(name = "user_role", joinColumns = {
-        @JoinColumn(name = "role_id", referencedColumnName = "role_id")}, inverseJoinColumns = {
-        @JoinColumn(name = "user_id", referencedColumnName = "user_id")})
-    @ManyToMany(fetch = FetchType.LAZY)
-    private List<Users> usersList;
-    @ManyToMany(mappedBy = "rolesList", fetch = FetchType.LAZY)
-    private List<Privileges> privilegesList;
 
     public Role() {
     }
@@ -78,24 +63,6 @@ public class Role implements Serializable {
         this.roleName = roleName;
     }
 
-    @XmlTransient
-    public List<Users> getUsersList() {
-        return usersList;
-    }
-
-    public void setUsersList(List<Users> usersList) {
-        this.usersList = usersList;
-    }
-
-    @XmlTransient
-    public List<Privileges> getPrivilegesList() {
-        return privilegesList;
-    }
-
-    public void setPrivilegesList(List<Privileges> privilegesList) {
-        this.privilegesList = privilegesList;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -118,7 +85,7 @@ public class Role implements Serializable {
 
     @Override
     public String toString() {
-        return "com.mii.server.entities.Roles[ roleId=" + roleId + " ]";
+        return "com.mii.server.entity.Role[ roleId=" + roleId + " ]";
     }
     
 }

@@ -5,28 +5,15 @@
  */
 package com.mii.server.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-import org.springframework.context.annotation.Role;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  *
@@ -36,11 +23,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Table(name = "users")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Users.findAll", query = "SELECT u FROM Users u")
-    , @NamedQuery(name = "Users.findByUserId", query = "SELECT u FROM Users u WHERE u.userId = :userId")
-    , @NamedQuery(name = "Users.findByUserName", query = "SELECT u FROM Users u WHERE u.userName = :userName")
-    , @NamedQuery(name = "Users.findByUserPassword", query = "SELECT u FROM Users u WHERE u.userPassword = :userPassword")})
-public class Users implements UserDetails{
+    @NamedQuery(name = "Users.findAll", query = "SELECT u FROM Users u")})
+public class Users implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -53,11 +37,6 @@ public class Users implements UserDetails{
     @Basic(optional = false)
     @Column(name = "user_password")
     private String userPassword;
-    @ManyToMany(mappedBy = "usersList", fetch = FetchType.LAZY)
-    private List<Role> rolesList;
-    @JoinColumn(name = "user_id", referencedColumnName = "employee_id", insertable = false, updatable = false)
-    @OneToOne(optional = false, fetch = FetchType.LAZY)
-    private Employees employees;
 
     public Users() {
     }
@@ -80,37 +59,20 @@ public class Users implements UserDetails{
         this.userId = userId;
     }
 
-//    public String getUserName() {
-//        return userName;
-//    }
+    public String getUserName() {
+        return userName;
+    }
 
     public void setUserName(String userName) {
         this.userName = userName;
     }
 
-//    public String getUserPassword() {
-//        return userPassword;
-//    }
+    public String getUserPassword() {
+        return userPassword;
+    }
 
     public void setUserPassword(String userPassword) {
         this.userPassword = userPassword;
-    }
-
-    @XmlTransient
-    public List<Role> getRolesList() {
-        return rolesList;
-    }
-
-    public void setRolesList(List<Role> rolesList) {
-        this.rolesList = rolesList;
-    }
-
-    public Employees getEmployees() {
-        return employees;
-    }
-
-    public void setEmployees(Employees employees) {
-        this.employees = employees;
     }
 
     @Override
@@ -135,49 +97,7 @@ public class Users implements UserDetails{
 
     @Override
     public String toString() {
-        return "com.mii.server.entities.Users[ userId=" + userId + " ]";
-    }
-
-//    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        Users user = new Users();
-//        String[] userRoles;
-//        userRoles = user.getRolesList().stream().map((role) -> role.).toArray(String[]::new);
-//        Collection<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(userRoles);
-//        return authorities;
-//    }
-
-    @Override
-    public String getPassword() {
-       return userPassword;    }
-
-    @Override
-    public String getUsername() {
-       return userName;   }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean isEnabled() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "com.mii.server.entity.Users[ userId=" + userId + " ]";
     }
     
 }

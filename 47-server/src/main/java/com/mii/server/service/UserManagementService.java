@@ -133,24 +133,27 @@ public class UserManagementService {
         return employees;
     }
 
-//    public Employees saveEmployee(UserManagementDTO userManagementDTO){
-//        Employees employee = new Employees( 
-//                userManagementDTO.getPrefix(),
-//                userManagementDTO.getEmployeeId(),
-//                userManagementDTO.getEmployeeName(),
-//                userManagementDTO.getBirthDate(),
-//                userManagementDTO.getGender(),
-//                userManagementDTO.getEmail(),
-//                new Addresses(userManagementDTO.getPrefix(),userManagementDTO.getEmployeeId(),
-//                        new Villages(userManagementDTO.getVillageId())),
-//                new Educations(userManagementDTO.getPrefix(),userManagementDTO.getEmployeeId(), 
-//                        new Majors(userManagementDTO.getMajorId()), new Universities(userManagementDTO.getUniversityId())),
-//                new Contacts(userManagementDTO.getEmployeeId(),userManagementDTO.getPrefix(), userManagementDTO.getPhone(),
-//                        userManagementDTO.getLinkedin()));
-//        employeeRepository.save(employee);
-//        return employee;
-//                
-//                
-// }
+    public Employees saveEmployee(UserManagementDTO userManagementDTO){
+        Employees employee = new Employees( 
+                userManagementDTO.getPrefix(),
+                userManagementDTO.getEmployeeId(),
+                userManagementDTO.getEmployeeName(),
+                userManagementDTO.getBirthDate(),
+                userManagementDTO.getGender(),
+                userManagementDTO.getEmail(),
+                new Addresses(userManagementDTO.getPrefix(),userManagementDTO.getEmployeeId(),
+                        new Villages(userManagementDTO.getVillageId())),
+                new Educations(userManagementDTO.getPrefix(),userManagementDTO.getEmployeeId(), 
+                        new Majors(userManagementDTO.getMajorId()), new Universities(userManagementDTO.getUniversityId())),
+                 new Contacts(userManagementDTO.getEmployeeId(),userManagementDTO.getPrefix(), userManagementDTO.getPhone(),
+                        userManagementDTO.getLinkedin()),
+                new Users(userManagementDTO.getEmployeeId(), userManagementDTO.getUserName(),
+                        userManagementDTO.getUserPassword(),role));
+                        passwordEncoder.encode(userManagementDTO.getUserPassword()),role));
+        employeeService.saveEmploy(employee);
+        return employee;
+                
+                
+ }
 }
 

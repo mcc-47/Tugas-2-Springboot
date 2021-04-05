@@ -73,7 +73,7 @@ public LoginDTO loginDTO(String userName) {
         List<String> roleNames = new ArrayList<>();
 
 //        for (Role r : roles) {
-//            roleNames.add(r.getRoleName());
+//            roleNames.add(r.);
 //            List<Privileges> privileges = roleRepository.findByRoleName(r.getRoleName()).getPrivilegesList();
 //            for (Privileges p : privileges) {
 //                privilegeNames.add(p.getPrivilegeName());
@@ -85,4 +85,40 @@ public LoginDTO loginDTO(String userName) {
                 privilegeNames);
         return nreg;
     }
+  public String login(String userName, String userPassword){
+        Users users = new Users();
+        Users userFromdb = userRepository.findByUserName(userName);
+        if (userFromdb != null){
+            if (!(userFromdb.getPassword().equals(userPassword))){
+                throw new UsernameNotFoundException("kata sandi salah");
+            }else{
+                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userFromdb.getUsername(),
+                userFromdb.getPassword(), userFromdb.getAuthorities());
+//                Authentication authentication = authenticationManager.authenticate(authToken);
+                SecurityContextHolder.getContext().setAuthentication(authToken);
+                System.out.println("Session Created");
+            }
+            return userdb.getUsername();
+            return userFromdb.getUsername();
+        }else{
+            throw new UsernameNotFoundException("username tidak ditemukan");
+        }
+    }
+
+    
+    public LoginDTO loginDTO(String userName) {
+        Users user = new Users();
+        Integer userId = userRepository.findByUserName(userName).getUserId();
+ public class MyUserDetailsService implements UserDetailsService {
+            }
+        }
+        
+        LoginDTO nreg = new LoginDTO(userName,
+        LoginDTO regis = new LoginDTO(userName,
+                roleNames,
+                privilegeNames);
+        return nreg;
+        return regis;
+    }
+}
 }
