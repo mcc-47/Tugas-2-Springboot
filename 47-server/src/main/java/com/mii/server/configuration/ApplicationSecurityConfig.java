@@ -36,7 +36,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/login/**", "/user").permitAll() // siapapun boleh lewat
                 .antMatchers("/**", "/logout").authenticated() // harus terautentikasi terlebih dahulu dan prosesnya di login
                 .and()
-            .logout().disable()
+//            .logout().disable()
             .formLogin().disable()
             .httpBasic();
     }

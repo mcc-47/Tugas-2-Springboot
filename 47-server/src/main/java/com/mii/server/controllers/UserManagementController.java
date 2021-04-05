@@ -29,7 +29,7 @@ public class UserManagementController {
     
     @PostMapping("/login")
     public LoginDTO loginDTO(@RequestBody DataLoginDTO dataLoginDTO) {
-        return myUserDetailService.loginDTO(myUserDetailService.loadByUserName(dataLoginDTO.getUserName(), dataLoginDTO.getUserPassword()));
+        return myUserDetailService.loginDTO(myUserDetailService.loginByUserName(dataLoginDTO.getUserName(), dataLoginDTO.getUserPassword()));
     }
     
 }

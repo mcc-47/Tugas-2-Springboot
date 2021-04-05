@@ -14,9 +14,11 @@ import com.mii.server.repositories.UserRepository;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -45,22 +47,27 @@ public class MyUserDetailService implements UserDetailsService {
         return user;
     }
 
-    public String loadByUserName(String userName, String userPassword) {
+    public String loginByUserName(String userName, String userPassword) {
+//        BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
         Users userDB = userRepository.findByUserName(userName);
-        Users user = new Users();
-        if (userDB == null) {
-            throw new UsernameNotFoundException("username not found");
-        } else {
-            if (!userDB.getPassword().equals(userPassword)) {
+//        Users user = new Users();
+        if (userDB != null) { //If username found in database
+              if (userPassword == null ? userDB.getPassword() != null : !userPassword.equals(userDB.getPassword())){
+//            if (!(bcrypt.matches(userPassword, userDB.getPassword()))) { ////valueinput=dbencryp
+                throw new UsernameNotFoundException("Password is not correct!");
             } else {
-//                UsernamePasswordAuthenticationToken authToken
-//                        = new UsernamePasswordAuthenticationToken(userDB.getUsername(),
-//                                userDB.getPassword(), user.getAuthorities());
-//                SecurityContextHolder.getContext().setAuthentication(authToken);
-                System.out.println("panji session");
+                UsernamePasswordAuthenticationToken authToken
+                        = new UsernamePasswordAuthenticationToken(userDB.getUsername(),
+                                userDB.getPassword(), userDB.getAuthorities());
+//                Authentication auth = authenticationManager.authenticate(authToken);
+                SecurityContextHolder.getContext().setAuthentication(authToken);
+                System.out.println("Login with Session");
             }
             return userDB.getUsername();
 //            return userDB.getUserId();
+
+        } else {
+            throw new UsernameNotFoundException("Username not found");
         }
     }
 
@@ -68,28 +75,23 @@ public class MyUserDetailService implements UserDetailsService {
         Users user = new Users();
         Integer userId = userRepository.findByUserName(userName).getUserId();
         List<Role> roles = userRepository.findByUserName(userName).getRoleList();
-        List<String> privilegeNames = new ArrayList<>();
-        List<String> roleNames = new ArrayList<>();
+        List<String> authorities = new ArrayList<>();
 
         for (Role r : roles) {
-            roleNames.add(r.getRoleName());
+            authorities.add(r.getRoleName());
             List<Privileges> privileges = roleRepository.findByRoleName(r.getRoleName()).getPrivilegesList();
             for (Privileges p : privileges) {
-                privilegeNames.add(p.getPrivilegeName());
+                authorities.add(p.getPrivilegeName());
             }
         }
 
         LoginDTO nreg = new LoginDTO(userName,
-                roleNames,
-                privilegeNames);
+                authorities);
         return nreg;
     }
-
-//    public Collection<? extends GrantedAuthority> getAuthorities(Users user) {
-////        Integer id = userManagementService.loadByUserName("arnum_13", "arnum123");
-//        String[] userRoles = user.getRoleList().stream().map((role) -> role.getRoleName()).toArray(String[]::new);
-//        Collection<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(userRoles);
-//        return authorities;
-//    }
     
+    private Object hashCode(String password) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+ 
 }

@@ -5,6 +5,7 @@
  */
 package com.mii.server.dto;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -14,17 +15,22 @@ import java.util.List;
 public class LoginDTO {
    
     private String userName;
-    private List<String> roleName;
-    private List<String> privilegeName;
+    private Collection<String> authorities;
 
     public LoginDTO() {
     }
     
-    public LoginDTO(String userName, List<String> roleName, List<String> privilegeName) {
+//    public LoginDTO(String userName, List<String> roleName, List<String> privilegeName) {
+//        this.userName = userName;
+//        this.roleName = roleName;
+//        this.privilegeName = privilegeName;
+//    }
+
+    public LoginDTO(String userName, Collection<String> authorities) {
         this.userName = userName;
-        this.roleName = roleName;
-        this.privilegeName = privilegeName;
+        this.authorities = authorities;
     }
+    
 
     public String getUserName() {
         return userName;
@@ -34,20 +40,14 @@ public class LoginDTO {
         this.userName = userName;
     }
 
-    public List<String> getRoleName() {
-        return roleName;
+    public Collection<String> getAuthorities() {
+        return authorities;
     }
 
-    public void setRoleName(List<String> roleName) {
-        this.roleName = roleName;
+    public void setAuthorities(Collection<String> authorities) {
+        this.authorities = authorities;
     }
 
-    public List<String> getPrivilegeName() {
-        return privilegeName;
-    }
-
-    public void setPrivilegeName(List<String> privilegeName) {
-        this.privilegeName = privilegeName;
-    }
+    
   
 }
