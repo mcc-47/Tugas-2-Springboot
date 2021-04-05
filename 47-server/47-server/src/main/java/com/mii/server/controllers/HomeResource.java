@@ -41,11 +41,22 @@ public class HomeResource {
 //        return myUserDetailsServiceImpl.loadUserDetailsByUsername("ikhsan");
 //    }
     
+    // /load
+    // body:
+    // panji
+    
     @PostMapping("/load")
     public List<UserDTO> showUserDetails(@RequestBody String username) {
         return myUserDetailsServiceImpl.loadUserDetailsByUsername(username);
     }
 
+    // /login
+    // body:
+    //    {
+    //    "username":"ikhsan",
+    //    "password":"ikhsan"
+    //    }
+    
     @PostMapping("/login")
     public UserSessionDTO login(@RequestBody UserLoginDTO userLoginDTO) throws Exception{
         return userLoginService.login(userLoginDTO);
