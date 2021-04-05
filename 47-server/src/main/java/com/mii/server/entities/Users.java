@@ -6,6 +6,7 @@
 package com.mii.server.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import javax.persistence.Basic;
@@ -21,6 +22,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 /**
@@ -30,12 +32,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Entity
 @Table(name = "users")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Users.findAll", query = "SELECT u FROM Users u")
-    , @NamedQuery(name = "Users.findByUserId", query = "SELECT u FROM Users u WHERE u.userId = :userId")
-    , @NamedQuery(name = "Users.findByUserName", query = "SELECT u FROM Users u WHERE u.userName = :userName")
-    , @NamedQuery(name = "Users.findByUserPassword", query = "SELECT u FROM Users u WHERE u.userPassword = :userPassword")})
-
+@NamedQuery(name = "Users.findAll", query = "SELECT u FROM Users u")
 
 public class Users implements UserDetails {
     private static final long serialVersionUID = 1L;
@@ -111,7 +108,16 @@ public class Users implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Collection<Role> roles = getRolesList();
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        for (Role r : roles) {
+            authorities.add(new SimpleGrantedAuthority(r.getRoleName()));
+            Collection<Privileges> privileges = r.getPrivilegesList();
+            for (Privileges p : privileges) {
+                authorities.add(new SimpleGrantedAuthority(p.getPrivilegeName()));
+            }
+        }
+        return authorities;
     }
 
     @Override
@@ -151,7 +157,6 @@ public class Users implements UserDetails {
     public void setRolesList(List<Role> rolesList) {
         this.rolesList = rolesList;
     }
-    
     
     
 }

@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -39,7 +41,7 @@ public class MyUserDetailService implements UserDetailsService{
 
     @Override
     public Users loadUserByUsername(String userName) {
-        Users users = userRepository.findbyUserName(userName);
+        Users users = userRepository.findByUserName(userName);
         if (users == null) {
             throw new UsernameNotFoundException(userName + "Not Found");
         }
@@ -47,7 +49,7 @@ public class MyUserDetailService implements UserDetailsService{
     }
 
     public String loadByUserName(String userName, String userPassword) {
-        Users userDB = userRepository.findbyUserName(userName);
+        Users userDB = userRepository.findByUserName(userName);
         if (userDB == null) {
             throw new UsernameNotFoundException("username not found");
 //            return false;
@@ -81,7 +83,7 @@ public class MyUserDetailService implements UserDetailsService{
 //    }
     
     public LoginDTO loginDTO(DataLoginDTO dataLoginDTO) {
-        Users user = userRepository.findbyUserName(dataLoginDTO.getUserName());
+        Users user = userRepository.findByUserName(dataLoginDTO.getUserName());
         if(user == null) {
             throw new UsernameNotFoundException("Username tidak ditemukan");
         } else{
@@ -105,6 +107,27 @@ public class MyUserDetailService implements UserDetailsService{
                 System.out.println("login gagal, password salah");
                 return new LoginDTO(user.getUsername(), null, null);
             }
+        }
+    }
+    
+    public String login (String userName, String userPassword) {
+        Users userDB = userRepository.findByUserName(userName);
+//        Users user = new Users();
+        if (userDB != null) {//ada
+            if (!(userDB.getPassword().equals(userPassword))) {
+                throw new UsernameNotFoundException("password wrong");
+            } else {
+                UsernamePasswordAuthenticationToken authToken
+                        = new UsernamePasswordAuthenticationToken(userDB.getUsername(),
+                                userDB.getPassword(), userDB.getAuthorities());
+                SecurityContextHolder.getContext().setAuthentication(authToken);
+                System.out.println("Login with Session");
+            }
+            return userDB.getUsername();
+//            return userDB.getUserId();
+           
+        } else {
+             throw new UsernameNotFoundException("username not found");
         }
     }
 }

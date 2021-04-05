@@ -14,17 +14,21 @@ import com.mii.server.entities.Districts;
 import com.mii.server.entities.Educations;
 import com.mii.server.entities.Employees;
 import com.mii.server.entities.Majors;
+import com.mii.server.entities.Role;
 import com.mii.server.entities.Universities;
+import com.mii.server.entities.Users;
 import com.mii.server.entities.Villages;
 import com.mii.server.repositories.EmployeeRepository;
 import com.mii.server.services.MyUserDetailService;
 import com.mii.server.services.NotificationService;
 import com.mii.server.services.UserManagementService;
+import java.util.ArrayList;
 import java.util.List;
 import javax.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,7 +40,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Asus
  */
 @RestController
-@RequestMapping("/api/email-demo")
+//@RequestMapping("/api/email-demo") --> semua mapping yang ada di bawahnya menggunakan request mapping yang ada di kurungnya
 public class UserManagementController {
     @Autowired
     EmployeeRepository employeeRepository;
@@ -49,6 +53,14 @@ public class UserManagementController {
     
     @Autowired
     MyUserDetailService myUserDetailService;
+    
+    @Autowired
+    PasswordEncoder passwordEncoder;
+    
+    @Autowired
+    public UserManagementController(EmployeeRepository employeeRepository) {
+        this.employeeRepository = employeeRepository;
+    }
     
     @GetMapping("/getall")
     public List<Employees > employee(){
@@ -66,6 +78,8 @@ public class UserManagementController {
 
     @PostMapping("/register")
     public Employees saveEmployee(UserManagementDTO userManagementDTO){
+        List<Role> role =   new ArrayList<>();
+        role.add(new Role(2, "trainer"));
         Employees employee = new Employees(
             userManagementDTO.getPrefix(),
             userManagementDTO.getEmployeeId(),
@@ -78,7 +92,9 @@ public class UserManagementController {
             new Educations(userManagementDTO.getPrefix(),userManagementDTO.getEmployeeId(),
                 new Majors(userManagementDTO.getMajorId()), new Universities(userManagementDTO.getUniversityId())),
             new Contacts(userManagementDTO.getPrefix(),userManagementDTO.getEmployeeId(),userManagementDTO.getPhone(),
-                userManagementDTO.getLinkedin())
+                userManagementDTO.getLinkedin()),
+            new Users(userManagementDTO.getEmployeeId(),userManagementDTO.getUserName(),passwordEncoder.encode(userManagementDTO.getUserPassword()),
+                    role)
         );
         
         employeeRepository.save(employee);
