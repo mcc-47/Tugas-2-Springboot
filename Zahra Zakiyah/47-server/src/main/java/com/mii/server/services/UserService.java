@@ -15,9 +15,9 @@ import com.mii.server.entities.Districts;
 import com.mii.server.entities.Educations;
 import com.mii.server.entities.Employees;
 import com.mii.server.entities.Majors;
-import com.mii.server.entities.Provinces;
-import com.mii.server.entities.Subdistricts;
+import com.mii.server.entities.Role;
 import com.mii.server.entities.Universities;
+import com.mii.server.entities.Users;
 import com.mii.server.entities.Villages;
 import com.mii.server.repositories.AddressRepository;
 import com.mii.server.repositories.ContactRepository;
@@ -26,13 +26,15 @@ import com.mii.server.repositories.EducationRepository;
 import com.mii.server.repositories.EmployeeRepository;
 import com.mii.server.repositories.MajorRepository;
 import com.mii.server.repositories.ProvinceRepository;
+import com.mii.server.repositories.RoleRepository;
 import com.mii.server.repositories.SubdistrictRepository;
 import com.mii.server.repositories.UniversitiyRepository;
+import com.mii.server.repositories.UserRepository;
 import com.mii.server.repositories.VillageRepository;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -52,9 +54,13 @@ public class UserService {
     EducationRepository educationRepository;
     MajorRepository majorRepository;
     UniversitiyRepository universityRepository;
+    UserRepository userRepository;
+    RoleRepository roleRepository;
+    PasswordEncoder passwordEncoder;
+//    PrivilegeRepository privilegeRepository;
     
     @Autowired
-    public UserService(EmployeeRepository employeeRepository, ProvinceRepository provinceRepository, DistrictRepository districtRepository, SubdistrictRepository subdistrictRepository, VillageRepository villagerepository, AddressRepository addressRepository, ContactRepository contactRepository, EducationRepository educationRepository, MajorRepository majorRepository, UniversitiyRepository universityRepository) {
+    public UserService(EmployeeRepository employeeRepository, ProvinceRepository provinceRepository, DistrictRepository districtRepository, SubdistrictRepository subdistrictRepository, VillageRepository villagerepository, AddressRepository addressRepository, ContactRepository contactRepository, EducationRepository educationRepository, MajorRepository majorRepository, UniversitiyRepository universityRepository, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         this.employeeRepository = employeeRepository;
         this.provinceRepository = provinceRepository;
         this.districtRepository = districtRepository;
@@ -65,8 +71,10 @@ public class UserService {
         this.educationRepository = educationRepository;
         this.majorRepository = majorRepository;
         this.universityRepository = universityRepository;
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
     }
-    
     
     public List<UserDTO> getUser(){
         List<UserDTO> user = new ArrayList<>();
@@ -162,6 +170,8 @@ public class UserService {
      
 
     public String register (RegisterDTO registerDTO){
+        List<Role> role = new ArrayList<>();
+        role.add(new Role(3,"trainee"));
         employeeRepository.save(new Employees(
                 "MCC",
                 registerDTO.getEmployeeId(), 
@@ -171,10 +181,9 @@ public class UserService {
                 registerDTO.getEmployeeEmail(),
                 new Addresses("MCC",registerDTO.getEmployeeId(),registerDTO.getStreet1(),registerDTO.getStreet2(), new Villages(registerDTO.getVillageId())),
                 new Educations("MCC", registerDTO.getEmployeeId(), registerDTO.getDegree(),new Majors(registerDTO.getMajor()), new Universities(registerDTO.getUniversity())),
-                new Contacts("MCC",registerDTO.getEmployeeId(),registerDTO.getPhone(),registerDTO.getLinkedin())
+                new Contacts("MCC",registerDTO.getEmployeeId(),registerDTO.getPhone(),registerDTO.getLinkedin()),
+                new Users(registerDTO.getEmployeeId(),registerDTO.getUserName(),passwordEncoder.encode(registerDTO.getUserPassword()),role)
         ));
-        
-
         return "registrasi berhasil";
     }
     

@@ -5,6 +5,7 @@
  */
 package com.mii.server.controllers;
 
+import com.mii.server.dto.AuthDTO;
 import com.mii.server.dto.DataLoginDTO;
 import com.mii.server.dto.LoginDTO;
 import com.mii.server.services.LoginService;
@@ -60,5 +61,11 @@ public class UserSecurity {
     @GetMapping("/user")
     public String logIn(@RequestBody DataLoginDTO dataLoginDTO){
         return loginService.logIn(dataLoginDTO.getUserName(), dataLoginDTO.getUserPassword());
+    }
+    
+    @PostMapping("/loginuser")
+    public AuthDTO loginfull(@RequestBody DataLoginDTO dataLoginDTO) {
+        return loginService.logInAdmin(dataLoginDTO.getUserName(),
+                dataLoginDTO.getUserPassword());
     }
 }

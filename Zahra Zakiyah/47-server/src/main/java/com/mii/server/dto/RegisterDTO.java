@@ -28,8 +28,10 @@ public class RegisterDTO {
     private String street1;
     private String street2;
     private Integer villageId;
+    private String userName;
+    private String userPassword;
 
-    public RegisterDTO(Integer employeeId, String employeeName, Date employeeBirthdate, String employeeGender, String employeeEmail, String degree, Integer major, Integer university, String phone, String linkedin, String street1, String street2, Integer villageId) {
+    public RegisterDTO(Integer employeeId, String employeeName, Date employeeBirthdate, String employeeGender, String employeeEmail, String degree, Integer major, Integer university, String phone, String linkedin, String street1, String street2, Integer villageId, String userName, String userPassword) {
         this.employeeId = employeeId;
         this.employeeName = employeeName;
         this.employeeBirthdate = employeeBirthdate;
@@ -43,7 +45,11 @@ public class RegisterDTO {
         this.street1 = street1;
         this.street2 = street2;
         this.villageId = villageId;
+        this.userName = userName;
+        this.userPassword = userPassword;
     }
+
+    
 
     public RegisterDTO() {
     }
@@ -98,6 +104,14 @@ public class RegisterDTO {
 
     public Integer getVillageId() {
         return villageId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getUserPassword() {
+        return userPassword;
     }
 
  
