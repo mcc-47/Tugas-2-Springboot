@@ -5,7 +5,7 @@
  */
 package com.mii.server.services;
 
-import com.mii.server.dto.ProvinceDistrictDTO;
+import com.mii.server.dtos.ProvinceDistrictDTO;
 import com.mii.server.entities.Districts;
 import com.mii.server.entities.Provinces;
 import java.util.List;

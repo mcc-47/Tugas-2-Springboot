@@ -5,8 +5,8 @@
  */
 package com.mii.server.controllers;
 
-import com.mii.server.dto.DataLogDTO;
-import com.mii.server.dto.LoginDTO;
+import com.mii.server.dtos.DataLogDTO;
+import com.mii.server.dtos.LoginDTO;
 import com.mii.server.entities.Users;
 import com.mii.server.services.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;

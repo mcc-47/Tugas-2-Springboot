@@ -5,7 +5,7 @@
  */
 package com.mii.server.services;
 
-import com.mii.server.dto.UserManagementDTO;
+import com.mii.server.dtos.UserManagementDTO;
 import com.mii.server.entities.Addresses;
 import com.mii.server.entities.Contacts;
 import com.mii.server.entities.Districts;

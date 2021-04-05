@@ -6,7 +6,7 @@
 package com.mii.server.services;
 
 
-import com.mii.server.dto.LoginDTO;
+import com.mii.server.dtos.LoginDTO;
 import com.mii.server.entities.Privileges;
 import com.mii.server.entities.Role;
 import com.mii.server.entities.Users;

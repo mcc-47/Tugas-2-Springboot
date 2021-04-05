@@ -5,7 +5,7 @@
  */
 package com.mii.server.controllers;
 
-import com.mii.server.dto.UserManagementDTO;
+import com.mii.server.dtos.UserManagementDTO;
 import com.mii.server.entities.Employees;
 import com.mii.server.repositories.AddressRepository;
 import com.mii.server.repositories.DistrictRepository;
