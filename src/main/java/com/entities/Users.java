@@ -15,6 +15,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -48,10 +49,28 @@ public class Users implements UserDetails {
     @Basic(optional = false)
     @Column(name = "user_password")
     private String userPassword;
+    
+    @Basic(optional = true)
+    @Column(name = "isAccountNonExpired")
+    private boolean isAccountNonExpired = true;
+    @Basic(optional = true)
+    @Column(name = "isAccountNonLocked")
+    private boolean isAccountNonLocked = true;
+    @Basic(optional = true)
+    @Column(name = "isCredentialsNonExpired")
+    private boolean isCredentialsNonExpired = true;
+    @Basic(optional = true)
+    @Column(name = "isEnabled")
+    private boolean isEnabled = true;
+    
     @JoinColumn(name = "user_id", referencedColumnName = "employee_id", insertable = false, updatable = false)
     @OneToOne(optional = true, fetch = FetchType.LAZY)
     private Employees employees;
-    @ManyToMany(mappedBy = "usersCollection", fetch = FetchType.LAZY)
+    @JoinTable(name="user_role", joinColumns = {
+        @JoinColumn(name="user_id", referencedColumnName = "user_id")}, inverseJoinColumns = {
+        @JoinColumn(name="role_id", referencedColumnName = "role_id")})
+    @ManyToMany(fetch = FetchType.LAZY)
+    @Basic(optional = true)
     private Collection<Role> roleCollection;
 
     public Users() {
@@ -65,6 +84,13 @@ public class Users implements UserDetails {
         this.userId = userId;
         this.userName = userName;
         this.userPassword = userPassword;
+    }
+
+    public Users(Integer userId, String userName, String userPassword, Collection<Role> roleCollection) {
+        this.userId = userId;
+        this.userName = userName;
+        this.userPassword = userPassword;
+        this.roleCollection = roleCollection;
     }
 
     public Integer getUserId() {
@@ -151,22 +177,22 @@ public class Users implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        return this.isAccountNonExpired;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return this.isAccountNonLocked;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
+        return this.isCredentialsNonExpired;
     }
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return this.isEnabled;
     }
     
 }

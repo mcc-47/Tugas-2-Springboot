@@ -7,16 +7,21 @@ package com.services;
 
 import com.dto.UserLoginDto;
 import com.dto.UserSessionDto;
+import com.entities.Role;
 import com.entities.Users;
 import com.repositories.UserRepository;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -29,6 +34,12 @@ public class UserService implements UserDetailsService{
     @Autowired 
     UserRepository userRepository;
     
+    @Autowired
+    AuthenticationManager authManager;
+    
+    @Autowired
+    BCryptPasswordEncoder passwordEncoder;
+    
     @Override
     public Users loadUserByUsername(String userName) throws UsernameNotFoundException {
         Users user = userRepository.findByUserName(userName);
@@ -40,19 +51,25 @@ public class UserService implements UserDetailsService{
     
     public UserSessionDto loginUserByUserPassword(UserLoginDto userLoginDto)throws Exception{
         Users user = loadUserByUsername(userLoginDto.getUserName());
-        if (!(user.getPassword().equals(userLoginDto.getUserPassword()))) {
+        if (!(passwordEncoder.matches(userLoginDto.getUserPassword(), user.getPassword()))) {
             throw new Exception("Waduu salah password nih ngab");
         }
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                                                             userLoginDto.getUserName(), 
                                                             userLoginDto.getUserPassword(), 
                                                             user.getAuthorities());
-//        Authentication auth = authManager.authenticate(authToken);
+//        Authentication authtentic = authManager.authenticate(authToken);
         SecurityContextHolder.getContext().setAuthentication(authToken);
         List<String> grantedAuth = new ArrayList<>();
         for (GrantedAuthority auth : user.getAuthorities()) {
             grantedAuth.add(auth.getAuthority());
         }
         return new UserSessionDto(user.getUsername(), grantedAuth);
+    }
+    
+    public Users insert(Users user){
+        user.setUserPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRoleCollection(Arrays.asList(new Role(3)));
+        return userRepository.save(user);
     }
 }

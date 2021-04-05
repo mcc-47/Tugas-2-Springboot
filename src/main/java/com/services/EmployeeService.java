@@ -14,6 +14,7 @@ import com.entities.Contacts;
 import com.entities.Educations;
 import com.entities.Employees;
 import com.entities.Majors;
+import com.entities.Role;
 import com.entities.Universities;
 import com.entities.Users;
 import com.entities.Villages;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -38,6 +40,9 @@ public class EmployeeService {
     
     @Autowired
     RoleRepository roleRepository;
+    
+    @Autowired
+    BCryptPasswordEncoder passwordEncoder;
     
     public EmployeeService() {
     }
@@ -133,8 +138,12 @@ public class EmployeeService {
         newEmployee.setUsers(new Users(
                 newEmployee.getEmployeeId(),
                 employeeReg.getUserName(), 
-                employeeReg.getUserPassword()));
-//        newEmployee.getUsers().setRoleCollection(Arrays.asList(roleRepository.findByRoleName("guest")));
+                passwordEncoder.encode(employeeReg.getUserPassword())));
+//        newEmployee.getUsers().setRoleCollection(Arrays.asList(new Role("guest")));
+//        List<Role> defaultRole = new ArrayList<>();
+//        defaultRole.add(new Role(3));
+//        newEmployee.getUsers().setRoleCollection(defaultRole);
+//        newEmployee.getUsers().getRoleCollection().add(roleRepository.findByRoleName("guest"));
         return employeerepository.save(newEmployee);
     }
     

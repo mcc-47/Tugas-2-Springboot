@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -35,21 +36,8 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter{
     }
     
     @Bean
-    public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder(10);
-    }
-    
-    @Override
-    public void configure(HttpSecurity http) throws Exception{
-        http.csrf().disable().authorizeRequests()
-                .antMatchers("/login/**","/api/management/user")
-                .permitAll()
-                .antMatchers("/","/logout")
-                .authenticated()
-                .and()
-                .logout().disable()
-                .formLogin().disable()
-                .httpBasic();
+    public BCryptPasswordEncoder  passwordEncoder(){
+        return new BCryptPasswordEncoder();
     }
     
     @Bean
@@ -59,4 +47,27 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter{
         auth.setPasswordEncoder(passwordEncoder());
         return auth;
     }
+    
+    @Override
+    public void configure(AuthenticationManagerBuilder auth) throws Exception{
+        auth.authenticationProvider(authenticationProvider());
+    }
+    
+    @Override
+    public void configure(HttpSecurity http) throws Exception{
+        http.csrf().disable().authorizeRequests()
+                .antMatchers("/login/**","/api/management/user")
+                .permitAll()
+                .antMatchers("/api/provinces/list-all")
+                .hasAnyAuthority("guest")
+                .antMatchers("/api/districts/list-all")
+                .hasAnyAuthority("trainer")
+                .antMatchers("/","/logout")
+                .authenticated()
+                .and()
+                .logout().disable()
+                .formLogin().disable()
+                .httpBasic();
+    }
+    
 }
