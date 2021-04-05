@@ -22,6 +22,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,6 +43,9 @@ public class UserManagementController {
     
     @Autowired
     UserService userService;
+    
+    @Autowired
+    PasswordEncoder passwordEncoder;
     
     @PostMapping("/email-sender")
     public ResponseEntity<?> sendEmailConfirm (Integer employeeId) throws MessagingException{
@@ -64,16 +69,18 @@ public class UserManagementController {
     
     @PostMapping("/user-token")
     public UserSessionDto userNameLogin(@RequestBody UserLoginDto userLoginDto)throws Exception{
+        BCryptPasswordEncoder b = new BCryptPasswordEncoder();
         Users user = userService.loadUserByUsername(userLoginDto.getUserName());
-        if (!(user.getPassword().equals(userLoginDto.getUserPassword()))) {
+        if (!(b.matches(userLoginDto.getUserPassword(), user.getPassword()))) {
             throw new Exception("Wrong Password");
-        }
+        } else {
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                                                             userLoginDto.getUserName(), 
                                                             userLoginDto.getUserPassword(), 
                                                             user.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authToken);
-        System.out.println("Success Vruh Huha Huba");
+        System.out.println("Login With Session Success");
+        }
         List<String> grantedAuth = new ArrayList<>();
         for (GrantedAuthority auth : user.getAuthorities()) {
             grantedAuth.add(auth.getAuthority());

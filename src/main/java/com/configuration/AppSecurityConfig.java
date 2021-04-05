@@ -47,6 +47,8 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter{
                 .permitAll()
                 .antMatchers("/","/logout")
                 .authenticated()
+                .antMatchers("/api/employees")
+                .hasRole("admin")
                 .and()
                 .logout().disable()
                 .formLogin().disable()
