@@ -24,19 +24,13 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-/**
- *
- * @author ROG
- */
+
 @Entity
 @Table(name = "employee")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Employees.findAll", query = "SELECT e FROM Employees e")})
 public class Employees implements Serializable {
-
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "employees", fetch = FetchType.LAZY)
-    private Users users;
 
     private static final long serialVersionUID = 1L;
     @Basic(optional = false)
@@ -69,6 +63,8 @@ public class Employees implements Serializable {
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "employees")
     @JsonBackReference
     private Contacts contacts;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "employees", fetch = FetchType.LAZY)
+    private Users users;
 
     public Employees() {
     }
@@ -77,7 +73,8 @@ public class Employees implements Serializable {
         this.employeeId = employeeId;
     }
 
-    public Employees(String prefix, Integer employeeId, String employeeName, Date birthDate, String gender, String email, Addresses addresses, Educations educations, Contacts contacts) {
+    public Employees(String prefix, Integer employeeId, String employeeName, Date birthDate, String gender, 
+            String email, Addresses addresses, Educations educations, Contacts contacts, Users users) {
         this.prefix = prefix;
         this.employeeId = employeeId;
         this.employeeName = employeeName;
@@ -87,17 +84,8 @@ public class Employees implements Serializable {
         this.addresses = addresses;
         this.educations = educations;
         this.contacts = contacts;
+        this.users = users;
     }
-
-    
-    
-//    public Employees(String employeeName, Addresses street, Villages villageName,  Villages zipCode, Subdistricts subDistrictName, Districts kab, Districts districtName, Provinces provinceName){
-//        this.employeeName = employeeName;
-//        this.addresses = street;
-//        this.
-//    }
-
-    
 
     public String getPrefix() {
         return prefix;

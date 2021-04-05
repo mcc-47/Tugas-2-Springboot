@@ -1,13 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.mii.server.entities;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -25,13 +18,15 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author ROG
+ * @author LENOVO-KL
  */
 @Entity
 @Table(name = "role")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Role.findAll", query = "SELECT r FROM Role r")})
+    @NamedQuery(name = "Role.findAll", query = "SELECT r FROM Role r")
+    , @NamedQuery(name = "Role.findByRoleId", query = "SELECT r FROM Role r WHERE r.roleId = :roleId")
+    , @NamedQuery(name = "Role.findByRoleName", query = "SELECT r FROM Role r WHERE r.roleName = :roleName")})
 public class Role implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -49,10 +44,6 @@ public class Role implements Serializable {
     private List<Users> usersList;
     @ManyToMany(mappedBy = "roleList", fetch = FetchType.LAZY)
     private List<Privileges> privilegesList;
-    @ManyToMany(mappedBy = "roleCollection", fetch = FetchType.LAZY)
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private Collection<Privileges> privilegesCollection;
-
 
     public Role() {
     }
@@ -101,7 +92,7 @@ public class Role implements Serializable {
     }
 
     @Override
-    public int hashCode() { 
+    public int hashCode() {
         int hash = 0;
         hash += (roleId != null ? roleId.hashCode() : 0);
         return hash;
@@ -122,15 +113,16 @@ public class Role implements Serializable {
 
     @Override
     public String toString() {
-        return "com.mii.server.entities.Role[ roleId=" + roleId + " ]";
-    }
-    
-    public Collection<Privileges> getPrivilegesCollection() {
-        return privilegesCollection;
+        return "com.mii.server.entities.Roles[ roleId=" + roleId + " ]";
     }
 
-    public void setPrivilegesCollection(Collection<Privileges> privilegeCollection) {
-        this.privilegesCollection = privilegesCollection;
+    public void setRoleName(Users users) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+    
     
 }

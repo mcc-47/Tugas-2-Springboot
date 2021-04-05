@@ -9,10 +9,7 @@ import com.mii.server.entities.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-/**
- *
- * @author ROG
- */
+
 @Repository
 public interface UserRepository extends JpaRepository<Users, Integer>{
     Users findByUserName(String userName);

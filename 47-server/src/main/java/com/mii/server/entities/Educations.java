@@ -38,7 +38,7 @@ public class Educations implements Serializable {
     @Column(name = "prefix")
     private String prefix;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "education_id")
     private Integer educationId;

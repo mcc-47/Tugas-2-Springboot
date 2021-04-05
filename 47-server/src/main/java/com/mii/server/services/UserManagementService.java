@@ -12,21 +12,21 @@ import com.mii.server.entities.Educations;
 import com.mii.server.entities.Employees;
 import com.mii.server.entities.Majors;
 import com.mii.server.entities.Universities;
+import com.mii.server.entities.Users;
 import com.mii.server.entities.Villages;
 import com.mii.server.repositories.UserManagementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-/**
- *
- * @author ROG
- */
 @Service
 public class UserManagementService {
     
     @Autowired
     UserManagementRepository userManagementRepository;
     
+    @Autowired 
+    PasswordEncoder passwordEncoder;
     
     //Create data for Multiple Table
     public Employees insertData(UserManagementDTO userManagementDTO) {
@@ -40,17 +40,13 @@ public class UserManagementService {
                 new Addresses(
                         userManagementDTO.getPrefix(), 
                         userManagementDTO.getEmployeeId(), 
-                        new Villages(
-                                userManagementDTO.getVillageId()
-                        )
+                        new Villages(userManagementDTO.getVillageId())
                 ), 
                 new Educations(
                         userManagementDTO.getEmployeeId(), 
-                        new Majors(
-                                userManagementDTO.getMajorId()
+                        new Majors(userManagementDTO.getMajorId()
                         ), 
-                        new Universities(
-                                userManagementDTO.getUniversityId()
+                        new Universities(userManagementDTO.getUniversityId()
                         ),
                         userManagementDTO.getPrefix()
                 ), 
@@ -59,10 +55,13 @@ public class UserManagementService {
                         userManagementDTO.getPhone(), 
                         userManagementDTO.getLinkedin(), 
                         userManagementDTO.getPrefix()
+                ),
+                new Users (
+                    userManagementDTO.getEmployeeId(),
+                    userManagementDTO.getUserName(),
+                    passwordEncoder.encode(userManagementDTO.getUserPassword())
                 )
         );
         return userManagementRepository.save(reg);
     }
-    
-    
 }

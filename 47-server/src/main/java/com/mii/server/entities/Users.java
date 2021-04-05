@@ -5,8 +5,6 @@
  */
 package com.mii.server.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,6 +15,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -25,12 +24,13 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  *
- * @author ROG
+ * @author LENOVO-KL
  */
 @Entity
 @Table(name = "users")
@@ -50,20 +50,18 @@ public class Users implements UserDetails {
     @Basic(optional = false)
     @Column(name = "user_password")
     private String userPassword;
-    @ManyToMany(mappedBy = "usersList", fetch = FetchType.LAZY)
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private List<Role> roleList;
+    @JoinTable(name = "user_role", joinColumns = {
+        @JoinColumn(name = "user_id", referencedColumnName = "user_id")}, inverseJoinColumns = {
+        @JoinColumn(name = "role_id", referencedColumnName = "role_id")})
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<Role> rolesList;
     @JoinColumn(name = "user_id", referencedColumnName = "employee_id", insertable = false, updatable = false)
-    @OneToOne(optional = false, fetch = FetchType.LAZY)
-//    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToOne(optional = true, fetch = FetchType.LAZY)
     private Employees employees;
-    @ManyToMany(mappedBy = "usersCollection", fetch = FetchType.LAZY)
-    private Collection<Role> roleCollection;
-
 
     public Users() {
     }
-
+    
     public Users(Integer userId) {
         this.userId = userId;
     }
@@ -71,8 +69,16 @@ public class Users implements UserDetails {
     public Users(Integer userId, String userName, String userPassword) {
         this.userId = userId;
         this.userName = userName;
-        this.userPassword = userPassword; 
+        this.userPassword = userPassword;
     }
+
+    public Users(Integer userId, String userName, String userPassword, List<Role> rolesList) {
+        this.userId = userId;
+        this.userName = userName;
+        this.userPassword = userPassword;
+        this.rolesList = rolesList;
+    }
+    
 
     public Integer getUserId() {
         return userId;
@@ -91,12 +97,13 @@ public class Users implements UserDetails {
     }
 
     @XmlTransient
-    public List<Role> getRoleList() {
-        return roleList;
+    public List<Role> getRolesList() {
+        return rolesList;
     }
 
-    public void setRoleList(List<Role> roleList) {
-        this.roleList = roleList;
+
+    public void setRolesList(List<Role> rolesList) {
+        this.rolesList = rolesList;
     }
 
     public Employees getEmployees() {
@@ -132,13 +139,13 @@ public class Users implements UserDetails {
         return "com.mii.server.entities.Users[ userId=" + userId + " ]";
     }
 
-    @Override 
+    @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Collection<Role> roles = getRoleCollection();
+      Collection<Role> roles = getRolesList();
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
         for (Role r : roles) {
             authorities.add(new SimpleGrantedAuthority(r.getRoleName()));
-            Collection<Privileges> privileges = r.getPrivilegesCollection();
+            Collection<Privileges> privileges = r.getPrivilegesList();
             for (Privileges p : privileges) {
                 authorities.add(new SimpleGrantedAuthority(p.getPrivilegeName()));
             }
@@ -148,13 +155,11 @@ public class Users implements UserDetails {
 
     @Override
     public String getPassword() {
-       return userPassword;
-    }
+       return userPassword;    }
 
     @Override
     public String getUsername() {
-        return userName;
-    }
+       return userName;   }
 
     @Override
     public boolean isAccountNonExpired() {
@@ -172,17 +177,12 @@ public class Users implements UserDetails {
     }
 
     @Override
-    public boolean isEnabled() { 
+    public boolean isEnabled() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    @XmlTransient
-    public Collection<Role> getRoleCollection() {
-        return roleCollection;
-    }
 
-    public void setRoleCollection(Collection<Role> roleCollection) {
-        this.roleCollection = roleCollection;
+    public List<Role> getRoleList() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

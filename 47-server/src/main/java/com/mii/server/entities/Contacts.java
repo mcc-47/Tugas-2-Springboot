@@ -36,7 +36,7 @@ public class Contacts implements Serializable {
     @Column(name = "prefix")
     private String prefix;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "contact_id")
     private Integer contactId;

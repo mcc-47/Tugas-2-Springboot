@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.mii.server.entities;
 
 import java.io.Serializable;
@@ -23,13 +18,15 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author ROG
+ * @author LENOVO-KL
  */
 @Entity
 @Table(name = "privileges")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Privileges.findAll", query = "SELECT p FROM Privileges p")})
+    @NamedQuery(name = "Privileges.findAll", query = "SELECT p FROM Privileges p")
+    , @NamedQuery(name = "Privileges.findByPrivilegeId", query = "SELECT p FROM Privileges p WHERE p.privilegeId = :privilegeId")
+    , @NamedQuery(name = "Privileges.findByPrivilegeName", query = "SELECT p FROM Privileges p WHERE p.privilegeName = :privilegeName")})
 public class Privileges implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -79,7 +76,7 @@ public class Privileges implements Serializable {
         return roleList;
     }
 
-    public void setRoleList(List<Role> roleList) {
+    public void setRolesList(List<Role> roleList) {
         this.roleList = roleList;
     }
 

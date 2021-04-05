@@ -1,16 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.mii.server.dtos;
 
 import java.util.Date;
 
-/**
- *
- * @author ROG
- */
 public class UserManagementDTO {
      private String prefix;
     private Integer employeeId;
@@ -23,8 +15,12 @@ public class UserManagementDTO {
     private Integer villageId;
     private Integer majorId;
     private Integer universityId;
+    private String userName;
+    private String userPassword;
 
-    public UserManagementDTO(String prefix, Integer employeeId, String employeeName, Date birthDate, String gender, String email, String phone, String linkedin, Integer villageId, Integer majorId, Integer universityId) {
+    public UserManagementDTO(String prefix, Integer employeeId, String employeeName, Date birthDate, 
+            String gender, String email, String phone, String linkedin, Integer villageId, 
+            Integer majorId, Integer universityId, String userName, String userPassword) {
         this.prefix = prefix;
         this.employeeId = employeeId;
         this.employeeName = employeeName;
@@ -36,6 +32,8 @@ public class UserManagementDTO {
         this.villageId = villageId;
         this.majorId = majorId;
         this.universityId = universityId;
+        this.userName = userName;
+        this.userPassword = userPassword;
     }
 
     public UserManagementDTO() {
@@ -128,9 +126,21 @@ public class UserManagementDTO {
     public void setUniversityId(Integer universityId) {
         this.universityId = universityId;
     }
-    
-   
-   
-    
-    
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getUserPassword() {
+        return userPassword;
+    }
+
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
+    }
+ 
 }
