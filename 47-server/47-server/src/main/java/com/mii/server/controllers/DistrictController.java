@@ -4,66 +4,100 @@
  * and open the template in the editor.
  */
 package com.mii.server.controllers;
-
-import com.mii.server.dtos.ProvinceDistrictDTO;
-
+import com.mii.server.dtos.DistrictProvinceDto;
+import com.mii.server.dtos.EmployeeAddressDto;
+import com.mii.server.entities.Districts;
+import com.mii.server.entities.Employees;
+import com.mii.server.entities.Provinces;
+import com.mii.server.repositories.ServerRepository;
 import com.mii.server.services.DistrictService;
+import com.mii.server.services.ServerService;
+
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 /**
  *
- * @author acer
+ * @author User
  */
 @RestController
-
+@RequestMapping("/district")
 public class DistrictController {
-
+    
     @Autowired
-    private DistrictService districtService;
-
-    @GetMapping(path = "/districts")
-    public ResponseEntity<List<ProvinceDistrictDTO>> retrieveAllProvinceDistrict(){
-        return new ResponseEntity<>(districtService.getProvinceDistrict(), HttpStatus.OK);
+    DistrictService districtService;
+    
+    @Autowired
+    ServerService serverService;
+    
+ 
+    
+    @Autowired
+    ServerRepository serverRepository;
+    
+    @Autowired
+    public DistrictController(DistrictService districtService) {
+        this.districtService = districtService;
     }
     
-    /*
-    @GetMapping("")
-    public ResponseEntity<List<District>> retrieveAllDistricts() {
-        return new ResponseEntity<>(districtService.getAllDistricts(), HttpStatus.OK);
+   @GetMapping("")
+    public List<Districts> readDistrict(){
+        return districtService.getAll();
+        
     }
+    
+//    @PostMapping("/insert")
+//    public String insertDistrict(@RequestBody Districts districts){
+//        districtService.insertData(districts);
+//        return "insert";
+//    }
+     @PostMapping("/insert")
+    public String insertDistrict(@RequestBody Districts districts){
+       if(!serverRepository.existsById(districts.getProvinceId().getProvinceId())){
+           Provinces newProvince = serverRepository.save(districts.getProvinceId());
+           districts.setProvinceId(newProvince);
+       }
+        districtService.insertData(districts);
+        return "insert";
+    }
+    
+    @GetMapping("/disprov")
+    public List<DistrictProvinceDto> listDistrict(){
 
-    @GetMapping("/{id}")
-    public ResponseEntity<District> retrieveOneDistrict(@PathVariable Integer id) {
-        return new ResponseEntity<>(districtService.getDistrictById(id), HttpStatus.OK);
+        return districtService.getAllDisProv();
     }
-
-    @PostMapping("")
-    public ResponseEntity<District> addOneDistrict(@RequestBody District district) {
-        return new ResponseEntity<>(districtService.createDistrict(district), HttpStatus.OK);
+    
+    @GetMapping("/empad")
+    public List<EmployeeAddressDto> listEmpAdd(@RequestBody Employees employee){
+        return districtService.getAllEmpAdd();
     }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<District> updateOneDistrict(@RequestBody District district, @PathVariable Integer id) {
-        return new ResponseEntity<>(districtService.updateDistrictById(district, id), HttpStatus.OK);
-    }
+    
+    
+    /*@GetMapping("/insertt")
+    public List<Districts> insertDistrict(){
+        return districtService.insertData();
+    }*/
     
     @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> deleteOneDistrict(@PathVariable Integer id) {
-        try {
-            districtService.deleteDistrictById(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public String deleteDistrict(@PathVariable Integer id){
+        districtService.delete(id);
+        return "berhasil hapus";
     }
-    */
+    
+    @PutMapping("/update/{id}")
+    public String updateDistrict(@PathVariable Integer id,@RequestBody Districts districts){
+        districtService.getById(id);
+        districtService.update(id,districts);
+        return "updated";
+    }
+          
+    
 }

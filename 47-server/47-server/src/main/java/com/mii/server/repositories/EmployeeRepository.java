@@ -5,15 +5,13 @@
  */
 package com.mii.server.repositories;
 
-import com.mii.server.entities.Employee;
+import com.mii.server.entities.Employees;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 /**
  *
- * @author acer
+ * @author User
  */
-@Repository
-public interface EmployeeRepository extends JpaRepository<Employee, Integer>{
+public interface EmployeeRepository extends JpaRepository<Employees, Integer> {
     
 }

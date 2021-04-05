@@ -5,13 +5,12 @@
  */
 package com.mii.server.controllers;
 
-import com.mii.server.dtos.RegistDTO;
-import com.mii.server.entities.Employee;
+import com.mii.server.dtos.RegistDto;
+import com.mii.server.entities.Employees;
 import com.mii.server.services.RegistService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,33 +18,35 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  *
- * @author acer
+ * @author User
  */
 @RestController
-
+@RequestMapping("/regist")
 public class RegistController {
-
+    
     @Autowired
-    private RegistService registService;
-
-    @PostMapping("/registration")
-    public ResponseEntity<Employee> saveUser(@RequestBody RegistDTO registDTO) {
-        return new ResponseEntity<>(registService.insertData(registDTO), HttpStatus.OK);
+    RegistService registService;
+    
+    @PostMapping("/insert")
+    public String insert(@RequestBody RegistDto registDto){
+         registService.insertData(registDto);
+                 return "inserted";
     }
-
-    /*
-    {
-        "prefix":"MCC",
-        "employeeId":14,
-        "employeeName":"Willtestregist",
-        "birthDate":"2010-10-10",
-        "gender":"Laki-laki",
-        "email":"mcc472021@gmail.com",
-        "phone":"0892929292",
-        "linkedin":"test",
-        "villageId":11,
-        "majorId":1,
-        "universityId":8
-    }
-     */
+    
+//    
+//     @PostMapping("/insert")
+//    public String insertDistrict(@RequestBody Districts districts){
+//        districtService.insertData(districts);
+//        return "insert";
+//    }
+     
+//    @PostMapping("/insert")
+//    public String insertDistrict(@RequestBody Districts districts){
+//       if(!serverRepository.existsById(districts.getProvinceId().getProvinceId())){
+//           Provinces newProvince = serverRepository.save(districts.getProvinceId());
+//           districts.setProvinceId(newProvince);
+//       }
+//        districtService.insertData(districts);
+//        return "insert";
+//    }
 }

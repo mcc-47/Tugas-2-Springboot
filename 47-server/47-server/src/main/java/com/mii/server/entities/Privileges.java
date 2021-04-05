@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author acer
+ * @author User
  */
 @Entity
 @Table(name = "privileges")

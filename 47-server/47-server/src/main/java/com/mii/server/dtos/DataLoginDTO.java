@@ -7,10 +7,9 @@ package com.mii.server.dtos;
 
 /**
  *
- * @author acer
+ * @author User
  */
 public class DataLoginDTO {
-
     private String userName;
     private String userPassword;
 
@@ -37,5 +36,6 @@ public class DataLoginDTO {
     public void setUserPassword(String userPassword) {
         this.userPassword = userPassword;
     }
-
+    
+    
 }

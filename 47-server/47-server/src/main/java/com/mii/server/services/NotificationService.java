@@ -5,39 +5,32 @@
  */
 package com.mii.server.services;
 
-import com.mii.server.entities.Employee;
+import com.mii.server.entities.Employees;
 import com.mii.server.repositories.EmployeeRepository;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.mail.javamail.JavaMailSender;
 
 /**
  *
- * @author acer
+ * @author User
  */
 @Service
 public class NotificationService {
-
-    /**
-     *
-     * @param employeeId
-     * @throws MessagingException
-     */
+   
     JavaMailSender javaMailSender;
     EmployeeRepository employeeRepository;
 
     @Value("${spring.mail.username}")
     String sender;
 
-    /**
-     *
-     * @param javaMailSender
-     * @param employeeRepository
-     */
+//    @Autowired
+//    NotificationService notificationService;
+    
     @Autowired
 
     public NotificationService(JavaMailSender javaMailSender, EmployeeRepository employeeRepository) {
@@ -46,9 +39,11 @@ public class NotificationService {
     }
 
     
+    
+
     public void sendEmail(Integer employeeId) throws MessagingException {
-        Employee employee = employeeRepository.findById(employeeId).get();
-        String province = employee.getAddress().getVillageId().getSubdistrictId().getDistrictId().getProvinceId().getProvinceName();
+        Employees employee = employeeRepository.findById(employeeId).get();
+        String province = employee.getAddresses().getVillageId().getSubdistrictId().getDistrictId().getProvinceId().getProvinceName();
 
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
@@ -56,8 +51,8 @@ public class NotificationService {
         helper.setFrom(sender);
         helper.setTo(employee.getEmail());
         helper.setSubject("Ini demo pengiriman email");
-        message.setText(String.format("ID: %d, Nama: %s", employee.getEmployeeId(),
-                employee.getEmployeeName(), province), "UTF-8", "html");
+        message.setText(String.format("ID: %d, Nama: %s, Province:%s", employee.getEmployeeId(),
+                employee.getEmployeeName(),employee.getAddresses().getVillageId().getSubdistrictId().getDistrictId().getProvinceId().getProvinceName(), province), "UTF-8", "html");
         javaMailSender.send(message);
     }
 }

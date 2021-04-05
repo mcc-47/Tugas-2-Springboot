@@ -11,9 +11,10 @@ import org.springframework.stereotype.Repository;
 
 /**
  *
- * @author acer
+ * @author User
  */
 @Repository
-public interface UserRepository extends JpaRepository<Users, Integer> {
+public interface UserRepository extends JpaRepository<Users, Integer>{
     Users findByUserName(String userName);
+    
 }

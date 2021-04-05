@@ -5,27 +5,22 @@
  */
 package com.mii.server.services;
 
+/**
+ *
+ * @author User
+ */
 import com.mii.server.entities.Users;
 import com.mii.server.repositories.UserRepository;
 import org.hibernate.dialect.MySQLStorageEngine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/**
- *
- * @author acer
- */
+
 @Service
 public class UserManagementService extends MyUserDetailsServiceImpl {
 
     @Autowired
     private UserRepository userRepository;
     private MyUserDetailsServiceImpl myUserDetailsServiceImpl;
-
-//    public Integer login(Users u) {
-//        Users user = new Users();
-//        if(myUserDetailsServiceImpl.loadByUserName()){
-//            
-//    }
-
 }
+

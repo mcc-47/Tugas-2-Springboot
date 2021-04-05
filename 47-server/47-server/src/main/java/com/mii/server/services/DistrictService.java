@@ -4,69 +4,118 @@
  * and open the template in the editor.
  */
 package com.mii.server.services;
-
-import com.mii.server.dtos.ProvinceDistrictDTO;
-import com.mii.server.entities.District;
+import com.mii.server.dtos.DistrictProvinceDto;
+import com.mii.server.dtos.EmployeeAddressDto;
 import com.mii.server.repositories.DistrictRepository;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+
+import com.mii.server.entities.Districts;
+import com.mii.server.entities.Employees;
+import com.mii.server.repositories.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import java.util.ArrayList;
+import java.util.List;
 /**
  *
- * @author acer
+ * @author User
  */
 @Service
 public class DistrictService {
-
-   @Autowired
-    private DistrictRepository districtRepository;
-
-    public List<ProvinceDistrictDTO> getProvinceDistrict(){
-        List<ProvinceDistrictDTO> pds = new ArrayList<>();
-        for (District d : districtRepository.findAll()){
-            ProvinceDistrictDTO pd = new ProvinceDistrictDTO(
-            d.getKotakab(),d.getDistrictName(), d.getProvinceId().getProvinceName()
-            );
-            pds.add(pd);
+    
+    @Autowired
+    DistrictRepository districtRepository;
+    
+    @Autowired
+    EmployeeRepository  employeeRepository;
+    
+    
+    @Autowired
+    public DistrictService(DistrictRepository districtRepository) {
+        this.districtRepository = districtRepository;
+    }
+    
+    // Read
+    public List<Districts> getAll(){
+        List<Districts> districts = new ArrayList<>();
+        for (Districts district:districtRepository.findAll()){
+        districts.add(new Districts(district.getDistrictId(),district.getDistrictName(),district.getKab(),district.getProvinceId()));
+    }
+        return districts;
+    }
+    
+    
+    public List<DistrictProvinceDto> getAllDisProv() {
+        
+        List<DistrictProvinceDto> pds = new ArrayList<>();
+        for (Districts d : districtRepository.findAll()) {
+            DistrictProvinceDto ds = new DistrictProvinceDto(
+                    d.getDistrictName(),
+                    d.getProvinceId().getProvinceName());
+            pds.add(ds);
         }
         return pds;
+        
     }
     
-    
-    public List<District> getAllDistricts() {
-        return districtRepository.findAll();
-    }
-
-    
-    public District getDistrictById(Integer id) {
-        Optional<District> optional = districtRepository.findById(id);
-        District district = null;
-        if (optional.isPresent()) {
-            district = optional.get();
-        } else {
-            throw new RuntimeException(" Province not found for id :: " + id);
+    public List<EmployeeAddressDto> getAllEmpAdd(){
+        List<EmployeeAddressDto> ead = new ArrayList<>();
+        for(Employees emp: employeeRepository.findAll()){
+            EmployeeAddressDto ea = new EmployeeAddressDto(
+                    emp.getPrefix(),
+                    emp.getEmployeeName(),
+                    emp.getBirthDate(),
+                    emp.getGender(),
+                    emp.getEmail()
+                  
+                   );
+            ead.add(ea);
         }
-        return district;
+        return ead;
+    }
+ 
+    public Districts insertData(Districts districts){
+        return districtRepository.save(districts);
+    }
+    
+    public void update(Integer id, Districts districts) {
+        Districts district = districtRepository.findById(id).get();
+        district.setDistrictName(districts.getDistrictName());
+        district.setKab(districts.getKab());
+        district.setProvinceId(districts.getProvinceId());
+        districtRepository.save(district);
     }
 
-    
-    public District createDistrict(District district) {
-        return districtRepository.save(district);
+    public Districts getById(Integer id) {
+        return districtRepository.getOne(id);
     }
-
     
-    public District updateDistrictById(District districtDetails, Integer id) {
-        District district = this.getDistrictById(id);
-        district.setDistrictId(district.getDistrictId());
-        district.setDistrictName(districtDetails.getDistrictName());
-        return districtRepository.save(district);
+    public boolean delete(Integer id){
+        districtRepository.deleteById(id);
+        return !districtRepository.existsById(id);
     }
-
     
-    public void deleteDistrictById(Integer id) {
-        this.districtRepository.deleteById(id);
-    }
+   
+  
+    
+    // Insert
+    /*public List<Districts> insertData() {
+        List<Districts> districtses = new ArrayList<>();
+        districtses.add(new Districts(1,"Kota","Mantap"));
+        return districtRepository.saveAll(districtses);
+    }*/
+    
+    
+    //Update
+    /*public void update(Integer id, String name){
+        Provinces province = serverRepository.findById(id).get();
+        province.setProvinceName(name);
+        serverRepository.save(province);
+    }*/
+    
+    /*public boolean delete(Integer id){
+        districtRepository.deleteById(id);
+        return districtRepository.existsById(id);
+    }*/
+    
+    
 }

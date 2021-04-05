@@ -5,14 +5,17 @@
  */
 package com.mii.server.dtos;
 
-import java.util.Date;
-
 /**
  *
- * @author acer
+ * @author User
  */
-public class RegistDTO {
+import com.mii.server.entities.Employees;
+import com.mii.server.entities.Addresses;
+import com.mii.server.entities.Contacts;
+import com.mii.server.entities.Educations;
+import java.util.Date;
 
+public class RegistDto {
     private String prefix;
     private Integer employeeId;
     private String employeeName;
@@ -24,11 +27,14 @@ public class RegistDTO {
     private Integer villageId;
     private Integer majorId;
     private Integer universityId;
-
-    public RegistDTO(){};
+    private String userName;
+    private String userPassword;
     
-    public RegistDTO(String prefix, Integer employeeId, String employeeName, Date birthDate, String gender,
-            String email, String phone, String linkedin, Integer villageId, Integer majorId, Integer universityId) {
+    
+    
+
+    public RegistDto(String prefix,Integer employeeId,String employeeName, Date birthDate,
+            String gender, String email, String phone, String linkedin, Integer villageId, Integer majorId, Integer universityId, String userName, String userPassword) {
         this.prefix = prefix;
         this.employeeId = employeeId;
         this.employeeName = employeeName;
@@ -40,6 +46,41 @@ public class RegistDTO {
         this.villageId = villageId;
         this.majorId = majorId;
         this.universityId = universityId;
+        this.userName = userName;
+        this.userPassword = userPassword;
+ 
+    }
+
+    public RegistDto() {
+    }
+
+  
+
+    
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getUserPassword() {
+        return userPassword;
+    }
+
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
+    }
+
+    
+    
+    public Integer getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(Integer employeeId) {
+        this.employeeId = employeeId;
     }
 
     public String getPrefix() {
@@ -49,14 +90,8 @@ public class RegistDTO {
     public void setPrefix(String prefix) {
         this.prefix = prefix;
     }
-
-    public Integer getEmployeeId() {
-        return employeeId;
-    }
-
-    public void setEmployeeId(Integer employeeId) {
-        this.employeeId = employeeId;
-    }
+    
+    
 
     public String getEmployeeName() {
         return employeeName;
@@ -130,4 +165,11 @@ public class RegistDTO {
         this.universityId = universityId;
     }
 
+  
+    
+
+    
+    
+    
+    
 }
