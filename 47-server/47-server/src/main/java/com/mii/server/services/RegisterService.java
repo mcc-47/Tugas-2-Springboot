@@ -11,6 +11,7 @@ import com.mii.server.entities.Contacts;
 import com.mii.server.entities.Educations;
 import com.mii.server.entities.Employees;
 import com.mii.server.entities.Majors;
+import com.mii.server.entities.Roles;
 import com.mii.server.entities.Universities;
 import com.mii.server.entities.Users;
 import com.mii.server.entities.Villages;
@@ -18,6 +19,8 @@ import com.mii.server.repositories.AddressRepository;
 import com.mii.server.repositories.ContactRepository;
 import com.mii.server.repositories.EducationRepository;
 import com.mii.server.repositories.EmployeeRepository;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -69,6 +72,9 @@ public class RegisterService {
         String newEmployeePrefix = registerDTO.getPrefix();
         Integer newEmployeeId = registerDTO.getIdEmployee();
         
+        List<Roles> role = new ArrayList<>();
+        role.add(new Roles(3,"trainee"));
+        
         Employees newEmployee = new Employees(
                 newEmployeeId,
                 newEmployeePrefix,
@@ -93,8 +99,11 @@ public class RegisterService {
                 new Users(
                         newEmployeeId, 
                         registerDTO.getUserName(), 
-                        passwordEncoder.encode(registerDTO.getPassword()))
+                        passwordEncoder.encode(registerDTO.getPassword()),
+                        role)
         );
+        
+        
         return employeeRepository.save(newEmployee);
     }
 }

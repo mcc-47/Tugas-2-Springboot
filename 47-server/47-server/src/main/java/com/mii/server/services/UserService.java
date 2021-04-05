@@ -17,6 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -42,11 +43,12 @@ public class UserService implements UserDetailsService {
     }
     
     public UserSessionDTO loginUser(LoginDTO loginDTO) {
+        BCryptPasswordEncoder b = new BCryptPasswordEncoder();
         Users user = userRepository.findByUserName(loginDTO.getUserName());
         if(user == null) {
             throw new UsernameNotFoundException("Username tidak ditemukan");
         } else{
-            if(user.getPassword().equals(loginDTO.getPassword())) {
+            if(b.matches(loginDTO.getPassword(), user.getPassword())) {
                 UsernamePasswordAuthenticationToken authToken
                         = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(), user.getAuthorities());
 //                Authentication auth = authenticationManager.authenticate(authToken);

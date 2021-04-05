@@ -15,7 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * @author ACER
  */
 @Configuration
-public class SwaggerConfiguration {
+public class PasswordConfiguration {
     
     @Bean
     public PasswordEncoder passwordEncoder() {
