@@ -58,7 +58,6 @@ public class UserService implements UserDetailsService{
                                                             userLoginDto.getUserName(), 
                                                             userLoginDto.getUserPassword(), 
                                                             user.getAuthorities());
-//        Authentication authtentic = authManager.authenticate(authToken);
         SecurityContextHolder.getContext().setAuthentication(authToken);
         List<String> grantedAuth = new ArrayList<>();
         for (GrantedAuthority auth : user.getAuthorities()) {
@@ -66,6 +65,8 @@ public class UserService implements UserDetailsService{
         }
         return new UserSessionDto(user.getUsername(), grantedAuth);
     }
+    
+    
     
     public Users insert(Users user){
         user.setUserPassword(passwordEncoder.encode(user.getPassword()));

@@ -5,7 +5,6 @@
  */
 package com.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.util.Date;
@@ -57,19 +56,27 @@ public class Employees implements Serializable {
     @Column(name = "email")
     private String email;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "employees", fetch = FetchType.LAZY)
+    @Basic(optional = true)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Addresses addresses;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "employees", fetch = FetchType.LAZY)
+    @Basic(optional = true)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Educations educations;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "employees", fetch = FetchType.LAZY)
+    @Basic(optional = true)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Contacts contacts;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "employees", fetch = FetchType.LAZY)
+    @Basic(optional = true)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Users users;
 
     public Employees() {
+    }
+    
+    public Employees(Integer employeeId) {
+        this.employeeId = employeeId;
     }
 
     public Employees(String prefix, Integer employeeId, String employeeName, Date birthDate, String gender, String email) {
@@ -81,8 +88,10 @@ public class Employees implements Serializable {
         this.email = email;
     }
 
-    public Employees(String prefix, Date birthDate, String gender, String email, Addresses addresses, Educations educations, Contacts contacts, Users users) {
+    public Employees(String prefix, Integer employeeId, String employeeName, Date birthDate, String gender, String email, Addresses addresses, Educations educations, Contacts contacts, Users users) {
         this.prefix = prefix;
+        this.employeeId = employeeId;
+        this.employeeName = employeeName;
         this.birthDate = birthDate;
         this.gender = gender;
         this.email = email;

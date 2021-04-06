@@ -7,9 +7,6 @@ package com.controllers;
 
 import com.dto.ProvinceDistrictDto;
 import com.entities.Districts;
-import com.entities.Provinces;
-import com.repositories.DistrictRepository;
-import com.repositories.ProvinceRepository;
 import com.services.DistrictService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;

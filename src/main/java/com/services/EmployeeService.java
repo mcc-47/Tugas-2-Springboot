@@ -14,15 +14,12 @@ import com.entities.Contacts;
 import com.entities.Educations;
 import com.entities.Employees;
 import com.entities.Majors;
-import com.entities.Role;
 import com.entities.Universities;
 import com.entities.Users;
 import com.entities.Villages;
-import com.repositories.AddressRepository;
 import com.repositories.EmployeeRepository;
 import com.repositories.RoleRepository;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -147,4 +144,29 @@ public class EmployeeService {
         return employeerepository.save(newEmployee);
     }
     
+    // buat Client-App
+    public List<Employees> listAll(){
+        return employeerepository.findAll();
+    }
+    
+    public Employees getById(Integer employeeId){
+        return employeerepository.findById(employeeId).get();
+    }
+    
+    public void delete(Integer employeeId){
+        employeerepository.deleteById(employeeId);
+    }
+    
+    public Employees update(Integer employeeId, Employees employees){
+        Employees newEmp = employeerepository.findById(employeeId).get();
+        newEmp.setEmployeeName(employees.getEmployeeName());
+        newEmp.setBirthDate(employees.getBirthDate());
+        newEmp.setGender(employees.getGender());
+        newEmp.setEmail(employees.getEmail());
+        return employeerepository.save(newEmp);
+    }
+    
+    public Employees create(Employees employee){
+        return employeerepository.save(employee);
+    }
 }
