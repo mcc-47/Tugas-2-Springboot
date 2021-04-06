@@ -35,9 +35,6 @@ public class UserService implements UserDetailsService{
     UserRepository userRepository;
     
     @Autowired
-    AuthenticationManager authManager;
-    
-    @Autowired
     BCryptPasswordEncoder passwordEncoder;
     
     @Override
@@ -54,13 +51,14 @@ public class UserService implements UserDetailsService{
         if (!(passwordEncoder.matches(userLoginDto.getUserPassword(), user.getPassword()))) {
             throw new Exception("Waduu salah password nih ngab");
         }
+        //untuk setting session dan atau cookies
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                                                            userLoginDto.getUserName(), 
+                                                            userLoginDto.getUserName(),        //principal, credential, atoritas yg disimpen pada sesi tsb
                                                             userLoginDto.getUserPassword(), 
                                                             user.getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(authToken);
+        SecurityContextHolder.getContext().setAuthentication(authToken); //beneran set session
         List<String> grantedAuth = new ArrayList<>();
-        for (GrantedAuthority auth : user.getAuthorities()) {
+        for (GrantedAuthority auth : user.getAuthorities()) { //loop utk get otoritas dalam list<String>
             grantedAuth.add(auth.getAuthority());
         }
         return new UserSessionDto(user.getUsername(), grantedAuth);
