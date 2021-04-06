@@ -6,6 +6,7 @@
 package com.mii.server.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
@@ -46,13 +47,15 @@ public class Districts implements Serializable {
     @Column(name = "district_id")
     private Integer districtId;
     @Basic(optional = false)
-    @Column(name = "kota")
+    @Column(name = "kab")
     private String kab;
     @Basic(optional = false)
     @Column(name = "district_name")
     private String districtName;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "districtId", fetch = FetchType.LAZY)
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+//    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+//    @JsonIgnore
+    @JsonBackReference
     private List<Subdistricts> subdistrictsList;
     @JoinColumn(name = "province_id", referencedColumnName = "province_id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)

@@ -58,8 +58,9 @@ public class DistrictService {
     }
     
     //Update
-    public Districts updateDistrictName(Integer id, String name){
+    public Districts updateDistrictName(Integer id, String kab, String name){
         Districts district = districtRepository.findById(id).get();
+        district.setKab(kab);
         district.setDistrictName(name);
         return districtRepository.save(district);
     }

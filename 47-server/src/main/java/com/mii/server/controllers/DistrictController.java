@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author ACER
  */
 @RestController
-@RequestMapping("districts")
+@RequestMapping("api/districts")
 public class DistrictController {
     DistrictService districtService;
     
@@ -56,9 +57,9 @@ public class DistrictController {
     }
     
     //Update
-    @PatchMapping("{id}")
+    @PutMapping("{id}")
     public ResponseEntity<?> updateName(@RequestBody Districts district, @PathVariable Integer id) {
-        return new ResponseEntity<>(districtService.updateDistrictName(id, district.getDistrictName()), HttpStatus.OK);        
+        return new ResponseEntity<>(districtService.updateDistrictName(id, district.getKab(), district.getDistrictName()), HttpStatus.OK);        
     }
     
     //Delete
