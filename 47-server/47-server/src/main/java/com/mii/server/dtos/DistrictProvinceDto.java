@@ -13,25 +13,51 @@ import com.mii.server.entities.Provinces;
  */
 public class DistrictProvinceDto {
 
-    private String nameDistrict;
+    private Integer districtId;
+    private String kab;
+    private String districtName;
     private String provinceName;
 
-    public DistrictProvinceDto(String nameDistrict, String provinceName) {
-
-        this.nameDistrict = nameDistrict;
+    public DistrictProvinceDto(Integer districtId, String kab, String districtName , String provinceName) {
+        this.districtId = districtId;
+        this.kab = kab;
+        this.districtName = districtName;
         this.provinceName = provinceName;
     }
 
-    public DistrictProvinceDto() {
-
+    public Integer getDistrictId() {
+        return districtId;
     }
 
-    public String getNameDistrict() {
-        return nameDistrict;
+    public void setDistrictId(Integer districtId) {
+        this.districtId = districtId;
     }
+
+    public String getKab() {
+        return kab;
+    }
+
+    public void setKab(String kab) {
+        this.kab = kab;
+    }
+
+    public String getDistrictName() {
+        return districtName;
+    }
+
+    public void setDistrictName(String districtName) {
+        this.districtName = districtName;
+    }
+
+   
 
     public String getProvinceName() {
         return provinceName;
     }
 
+    public void setProvinceName(String provinceName) {
+        this.provinceName = provinceName;
+    }
+
+    
 }

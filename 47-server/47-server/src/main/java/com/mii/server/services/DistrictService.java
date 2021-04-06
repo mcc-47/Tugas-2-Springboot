@@ -38,7 +38,7 @@ public class DistrictService {
     public List<Districts> getAll(){
         List<Districts> districts = new ArrayList<>();
         for (Districts district:districtRepository.findAll()){
-        districts.add(new Districts(district.getDistrictId(),district.getDistrictName(),district.getKab(),district.getProvinceId()));
+        districts.add(new Districts(district.getDistrictId(),district.getKab(),district.getDistrictName(),district.getProvinceId()));
     }
         return districts;
     }
@@ -49,8 +49,12 @@ public class DistrictService {
         List<DistrictProvinceDto> pds = new ArrayList<>();
         for (Districts d : districtRepository.findAll()) {
             DistrictProvinceDto ds = new DistrictProvinceDto(
+                    d.getDistrictId(),
+                    d.getKab(),
                     d.getDistrictName(),
-                    d.getProvinceId().getProvinceName());
+                    d.getProvinceId().getProvinceName()
+
+            );
             pds.add(ds);
         }
         return pds;
@@ -94,8 +98,19 @@ public class DistrictService {
         return !districtRepository.existsById(id);
     }
     
-   
-  
+     public Districts getOne(Integer id) {
+        return districtRepository.findById(id).get();
+    }
+    
+    public List<Districts> getAllArnum() {
+//        return districtRepository.findAll();
+        List<Districts> dist = new ArrayList<>();
+        for (Districts districts : districtRepository.findAll()) {
+            dist.add(new Districts(districts.getDistrictId(), districts.getKab(), districts.getDistrictName(),
+                    districts.getProvinceId()));
+        }
+        return dist;
+    }
     
     // Insert
     /*public List<Districts> insertData() {

@@ -15,6 +15,8 @@ import com.mii.server.services.ServerService;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -80,23 +82,38 @@ public class DistrictController {
         return districtService.getAllEmpAdd();
     }
     
+    @GetMapping("/{id}")
+    public ResponseEntity<Districts> getById(@PathVariable Integer id){
+        return new ResponseEntity<>(districtService.getOne(id),HttpStatus.OK);
+    }
     
     /*@GetMapping("/insertt")
     public List<Districts> insertDistrict(){
         return districtService.insertData();
     }*/
     
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public String deleteDistrict(@PathVariable Integer id){
         districtService.delete(id);
         return "berhasil hapus";
     }
+    
+//    @Delete("/delete/{id}")
+//    public String deleteDistrict(@PathVariable Integer id){
+//        districtService.delete(id);
+//        return "berhasil hapus";
+//    }
     
     @PutMapping("/update/{id}")
     public String updateDistrict(@PathVariable Integer id,@RequestBody Districts districts){
         districtService.getById(id);
         districtService.update(id,districts);
         return "updated";
+    }
+    
+    @GetMapping("/dist") //ini tidak bisa (error)
+    public List<Districts> dist() {
+        return districtService.getAllArnum();
     }
           
     
