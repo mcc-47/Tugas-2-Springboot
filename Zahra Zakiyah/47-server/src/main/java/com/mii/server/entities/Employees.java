@@ -5,7 +5,7 @@
  */
 package com.mii.server.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -13,8 +13,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -58,12 +56,20 @@ public class Employees implements Serializable {
     @Column(name = "email")
     private String email;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "employees", fetch = FetchType.LAZY)
+    @Basic(optional = true)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Addresses addresses;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "employees", fetch = FetchType.LAZY)
+    @Basic(optional = true)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Educations educations;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "employees", fetch = FetchType.LAZY)
+    @Basic(optional = true)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Contacts contacts;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "employees", fetch = FetchType.LAZY)
+    @Basic(optional = true)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Users users;
 
     public Employees() {

@@ -19,22 +19,32 @@ import org.springframework.stereotype.Service;
 @Service
 public class EmployeeService {
     
-    EmployeeRepository employeeRepository;
-
     @Autowired
-
-    public EmployeeService(EmployeeRepository employeeRepository) {
-        this.employeeRepository = employeeRepository;
+    EmployeeRepository employeerepository;
+   
+    public List<Employees> listAll(){
+        return employeerepository.findAll();
     }
     
-/*    public List<Employees> getAll(){
-        List<Employees> e = new ArrayList<>();
-        for (Employees employee : employeeRepository.findAll()){
-           e.add(new Employees("MCC",employee.getEmployeeId(),employee.getEmployeeName(), employee.getBirthDate(), employee.getGender(), employee.getEmail()));
-        };
-        return e;
+    public Employees getById(Integer employeeId){
+        return employeerepository.findById(employeeId).get();
     }
-*/    
     
+    public void delete(Integer employeeId){
+        employeerepository.deleteById(employeeId);
+    }
+    
+    public Employees update(Integer employeeId, Employees employees){
+        Employees newEmp = employeerepository.findById(employeeId).get();
+        newEmp.setEmployeeName(employees.getEmployeeName());
+        newEmp.setBirthDate(employees.getBirthDate());
+        newEmp.setGender(employees.getGender());
+        newEmp.setEmail(employees.getEmail());
+        return employeerepository.save(newEmp);
+    }
+    
+    public Employees create(Employees employee){
+        return employeerepository.save(employee);
+    }
     
 }
