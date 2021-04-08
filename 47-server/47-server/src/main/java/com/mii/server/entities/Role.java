@@ -45,7 +45,7 @@ public class Role implements Serializable {
         @JoinColumn(name = "user_id", referencedColumnName = "user_id")})
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Users> usersList;
-    @ManyToMany(mappedBy = "roleList", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "roleList", fetch = FetchType.EAGER)/////////////
     private List<Privileges> privilegesList;
 
     public Role() {

@@ -17,10 +17,10 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class UserManagementService extends MyUserDetailsServiceImpl {
+public class UserManagementService  {
 
-    @Autowired
-    private UserRepository userRepository;
-    private MyUserDetailsServiceImpl myUserDetailsServiceImpl;
+//    @Autowired
+//    private UserRepository userRepository;
+//    private MyUserDetailsServiceImpl myUserDetailsServiceImpl;
 }
 

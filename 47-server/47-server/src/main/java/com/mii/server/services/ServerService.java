@@ -78,4 +78,8 @@ public class ServerService {
     public Provinces getById(Integer id) {
         return serverRepository.getOne(id);
     }
+    
+    public Provinces getOne(Integer id) {
+        return serverRepository.findById(id).get();
+    }
 }

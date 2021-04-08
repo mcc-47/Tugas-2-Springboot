@@ -43,7 +43,7 @@ public class RegistService {
     
         public Employees insertData(RegistDto registdto){
         List<Role> role =   new ArrayList<>();
-        role.add(new Role(2, "trainer"));
+        role.add(new Role(2, "TRAINER"));
                 
         Employees nreg = new Employees(
                 registdto.getPrefix(),

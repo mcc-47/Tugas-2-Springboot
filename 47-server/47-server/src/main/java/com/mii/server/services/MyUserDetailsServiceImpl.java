@@ -108,7 +108,7 @@ public class MyUserDetailsServiceImpl implements UserDetailsService {
   
 
         for (Role r : roles) {
-            authorities.add(r.getRoleName());
+            authorities.add("ROLE_"+r.getRoleName().toUpperCase());
             List<Privileges> privileges = roleRepository.findByRoleName(r.getRoleName()).getPrivilegesList();
             for (Privileges p : privileges) {
                 authorities.add(p.getPrivilegeName());
