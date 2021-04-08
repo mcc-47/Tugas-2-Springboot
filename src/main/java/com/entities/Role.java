@@ -47,7 +47,7 @@ public class Role implements Serializable {
     @ManyToMany(fetch = FetchType.LAZY)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Collection<Users> usersCollection;
-    @ManyToMany(mappedBy = "roleCollection", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "roleCollection", fetch = FetchType.EAGER)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Collection<Privileges> privilegesCollection;
 
