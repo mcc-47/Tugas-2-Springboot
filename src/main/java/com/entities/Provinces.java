@@ -43,7 +43,7 @@ public class Provinces implements Serializable {
     @Basic(optional = false)
     @Column(name = "province_name")
     private String provinceName;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "provinceId", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "provinceId", fetch = FetchType.EAGER)
     @JsonBackReference
     private List<Districts> districtsList;
 

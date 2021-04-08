@@ -55,19 +55,19 @@ public class Employees implements Serializable {
     @Basic(optional = false)
     @Column(name = "email")
     private String email;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "employees", fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "employees", fetch = FetchType.EAGER)
     @Basic(optional = true)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Addresses addresses;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "employees", fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "employees", fetch = FetchType.EAGER)
     @Basic(optional = true)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Educations educations;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "employees", fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "employees", fetch = FetchType.EAGER)
     @Basic(optional = true)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Contacts contacts;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "employees", fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "employees", fetch = FetchType.EAGER)
     @Basic(optional = true)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Users users;

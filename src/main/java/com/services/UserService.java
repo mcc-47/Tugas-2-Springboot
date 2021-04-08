@@ -22,6 +22,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -35,18 +36,21 @@ public class UserService implements UserDetailsService{
     UserRepository userRepository;
     
     @Autowired
-    BCryptPasswordEncoder passwordEncoder;
+    PasswordEncoder passwordEncoder;
     
     @Override
     public Users loadUserByUsername(String userName) throws UsernameNotFoundException {
+        System.out.println("ada nih lod by username awal");
         Users user = userRepository.findByUserName(userName);
         if (user==null) {
             throw new UnsupportedOperationException("Gaada username-nya cuy");
         }
+        System.out.println("ada nih lod by username akhir");
         return user;
     }
     
     public UserSessionDto loginUserByUserPassword(UserLoginDto userLoginDto)throws Exception{
+        System.out.println("ada nih lod by username awal");
         Users user = loadUserByUsername(userLoginDto.getUserName());
         if (!(passwordEncoder.matches(userLoginDto.getUserPassword(), user.getPassword()))) {
             throw new Exception("Waduu salah password nih ngab");
@@ -61,6 +65,7 @@ public class UserService implements UserDetailsService{
         for (GrantedAuthority auth : user.getAuthorities()) { //loop utk get otoritas dalam list<String>
             grantedAuth.add(auth.getAuthority());
         }
+        System.out.println("ada nih lod by username akhir");
         return new UserSessionDto(user.getUsername(), grantedAuth);
     }
     

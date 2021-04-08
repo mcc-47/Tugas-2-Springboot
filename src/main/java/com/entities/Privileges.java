@@ -44,7 +44,7 @@ public class Privileges implements Serializable {
     @JoinTable(name = "role_privileges", joinColumns = {
         @JoinColumn(name = "privilege_id", referencedColumnName = "privilege_id")}, inverseJoinColumns = {
         @JoinColumn(name = "role_id", referencedColumnName = "role_id")})
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Collection<Role> roleCollection;
 

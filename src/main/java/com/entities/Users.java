@@ -64,12 +64,12 @@ public class Users implements UserDetails {
     private boolean isEnabled = true;
     
     @JoinColumn(name = "user_id", referencedColumnName = "employee_id", insertable = false, updatable = false)
-    @OneToOne(optional = true, fetch = FetchType.LAZY)
+    @OneToOne(optional = true, fetch = FetchType.EAGER)
     private Employees employees;
     @JoinTable(name="user_role", joinColumns = {
         @JoinColumn(name="user_id", referencedColumnName = "user_id")}, inverseJoinColumns = {
         @JoinColumn(name="role_id", referencedColumnName = "role_id")})
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @Basic(optional = true)
     private Collection<Role> roleCollection;
 
@@ -156,10 +156,10 @@ public class Users implements UserDetails {
         Collection<Role> roles = getRoleCollection();
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
         for (Role r : roles) {
-            authorities.add(new SimpleGrantedAuthority(r.getRoleName()));
+            authorities.add(new SimpleGrantedAuthority("ROLE_"+r.getRoleName().toUpperCase()));
             Collection<Privileges> privileges = r.getPrivilegesCollection();
             for (Privileges p : privileges) {
-                authorities.add(new SimpleGrantedAuthority(p.getPrivilegeName()));
+                authorities.add(new SimpleGrantedAuthority(p.getPrivilegeName().toUpperCase()));
             }
         }
         return authorities;

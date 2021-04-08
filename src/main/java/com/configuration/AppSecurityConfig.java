@@ -29,6 +29,9 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter{
     @Autowired
     UserService userService;
     
+    @Autowired
+    PasswordEncoder passwordEncoder;
+    
     @Bean
     public BCryptPasswordEncoder  passwordEncoder(){
         return new BCryptPasswordEncoder();
@@ -36,8 +39,13 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter{
     
     @Bean
     @Override
-    public AuthenticationManager authenticationManager() throws Exception{
+    public AuthenticationManager authenticationManagerBean() throws Exception{
         return super.authenticationManagerBean();
+    }
+    
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.authenticationProvider(authenticationProvider());
     }
     
     @Override
@@ -45,13 +53,20 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter{
         http
                 .csrf().disable()
                 .authorizeRequests()
-//                .antMatchers("/login").permitAll()
-//                .antMatchers("/logout").authenticated()
-                .antMatchers("/**").permitAll()
+                .antMatchers("/api/management/user-token").permitAll()
+//                .antMatchers("/api/employees/**").hasAnyRole("ADMIN")
+                .antMatchers("/**").authenticated()
                 .and()
                 .formLogin().disable()
-                .logout().disable()
+//                .logout().disable()
                 .httpBasic();
     }
     
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider(){
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userService);
+        authProvider.setPasswordEncoder(passwordEncoder());
+        return authProvider;
+    }
 }
