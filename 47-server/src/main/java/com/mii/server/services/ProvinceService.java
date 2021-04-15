@@ -9,13 +9,9 @@ import com.mii.server.entities.Provinces;
 import com.mii.server.repositories.ProvinceRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 import org.springframework.stereotype.Service;
 
-/**
- *
- * @author Rafi
- */
+
 @Service
 public class ProvinceService {
     
@@ -27,9 +23,8 @@ public class ProvinceService {
     }
     
     //Create
-    public boolean save(Provinces province) {
-        Provinces saveProvince = provinceRepository.save(province);
-        return provinceRepository.existsById(saveProvince.getProvinceId());
+    public void saveProvinces(Provinces provinces){
+        provinceRepository.save(provinces);
     }
     
     //Read
@@ -48,10 +43,14 @@ public class ProvinceService {
         prov.setProvinceName(province.getProvinceName());
         provinceRepository.save(prov);
     }
-    
+   
     //Delete
     public boolean deleteProvinceById(Integer id) {
         provinceRepository.deleteById(id);
         return provinceRepository.existsById(id);
+    }
+
+    public Provinces getProvinces(Integer id){
+        return provinceRepository.findById(id).get();
     }
 }

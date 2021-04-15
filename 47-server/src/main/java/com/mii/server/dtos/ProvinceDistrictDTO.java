@@ -1,39 +1,63 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.mii.server.dtos;
 
-/**
- *
- * @author ROG
- */
+import com.mii.server.entities.Provinces;
+
 public class ProvinceDistrictDTO {
-    private String ProvinceName;
-    private String DistritName;
+    private Integer districtId;
+    private String kotakab; 
+    private String districtName;
+    private String provinceName;
 
-    public ProvinceDistrictDTO(String ProvinceName, String DistritName) {
-        this.ProvinceName = ProvinceName;
-        this.DistritName = DistritName;
+    public ProvinceDistrictDTO() {
+    }
+
+    public ProvinceDistrictDTO(Integer districtId, String kotakab, String districtName, String provinceName) {
+        this.districtId = districtId;
+        this.kotakab = kotakab;
+        this.districtName = districtName;
+        this.provinceName = provinceName;
+    }
+
+    public ProvinceDistrictDTO(Integer districtId, String kotakab, String districtName) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     
+
+    public Integer getDistrictId() {
+        return districtId;
+    }
+
+    public String getDistrictName() {
+        return districtName;
+    }
+
+    public String getKotakab() {
+        return kotakab;
+    }
+
+    public void setDistrictId(Integer districtId) {
+        this.districtId = districtId;
+    }
+
+    public void setDistrictName(String districtName) {
+        this.districtName = districtName;
+    }
+
+    public void setKotakab(String kotakab) {
+        this.kotakab = kotakab;
+    }
+
     public String getProvinceName() {
-        return ProvinceName;
+        return provinceName;
     }
 
-    public void setProvinceName(String ProvinceName) {
-        this.ProvinceName = ProvinceName;
+    public void setProvinceName(String provinceName) {
+        this.provinceName = provinceName;
     }
 
-    public String getDistritName() {
-        return DistritName;
-    }
+   
 
-    public void setDistritName(String DistritName) {
-        this.DistritName = DistritName;
-    }
-    
-    
+  
 }

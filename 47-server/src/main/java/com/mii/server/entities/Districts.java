@@ -1,13 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.mii.server.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -27,10 +23,6 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-/**
- *
- * @author ROG
- */
 @Entity
 @Table(name = "district")
 @XmlRootElement
@@ -51,12 +43,12 @@ public class Districts implements Serializable {
     @Column(name = "district_name")
     private String districtName;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "districtId", fetch = FetchType.LAZY)
-    @JsonBackReference
+    @JsonIgnore
     private List<Subdistricts> subdistrictsList;
     @JoinColumn(name = "province_id", referencedColumnName = "province_id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JsonIgnore
-    private Provinces provinceId;   
+    //@JsonIgnore
+    private Provinces provinceId;
 
     public Districts() {
     }
@@ -65,10 +57,11 @@ public class Districts implements Serializable {
         this.districtId = districtId;
     }
 
-    public Districts(Integer districtId, String kotakab, String districtName) {
+    public Districts(Integer districtId, String kotakab, String districtName, Provinces provinceId) {
         this.districtId = districtId;
         this.kotakab = kotakab;
         this.districtName = districtName;
+        this.provinceId = provinceId;
     }
 
     public Integer getDistrictId() {
@@ -136,5 +129,6 @@ public class Districts implements Serializable {
     public String toString() {
         return "com.mii.server.entities.Districts[ districtId=" + districtId + " ]";
     }
+    
     
 }

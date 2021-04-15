@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.mii.server.services;
 
 import com.mii.server.dtos.UserManagementDTO;
@@ -11,10 +7,13 @@ import com.mii.server.entities.Contacts;
 import com.mii.server.entities.Educations;
 import com.mii.server.entities.Employees;
 import com.mii.server.entities.Majors;
+import com.mii.server.entities.Role;
 import com.mii.server.entities.Universities;
 import com.mii.server.entities.Users;
 import com.mii.server.entities.Villages;
 import com.mii.server.repositories.UserManagementRepository;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -30,6 +29,8 @@ public class UserManagementService {
     
     //Create data for Multiple Table
     public Employees insertData(UserManagementDTO userManagementDTO) {
+        List<Role> role = new ArrayList<>();
+        role.add(new Role(2,"trainer"));
         Employees reg = new Employees(
                 userManagementDTO.getPrefix(), 
                 userManagementDTO.getEmployeeId(), 
@@ -59,7 +60,7 @@ public class UserManagementService {
                 new Users (
                     userManagementDTO.getEmployeeId(),
                     userManagementDTO.getUserName(),
-                    passwordEncoder.encode(userManagementDTO.getUserPassword())
+                    passwordEncoder.encode(userManagementDTO.getUserPassword()), role
                 )
         );
         return userManagementRepository.save(reg);
@@ -69,17 +70,17 @@ public class UserManagementService {
 /**
 {
     "prefix" : "MCC",
-    "employeeId" : 19,
-    "employeeName" : "Bismillah berkah",
+    "employeeId" : 20,
+    "employeeName" : "Appan aja dah",
     "birthDate" : "1990-09-02",
-    "gender" : "gatau",
-    "email" : "ahaha@gmail.com",
-    "villageId" : 9,
+    "gender" : "Laki-laki",
+    "email" : "apaanaja@gmail.com",
+    "villageId" : 5,
     "majorId" : 9,
     "universityId" : 4,
-    "phone" : "09080877"
+    "phone" : "09080877",
     "linkedin" : "linkedin_hhaaa",
-    "userName" : "Bismillah",
+    "userName" : "apaan",
     "userPassword" : "admin"
 }
 * 

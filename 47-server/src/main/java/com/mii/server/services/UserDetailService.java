@@ -10,8 +10,11 @@ import com.mii.server.repositories.UserRepository;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
@@ -47,25 +50,46 @@ public class UserDetailService implements UserDetailsService{
         }
     }
     
+    //untuk mendapatkan get authorities
     public LoginDTO loginDTO(String userName) {
+        Users user = new Users();
+        Integer userId = userRepository.findByUserName(userName).getUserId();
         List<Role> roles = userRepository.findByUserName(userName).getRoleList();
-        List<String> privilegeNames = new ArrayList<>();
-        List<String> roleNames = new ArrayList<>();
+        List<String> authorities = new ArrayList<>();
 
         for (Role r : roles) {
-            roleNames.add(r.getRoleName());
+            authorities.add("ROLE_" + r.getRoleName().toUpperCase());
             List<Privileges> privileges = roleRepository.findByRoleName(r.getRoleName()).getPrivilegesList();
             for (Privileges p : privileges) {
-                privilegeNames.add(p.getPrivilegeName());
+                authorities.add(p.getPrivilegeName());
             }
         }
 
-        LoginDTO log = new LoginDTO(userName,
-                roleNames,
-                privilegeNames);
+        LoginDTO log = new LoginDTO(userName, authorities);
         return log;
     }
     
+    //authentication token (session) ==> pencocokan password
+    public String login(String userName, String userPassword){
+        BCryptPasswordEncoder pass = new BCryptPasswordEncoder();
+        Users users = new Users();
+        Users userFromdb = userRepository.findByUserName(userName);
+        if (userFromdb != null){
+            if (!userFromdb.getPassword().equals(userPassword)){
+//            if (!(pass.matches(userPassword, userFromdb.getPassword()))){
+                throw new UsernameNotFoundException("kata sandi salah");
+            }else{
+                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userFromdb.getUsername(),
+                userFromdb.getPassword(), userFromdb.getAuthorities());
+//                Authentication authentication = authenticationManager.authenticate(authToken);
+                SecurityContextHolder.getContext().setAuthentication(authToken);
+                System.out.println("Session Created");
+            }
+            return userFromdb.getUsername();
+        }else{
+            throw new UsernameNotFoundException("username tidak ditemukan");
+        }
+    }
     
     
 }

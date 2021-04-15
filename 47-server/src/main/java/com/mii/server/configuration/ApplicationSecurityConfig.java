@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.mii.server.configuration;
 
 import com.mii.server.services.UserDetailService;
@@ -15,46 +11,46 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
-public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter{
-    
+public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
+
     @Autowired
     UserManagementService userManagementService;
-    
+
     @Autowired
     UserDetailService userDetailService;
     
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
     @Bean
     @Override
-    public AuthenticationManager authenticationManager() throws Exception {
+    public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
-    
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-    
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailService).passwordEncoder(passwordEncoder());
-    }
 
+    @Autowired
+    protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailService).passwordEncoder(passwordEncoder);
+    }
     
     @Override
-    public void configure(HttpSecurity http) throws Exception { 
-
-          http.csrf().disable()
-                  .authorizeRequests()
-                  .antMatchers("/login","/user", "/registrasi").permitAll()
-                  .antMatchers("/**","/logout").authenticated()
-                  .and()
-                  .logout().disable()
-                  .formLogin().disable()
-                  .httpBasic();
+    public void configure(HttpSecurity http) throws Exception {
+        http
+                .csrf().disable()
+                .authorizeRequests()
+                //semua login, dan province diizinkan masuk (bisa dengan no auth)
+                .antMatchers("/login").permitAll()
+                //jika ingin mengunjungi district, maka perlu melakukan login dengan (basih auth)
+                .antMatchers("/list-district","/logout").authenticated()
+                .antMatchers("/dis-insert", "/dis-update/{id}", "/dis-delete/{id}").hasAnyRole("ADMIN")
+                .and()
+//                .logout().disable()
+//                .formLogin().disable()
+                .httpBasic();
     }
 }
+

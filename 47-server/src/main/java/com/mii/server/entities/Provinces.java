@@ -1,11 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.mii.server.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -23,11 +21,9 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-/**
- *
- * @author Rafi
- */
+
 @Entity
+@JsonIgnoreProperties("hibernateLazyInitializer")
 @Table(name = "province")
 @XmlRootElement
 @NamedQueries({
@@ -47,7 +43,7 @@ public class Provinces implements Serializable {
     private String provinceName;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "provinceId", fetch = FetchType.LAZY)
-    @JsonBackReference
+    @JsonIgnore
     private List<Districts> districtsList;
 
     public Provinces() {
