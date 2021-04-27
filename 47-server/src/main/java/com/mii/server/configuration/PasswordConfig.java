@@ -28,12 +28,12 @@ public class PasswordConfig {
         return new BCryptPasswordEncoder(10);
     }
     
-    @Bean
-    public DaoAuthenticationProvider authenticationProvider(){
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(myUserDetailsService);
-        authProvider.setPasswordEncoder(passwordEncoder());
-        
-        return authProvider;
-    }
+//    @Bean
+//    public DaoAuthenticationProvider authenticationProvider(){
+//        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+//        authProvider.setUserDetailsService(myUserDetailsService);
+//        authProvider.setPasswordEncoder(passwordEncoder());
+//        
+//        return authProvider;
+//    }
 }

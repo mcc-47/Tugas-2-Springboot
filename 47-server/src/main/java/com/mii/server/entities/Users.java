@@ -48,27 +48,27 @@ public class Users implements UserDetails {
     @Basic(optional = false)
     @Column(name = "user_password")
     private String userPassword;
-    @ManyToMany(mappedBy = "usersCollection", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "usersCollection", fetch = FetchType.EAGER)
     private Collection<Roles> rolesCollection;
     @JoinColumn(name = "user_id", referencedColumnName = "employee_id", insertable = false, updatable = false)
     @OneToOne(optional = true, fetch = FetchType.LAZY)
     private Employee employee;
-    
-    @Basic(optional = false)
-    @Column(name = "is_account_non_expired")
-    private boolean isAccountNonExpired;
-
-    @Basic(optional = false)
-    @Column(name = "is_account_non_locked")
-    private boolean isAccountNonLocked;
-
-    @Basic(optional = false)
-    @Column(name = "is_credentials_non_expired")
-    private boolean isCredentialsNonExpired;
-
-    @Basic(optional = false)
-    @Column(name = "is_enabled")
-    private boolean isEnabled;
+//    
+//    @Basic(optional = false)
+//    @Column(name = "is_account_non_expired")
+//    private boolean isAccountNonExpired;
+//
+//    @Basic(optional = false)
+//    @Column(name = "is_account_non_locked")
+//    private boolean isAccountNonLocked;
+//
+//    @Basic(optional = false)
+//    @Column(name = "is_credentials_non_expired")
+//    private boolean isCredentialsNonExpired;
+//
+//    @Basic(optional = false)
+//    @Column(name = "is_enabled")
+//    private boolean isEnabled;
 
     public Users() {
     }
@@ -150,8 +150,9 @@ public class Users implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<Roles> roles = getRolesCollection();
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+//        List<GrantedAuthority> authorities = new ArrayList<>();
         for (Roles r : roles) {
-            authorities.add(new SimpleGrantedAuthority(r.getRoleName()));
+            authorities.add(new SimpleGrantedAuthority("ROLE_" + r.getRoleName().toUpperCase()));
             Collection<Privileges> privileges = r.getPrivilegesCollection();
             for (Privileges p : privileges) {
                 authorities.add(new SimpleGrantedAuthority(p.getPrivilege()));
@@ -172,22 +173,22 @@ public class Users implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return isAccountNonExpired;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return isAccountNonLocked;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return isCredentialsNonExpired;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return isEnabled;
+        return true;
     }
     
 }

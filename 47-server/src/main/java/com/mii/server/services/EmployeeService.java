@@ -51,6 +51,10 @@ public class EmployeeService{
     public void saveRegistration(RegistrationDto rdto) {
         String encodedPassword = passwordConfig.passwordEncoder().encode(rdto.getPassword());
         
+//  Untuk default role saat pertama kali registrasi      
+//        List<Roles> role = new ArrayList<>();
+//        role.add(new Roles(3, "Trainee"));
+        
         Employee employee = new Employee(
                 rdto.getPrefix(), 
                 rdto.getEmployeeId(), 

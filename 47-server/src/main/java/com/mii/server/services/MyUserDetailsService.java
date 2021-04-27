@@ -26,42 +26,41 @@ import org.springframework.stereotype.Service;
  * @author ASUS
  */
 @Service
-public class MyUserDetailsService implements UserDetailsService{
+public class MyUserDetailsService implements UserDetailsService {
 
     @Autowired
-    UserRepository userRepository;
-    
+    private UserRepository userRepository;
+
 //    @Autowired
 //    RoleRepository roleRepository;
-    
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Users users = userRepository.findByUsername(username);
         if (users == null) {
             throw new UsernameNotFoundException(username + "Not Found");
+        } else {
+            return users;
         }
-        return users;
     }
-    
-    public AuthenticationResponse login(LoginDto loginDto)throws Exception{
+
+    public AuthenticationResponse login(LoginDto loginDto) throws Exception {
         Users users = userRepository.findByUsername(loginDto.getUsername());
         BCryptPasswordEncoder passEncoder = new BCryptPasswordEncoder();
-        if (users == null || !(passEncoder.matches(loginDto.getPassword(), users.getPassword()))){
+        if (users == null || !(passEncoder.matches(loginDto.getPassword(), users.getPassword()))) {
+//        if (users == null || !(loginDto.getPassword().equals(users.getPassword()))){
             throw new Exception("Wrong Username or Password.");
-        }
+        } else {
+            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                    loginDto.getUsername(),
+                    loginDto.getPassword(),
+                    users.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(authToken);
 
-        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                loginDto.getUsername(), 
-                loginDto.getPassword(), 
-                users.getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(authToken);
-        
-        List<String> grantedAuth = new ArrayList<>();
-        for (GrantedAuthority auth : users.getAuthorities()) {
-            grantedAuth.add(auth.getAuthority());
+            List<String> grantedAuth = new ArrayList<>();
+            for (GrantedAuthority auth : users.getAuthorities()) {
+                grantedAuth.add(auth.getAuthority());
+            }
+            return new AuthenticationResponse(users.getUsername(), grantedAuth);
         }
-        return new AuthenticationResponse(users.getUsername(), grantedAuth);
-        
     }
 }

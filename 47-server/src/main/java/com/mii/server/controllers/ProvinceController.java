@@ -36,38 +36,36 @@ public class ProvinceController {
     @Autowired
     private ProvinceService provinceService;
 
+    //READ
     @GetMapping("")
     public List<Province> read() {
         return provinceService.getAll();
     }
 
-//    @GetMapping("{id}")
-//    public ResponseEntity<Province> readById(@PathVariable Integer id) {
-//        Province province = provinceService.getProvinceById(id);
-//        return new ResponseEntity<>(province, HttpStatus.OK);
-//    }
+    @GetMapping("{id}")
+    public ResponseEntity<Province> getById(@PathVariable Integer id) {
+        return new ResponseEntity<>(provinceService.getProvinceById(id), HttpStatus.OK);
+    }
 
+    //CREATE
     @PostMapping("")
     public ResponseEntity<?> creat(@RequestBody Province province) {
         provinceService.saveProvince(province);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping("")
-    public Province updateUsingPut(@RequestBody Province province) {
-        provinceService.saveProvince(province);
-        return province;
-    }
-    
-    @PatchMapping("")
-    public Province updateUsingPatch(@RequestBody Province province) {
-        provinceService.saveProvince(province);
+    //UPDATE
+    @PutMapping("{id}")
+//    @PutMapping("/update/{id}")
+    public Province update(@PathVariable Integer id, @RequestBody Province province) {
+        provinceService.update(id, province);
         return province;
     }
 
+    //DELETE
     @DeleteMapping("{id}")
     public String delete(@PathVariable Integer id) {
-        provinceService.deleteProvinceById(id);
+        provinceService.delete(id);
         return "Data berhasil dihapus!";
     }
 }

@@ -6,12 +6,15 @@
 package com.mii.server.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -29,6 +32,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author ASUS
  */
 @Entity
+//@JsonIgnoreProperties("hibernateLazyInitializer")
 @Table(name = "district")
 @XmlRootElement
 @NamedQueries({
@@ -47,11 +51,12 @@ public class District implements Serializable {
     @Basic(optional = false)
     @Column(name = "district_name")
     private String districtName;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "districtId")
-    @JsonBackReference
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "districtId", fetch = FetchType.LAZY)
+//    @JsonBackReference
+    @JsonIgnore
     private Collection<Subdistrict> subdistrictCollection;
     @JoinColumn(name = "province_id", referencedColumnName = "province_id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Province provinceId;
 
     public District() {

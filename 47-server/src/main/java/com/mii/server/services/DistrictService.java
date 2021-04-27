@@ -18,45 +18,52 @@ import org.springframework.stereotype.Service;
  * @author ASUS
  */
 @Service
-public class DistrictService{
-    
+public class DistrictService {
+
     @Autowired
     private DistrictRepository districtRepository;
 
 //    public List<District> getAllDistricts() {
 //        return districtRepository.findAll();
 //    }
-    
-    public List<ProvinceDistrictDto> getAll(){
+    //READ all data
+    public List<ProvinceDistrictDto> getAll() {
         districtRepository.findAll();
         List<ProvinceDistrictDto> dts = new ArrayList<>();
         for (District d : districtRepository.findAll()) {
             ProvinceDistrictDto dt = new ProvinceDistrictDto(
-                    d.getDistrictId(), 
-                    d.getProvince().getProvinceId(), 
-                    d.getKotakab(), 
+                    d.getDistrictId(),
+                    d.getProvince().getProvinceName(),
+                    d.getKotakab(),
                     d.getDistrictName());
             dts.add(dt);
         }
         return dts;
     }
+    
+    public List<District> getAll1(){
+        return districtRepository.findAll();
+    }
+    
+    public District getById(Integer id) {
+        return districtRepository.findById(id).get();
+    }
 
-    public void saveDistricts(District district) {
+    //CREATE
+    public District saveDistricts(District district) {
+        return districtRepository.save(district);
+    }
+
+    //UPDATE
+    public void update(Integer id, District districts) {
+        District district = districtRepository.findById(id).get();
+        district.setDistrictName(districts.getDistrictName());
+        district.setKotakab(districts.getKotakab());
+        district.setProvinceId(districts.getProvince());
         districtRepository.save(district);
     }
 
-//    public District addDistrict(District district) {
-//        return districtRepository.save(district);
-//    }
-
-//    public District getDistrictById(Integer id) {
-//        District district = districtRepository.findById(id).get();
-//        if(district == null){
-//            throw new RuntimeException(" Province not found for id :: " + id);
-//        }
-//        return district;
-//    }
-
+    //DELETE
     public void deleteDistrictById(Integer id) {
         districtRepository.deleteById(id);
     }

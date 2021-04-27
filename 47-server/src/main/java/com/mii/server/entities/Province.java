@@ -6,12 +6,15 @@
 package com.mii.server.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,6 +30,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author ASUS
  */
 @Entity
+@JsonIgnoreProperties("hibernateLazyInitializer")
 @Table(name = "province")
 @XmlRootElement
 @NamedQueries({
@@ -42,8 +46,9 @@ public class Province implements Serializable {
     @Basic(optional = false)
     @Column(name = "province_name")
     private String provinceName;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "provinceId")
-    @JsonBackReference
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "provinceId", fetch = FetchType.LAZY)
+//    @JsonBackReference
+    @JsonIgnore
     private Collection<District> districtCollection;
 
     public Province() {

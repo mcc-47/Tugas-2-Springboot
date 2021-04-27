@@ -13,14 +13,14 @@ public class ProvinceDistrictDto {
     private int districtId;
     private String districtName;
     private String kotakab; 
-    private int provinceId;
+    private String provinceName;
 
     public ProvinceDistrictDto() {
     }
 
-    public ProvinceDistrictDto(int districtId, int provinceId, String kotakab, String districtName) {
+    public ProvinceDistrictDto(int districtId, String provinceName, String kotakab, String districtName) {
         this.districtId = districtId;
-        this.provinceId = provinceId;
+        this.provinceName = provinceName;
         this.kotakab = kotakab;
         this.districtName = districtName;
     }
@@ -29,8 +29,8 @@ public class ProvinceDistrictDto {
         return districtId;
     }
 
-    public int getProvinceId() {
-        return provinceId;
+    public String getProvinceName() {
+        return provinceName;
     }
 
     public String getKotakab() {
