@@ -55,7 +55,7 @@ public class Users implements UserDetails {
     @JoinTable(name = "user_role", joinColumns = {
         @JoinColumn(name = "user_id", referencedColumnName = "user_id")}, inverseJoinColumns = {
         @JoinColumn(name = "role_id", referencedColumnName = "role_id")})
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Roles> rolesList;
 //    @ManyToMany(mappedBy = "usersList", fetch = FetchType.LAZY)
 ////    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
@@ -146,13 +146,20 @@ public class Users implements UserDetails {
         List<Roles> roles = getRolesList();
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
         for (Roles r : roles) {
-            authorities.add(new SimpleGrantedAuthority(r.getRoleName()));
-            Collection<Privileges> privileges = r.getPrivilegesList();
+            authorities.add(new SimpleGrantedAuthority("ROLE_"+r.getRoleName().toUpperCase()));
+            List<Privileges> privileges = r.getPrivilegesList();
             for (Privileges p : privileges) {
                 authorities.add(new SimpleGrantedAuthority(p.getPrivilegeName()));
             }
         }
         return authorities;
+
+//        List<GrantedAuthority> authorities = new ArrayList<>();
+//          this.getRolesList().forEach((rolesList) -> {
+//                authorities.add(new SimpleGrantedAuthority("ROLE_" + rolesList.getRoleName().toUpperCase()));
+//          });
+//          
+//          return authorities;
     }
 
     @Override
@@ -167,22 +174,26 @@ public class Users implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return true;
     }
     
 }

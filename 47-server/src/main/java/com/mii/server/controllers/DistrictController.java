@@ -58,15 +58,15 @@ public class DistrictController {
     
     //Update
     @PutMapping("{id}")
-    public ResponseEntity<?> updateName(@RequestBody Districts district, @PathVariable Integer id) {
-        return new ResponseEntity<>(districtService.updateDistrictName(id, district.getKab(), district.getDistrictName()), HttpStatus.OK);        
+    public ResponseEntity<?> update(@RequestBody Districts district, @PathVariable Integer id) {
+        return new ResponseEntity<>(districtService.updateDistrict(id, district.getKab(), district.getDistrictName(), district.getProvinceId()), HttpStatus.OK);        
     }
     
     //Delete
     @DeleteMapping("{id}")
-    public ResponseEntity<String> deleteById(@PathVariable Integer id) {
-        districtService.deleteById(id);
-        return new ResponseEntity<>("Berhasil", HttpStatus.OK);
+    public ResponseEntity<Boolean> deleteById(@PathVariable Integer id) {
+//        districtService.deleteById(id);
+        return new ResponseEntity<>(districtService.deleteById(id), HttpStatus.OK);
     }
     
     

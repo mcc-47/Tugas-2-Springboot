@@ -15,12 +15,12 @@ import org.springframework.security.core.GrantedAuthority;
  */
 public class UserSessionDTO {
     private String userName;
-    private Collection<? extends GrantedAuthority> authorities;
+    private List<String> authorities;
 
     public UserSessionDTO() {
     }
 
-    public UserSessionDTO(String userName, Collection<? extends GrantedAuthority> authorities) {
+    public UserSessionDTO(String userName, List<String> authorities) {
         this.userName = userName;
         this.authorities = authorities;
     }
@@ -33,11 +33,12 @@ public class UserSessionDTO {
         this.userName = userName;
     }
 
-    public Collection<? extends GrantedAuthority> getAuthorities() {
+    public List<String> getAuthorities() {
+        
         return authorities;
     }
 
-    public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
+    public void setAuthorities(List<String> authorities) {
         this.authorities = authorities;
     }
 

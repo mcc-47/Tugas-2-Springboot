@@ -50,7 +50,7 @@ public class Roles implements Serializable {
 //    @JsonBackReference
 //    @JsonIgnore
     private List<Users> usersList;
-    @ManyToMany(mappedBy = "rolesList", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "rolesList", fetch = FetchType.EAGER)
 //    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 //    @JsonBackReference
 //    @JsonIgnore

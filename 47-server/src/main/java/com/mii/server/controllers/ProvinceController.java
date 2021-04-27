@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author ACER
  */
 @RestController
-@RequestMapping("provinces")
+@RequestMapping("api/provinces")
 public class ProvinceController {
     ProvinceService provinceService;
     

@@ -40,16 +40,6 @@ public class UserManagement {
     @Autowired
     UserService userService;
     
-    @GetMapping("login")
-    public UserSessionDTO testLogin() {
-//        System.out.println("test permit all");
-//        userService.loginUser("ikhsan_1", "ikhsan12");
-        LoginDTO req = new LoginDTO("ikhsan_1", "ikhsan123");
-        return userService.loginUser(req);
-//        return "berhasil";
-//        return userService.loginUser(req);
-    }
-    
     @PostMapping("login")
     public UserSessionDTO testLogin(@RequestBody LoginDTO req) {
         return userService.loginUser(req);
@@ -59,7 +49,6 @@ public class UserManagement {
     public ResponseEntity<?> getUser() {
         return new ResponseEntity(userService.loadUserByUsername("ikhsan_1"), HttpStatus.OK);
     }
-    
     
     //JSON Request body format
 //    {
@@ -80,7 +69,7 @@ public class UserManagement {
     @PostMapping("register")
     public ResponseEntity<String> insertOne(@RequestBody RegisterDTO registerDTO) throws MessagingException {
         Employees newEmployee = registerService.insertOne(registerDTO);
-//        notificationService.sendEmail(newEmployee.getEmployeeId());
+        notificationService.sendEmail(newEmployee.getEmployeeId());
         return new ResponseEntity<>(String.format("Selamat Anda berhasil registrasi dengan ID %d.\nMohon cek email Anda!", newEmployee.getEmployeeId()), HttpStatus.OK);
     }
     

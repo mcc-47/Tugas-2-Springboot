@@ -6,6 +6,7 @@
 package com.mii.server.services;
 
 import com.mii.server.entities.Districts;
+import com.mii.server.entities.Provinces;
 import com.mii.server.repositories.DistrictRepository;
 import com.mii.server.repositories.ProvinceRepository;
 import java.util.List;
@@ -58,10 +59,15 @@ public class DistrictService {
     }
     
     //Update
-    public Districts updateDistrictName(Integer id, String kab, String name){
-        Districts district = districtRepository.findById(id).get();
+    public Districts updateDistrict(Integer districtId, String kab, String districtName, Provinces province){
+        Districts district = districtRepository.findById(districtId).get();
         district.setKab(kab);
-        district.setDistrictName(name);
+        district.setDistrictName(districtName);
+        if(!provinceRepository.existsById(province.getProvinceId())) {
+            district.setProvinceId(provinceRepository.save(province));
+        } else {
+            district.setProvinceId(province);         
+        }
         return districtRepository.save(district);
     }
     
